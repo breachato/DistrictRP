@@ -1,0 +1,324 @@
+name: CherryCore
+version: 1.0.0
+main: dev.breach.cherryCore.CherryCore
+api-version: '1.20'
+author: visualizzazione
+description: Core Plugin by visualizzazione, full staff system, world management, elevators and some other utilities.
+load: POSTWORLD
+softdepend:
+  - LuckPerms
+  - TAB
+  - SkinsRestorer
+  - Multiverse-Core
+
+commands:
+  cherrycore:
+    description: Apre il pannello CherryCore
+    usage: /cc [sub-comando]
+    aliases:
+      - cc
+    permission: cherrycore.use
+    permission-message: §c✗ Non hai accesso a CherryCore.
+
+  perms:
+    description: Gestisce la whitelist creativa
+    usage: /perms <list|add|remove> [player]
+    permission: perms.admin
+
+  rec:
+    description: Attiva o disattiva la rec mode
+    usage: /rec
+    permission: rec.use
+  recskinset:
+    description: Imposta la skin per la rec mode
+    usage: /recskinset <player> <skin>
+    permission: rec.admin
+  recskindel:
+    description: Rimuove la skin rec mode
+    usage: /recskindel <player>
+    permission: rec.admin
+
+  sethome:
+    description: Imposta una home
+    usage: /sethome [nome]
+    permission: cherrycore.home
+  home:
+    description: Teleport a home
+    usage: /home [nome]
+    permission: cherrycore.home
+  delhome:
+    description: Elimina una home
+    usage: /delhome [nome]
+    permission: cherrycore.home
+  homes:
+    description: Lista delle tue home
+    usage: /homes
+    permission: cherrycore.home
+
+  setwarp:
+    description: Crea un warp globale
+    usage: /setwarp <nome>
+    permission: cherrycore.warp.set
+  warp:
+    description: Teleport a warp
+    usage: /warp <nome>
+    permission: cherrycore.warp
+  delwarp:
+    description: Elimina un warp
+    usage: /delwarp <nome>
+    permission: cherrycore.warp.delete
+  warps:
+    description: Lista warp
+    usage: /warps
+    permission: cherrycore.warp
+
+  setspawn:
+    description: Imposta lo spawn
+    usage: /setspawn
+    permission: cherrycore.spawn.set
+  spawn:
+    description: Teleport allo spawn
+    usage: /spawn
+    permission: cherrycore.spawn
+  back:
+    description: Torna alla posizione precedente
+    usage: /back
+    permission: cherrycore.back
+
+  fly:
+    description: Attiva volo
+    usage: /fly [player]
+    permission: cherrycore.fly
+  god:
+    description: Godmode
+    usage: /god [player]
+    permission: cherrycore.god
+  speed:
+    description: Velocita
+    usage: /speed <0-10> [player]
+    permission: cherrycore.speed
+
+  gms:
+    description: Survival
+    usage: /gms [player]
+    permission: cherrycore.gamemode
+  gmc:
+    description: Creative
+    usage: /gmc [player]
+    permission: cherrycore.gamemode
+  gma:
+    description: Adventure
+    usage: /gma [player]
+    permission: cherrycore.gamemode
+  gmsp:
+    description: Spectator
+    usage: /gmsp [player]
+    permission: cherrycore.gamemode
+
+  msg:
+    description: Messaggio privato
+    usage: /msg <player> <messaggio>
+    permission: cherrycore.msg
+  reply:
+    description: Rispondi
+    usage: /reply <messaggio>
+    aliases:
+      - r
+    permission: cherrycore.msg
+
+  nick:
+    description: Imposta nick
+    usage: /nick <nick> [player]
+    permission: cherrycore.nick
+
+  invsee:
+    description: Apri inventario
+    usage: /invsee <player>
+    permission: cherrycore.invsee
+  enderchest:
+    description: Apri enderchest
+    usage: /enderchest [player]
+    aliases:
+      - ec
+    permission: cherrycore.enderchest
+  clear:
+    description: Svuota inventario
+    usage: /clear [player]
+    permission: cherrycore.clear
+
+  tphere:
+    description: Teleporta giocatore da te
+    usage: /tphere <player>
+    permission: cherrycore.tphere
+  tpall:
+    description: Teleporta tutti
+    usage: /tpall
+    permission: cherrycore.tpall
+
+  clearchat:
+    description: Pulisci chat
+    usage: /clearchat
+    permission: cherrycore.clearchat
+
+  avantiilprimo:
+    description: Avanti il Primo
+    usage: /primo
+    permission: annunci.primo
+  avantiunaltro:
+    description: Avanti un Altro
+    usage: /prossimo
+    permission: annunci.unaltro
+  annuncio:
+    description: Annuncio personalizzato
+    usage: /annuncio <testo>
+    aliases:
+      - announce
+      - ann
+    permission: annunci.custom
+  annunciofull:
+    description: Annuncio titolo+sottotitolo
+    usage: /annunciofull <titolo> <sottotitolo>
+    aliases:
+      - annfull
+    permission: annunci.custom
+
+  build:
+    description: Mondo build
+    usage: /build
+    aliases:
+      - assets
+    permission: cherrycore.buildworld
+  inizia:
+    description: Vai alla citta
+    usage: /inizia
+
+  elevator:
+    description: Sistema ascensori
+    usage: /el [sub-comando]
+    aliases:
+      - el
+      - ascensore
+
+  mondo:
+    description: Gestione mondi (Multiverse)
+    usage: /mondo <aggiungi|rimuovi|visita|lista|whitelist|blacklist>
+    aliases:
+      - mondi
+    permission: cherrycore.mondo
+
+  vanish:
+    description: Diventa invisibile ai giocatori non-staff
+    usage: /vanish [player]
+    aliases:
+      - v
+    permission: cherrycore.vanish
+  disguise:
+    description: Travestiti da un altro giocatore
+    usage: /disguise <nick|off>
+    aliases:
+      - d
+      - dis
+    permission: cherrycore.disguise
+  staffmode:
+    description: Attiva/disattiva la modalita staff completa
+    usage: /staffmode
+    aliases:
+      - sm
+      - staff
+    permission: cherrycore.staffmode
+
+permissions:
+  cherrycore.vanish:
+    default: op
+  cherrycore.vanish.see:
+    default: op
+  cherrycore.vanish.others:
+    default: op
+  cherrycore.disguise:
+    default: op
+  cherrycore.staffmode:
+    default: op
+  cherrycore.use:
+    default: op
+  cherrycore.home:
+    default: op
+  cherrycore.warp:
+    default: op
+  cherrycore.warp.set:
+    default: op
+  cherrycore.warp.delete:
+    default: op
+  cherrycore.spawn:
+    default: op
+  cherrycore.spawn.set:
+    default: op
+  cherrycore.back:
+    default: op
+  cherrycore.fly:
+    default: op
+  cherrycore.fly.others:
+    default: op
+  cherrycore.god:
+    default: op
+  cherrycore.god.others:
+    default: op
+  cherrycore.speed:
+    default: op
+  cherrycore.speed.others:
+    default: op
+  cherrycore.gamemode:
+    default: op
+  cherrycore.msg:
+    default: true
+  cherrycore.nick:
+    default: op
+  cherrycore.nick.others:
+    default: op
+  cherrycore.invsee:
+    default: op
+  cherrycore.enderchest:
+    default: true
+  cherrycore.enderchest.others:
+    default: op
+  cherrycore.clear:
+    default: op
+  cherrycore.clear.others:
+    default: op
+  cherrycore.tphere:
+    default: op
+  cherrycore.tpall:
+    default: op
+  cherrycore.clearchat:
+    default: op
+  cherrycore.buildworld:
+    default: op
+  cherrycore.mondo:
+    default: op
+  cherrycore.mondo.bypass:
+    default: op
+  elevators.use:
+    default: true
+  elevators.give:
+    default: op
+  elevators.admin:
+    default: op
+  elevators.reload:
+    default: op
+  elevators.bypass:
+    default: op
+  annunci.primo:
+    default: op
+  annunci.prossimo:
+    default: op
+  annunci.custom:
+    default: op
+  perms.admin:
+    default: op
+  perms.place:
+    default: op
+  rec.use:
+    default: op
+  rec.admin:
+    default: op
+  rec.bypassflag:
+    default: op
