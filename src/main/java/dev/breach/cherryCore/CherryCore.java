@@ -1,12 +1,13 @@
 package dev.breach.cherryCore;
 
-import dev.breach.cherryCore.commands.elevators.*;
 import dev.breach.cherryCore.commands.staff.*;
 import dev.breach.cherryCore.commands.utils.*;
 import dev.breach.cherryCore.core.*;
 import dev.breach.cherryCore.functions.*;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -22,7 +23,7 @@ public class CherryCore extends JavaPlugin {
     // ============================================================
     // VERSION TAG
     // ============================================================
-    public static final String BUILD_TAG = "BUILD-v6-NO-MULTIVERSE-MANAGER";
+    public static final String BUILD_TAG = "Private";
     // ============================================================
 
     private static CherryCore instance;
@@ -41,27 +42,47 @@ public class CherryCore extends JavaPlugin {
     private DataManager dataManager;
     private WorldManager worldManager;
     private VanishManager vanishManager;
-    private WhitelistManager whitelistManager;
     private CherryTabManager tabManager;
-    private ElevatorManager elevatorManager;
     private WorldDownloader worldDownloader;
+    private CommandBlocker commandBlocker;
 
     @Override
     public void onEnable() {
         instance = this;
 
         String time = new SimpleDateFormat("HH:mm:ss").format(new Date());
-        getLogger().info("============================================");
-        getLogger().info("       FluentCore v1.0.0");
-        getLogger().info(" TAG : " + BUILD_TAG);
-        getLogger().info(" ORA : " + time);
-        getLogger().info("============================================");
+        getLogger().info(" CherryCore v1.0.0");
+        getLogger().info("");
+        getLogger().info(" Versione : " + BUILD_TAG);
+        getLogger().info(" Ora : " + time);
+        getLogger().info("");
 
         try {
             saveDefaultConfig();
         } catch (Throwable t) {
             getLogger().warning("Errore saveDefaultConfig: " + t.getMessage());
         }
+
+        this.commandBlocker = safeInit("CommandBlocker", () -> new CommandBlocker(this));
+
+        Bukkit.getScheduler().runTaskLater(this, () -> {
+            if (commandBlocker != null) {
+                commandBlocker.overrideAll(
+                        "warp", "warps", "setwarp", "delwarp",
+                        "home", "homes", "sethome", "delhome", "spawn",
+                        "setspawn", "tphere", "tpall", "fly",
+                        "god", "vanish", "msg", "reply", "r"
+                );
+
+                commandBlocker.unregisterAll(
+                        "plugins", "pl",
+                        "version", "ver", "about",
+                        "help", "?"
+                );
+
+                getLogger().info("[CommandBlocker] Override completato!");
+            }
+        }, 20L);
 
         getLogger().info("[INIT] DataManager...");
         this.dataManager       = safeInit("DataManager",       () -> new DataManager(this));
@@ -72,42 +93,34 @@ public class CherryCore extends JavaPlugin {
         getLogger().info("[INIT] VanishManager...");
         this.vanishManager     = safeInit("VanishManager",     () -> new VanishManager(this));
 
-        getLogger().info("[INIT] WhitelistManager...");
-        this.whitelistManager  = safeInit("WhitelistManager",  () -> new WhitelistManager(this));
-
-        getLogger().info("[INIT] FluentTabManager...");
-        this.tabManager        = safeInit("FluentTabManager",  () -> new CherryTabManager(this));
-
-        getLogger().info("[INIT] ElevatorManager...");
-        this.elevatorManager   = safeInit("ElevatorManager",   () -> new ElevatorManager(this));
+        getLogger().info("[INIT] CherryTabManager...");
+        this.tabManager        = safeInit("CherryTabManager",  () -> new CherryTabManager(this));
 
         getLogger().info("[INIT] WorldDownloader...");
         this.worldDownloader   = safeInit("WorldDownloader",   () -> new WorldDownloader(this));
 
         getLogger().info("[LISTENER] Registrazione listener...");
         safeRegisterListener("GlobalListener",     () -> new GlobalListener(this));
-        safeRegisterListener("ElevatorListener",   () -> new ElevatorListener(this));
         safeRegisterListener("StaffModeListener",  () -> new StaffModeListener(this));
         safeRegisterListener("SpawnWorldListener", () -> new SpawnWorldListener(this));
-        safeRegisterListener("Rec ChatListener",   () -> new RecCommand.ChatListener(this));
-        safeRegisterListener("ElevatorGUI",       () -> new ElevatorGUI(this));
+        safeRegisterListener("RecChatListener",   () -> new RecCommand.ChatListener(this));
 
         getLogger().info("[COMMANDS] Registrazione comandi...");
         try {
             registerCommands();
         } catch (Throwable t) {
-            getLogger().log(Level.SEVERE, "[FluentCore] Errore registrazione comandi:", t);
+            getLogger().log(Level.SEVERE, "[CherryCore] Errore registrazione comandi:", t);
         }
 
-        getLogger().info("============================================");
-        getLogger().info("  FluentCore ABILITATO con successo!");
-        getLogger().info("  TAG: " + BUILD_TAG);
-        getLogger().info("============================================");
+        getLogger().info("");
+        getLogger().info("  CherryCore abilitato con successo!");
+        getLogger().info("  Versione: " + BUILD_TAG);
+        getLogger().info("");
     }
 
     @Override
     public void onDisable() {
-        getLogger().info("[FluentCore] Plugin disabilitato. (Tag: " + BUILD_TAG + ")");
+        getLogger().info("[CherryCore] Plugin disabilitato. (Tag: " + BUILD_TAG + ")");
     }
 
     // ============================================================
@@ -150,6 +163,9 @@ public class CherryCore extends JavaPlugin {
         }
         if (getCommand(name) != null) {
             getCommand(name).setExecutor(executor);
+            if (executor instanceof TabCompleter tc) {
+                getCommand(name).setTabCompleter(tc);
+            }
         } else {
             getLogger().warning("  [!!] Comando /" + name + " non trovato nel plugin.yml!");
         }
@@ -159,9 +175,6 @@ public class CherryCore extends JavaPlugin {
         // CORE
         safeRegister("cherrycore", new CherryCoreDispatcher(this));
 
-        // STAFF
-        safeRegister("perms", new PermsCommand(this));
-
         // REC
         safeRegister("rec", new RecCommand(this));
         safeRegister("recskinset", new RecCommand.Set(this));
@@ -169,7 +182,6 @@ public class CherryCore extends JavaPlugin {
 
         safeRegister("vanish", new VanishCommand(this));
         safeRegister("staffmode", new StaffModeCommand(this));
-        safeRegister("disguise", new DisguiseCommand(this));
         safeRegister("fly", new FlyCommand(this));
         safeRegister("god", new GodCommand(this));
         safeRegister("speed", new SpeedCommand(this));
@@ -178,7 +190,6 @@ public class CherryCore extends JavaPlugin {
         safeRegister("clear", new ClearCommand(this));
         safeRegister("tpall", new TpAllCommand(this));
         safeRegister("tphere", new TpHereCommand(this));
-        safeRegister("nick", new NickCommand(this));
 
         // GAMEMODES
         GamemodeCommands gmCmds = new GamemodeCommands(this);
@@ -201,11 +212,6 @@ public class CherryCore extends JavaPlugin {
         safeRegister("delwarp", warpCmds.delwarp());
         safeRegister("warps", warpCmds.warps());
 
-        // SPAWN
-        SpawnCommands spawnCmds = new SpawnCommands(this);
-        safeRegister("spawn", spawnCmds.spawn());
-        safeRegister("setspawn", spawnCmds.setspawn());
-
         // MSG
         MsgCommand msgCmd = new MsgCommand(this);
         safeRegister("msg", msgCmd);
@@ -221,12 +227,10 @@ public class CherryCore extends JavaPlugin {
         // ANNUNCI
         AnnunciCommands annCmds = new AnnunciCommands(this);
         safeRegister("avantiilprimo", annCmds.primo());
-        safeRegister("avantiilprossimo", annCmds.prossimo());
+        safeRegister("avantiunaltro", annCmds.prossimo());
         safeRegister("annuncio", annCmds.annuncio());
         safeRegister("annunciofull", annCmds.annfull());
 
-        // ELEVATORS
-        safeRegister("elevator", new ElevatorCommand(this));
     }
 
     // ===== GETTERS =====
@@ -241,13 +245,7 @@ public class CherryCore extends JavaPlugin {
 
     public VanishManager getVanishManager() { return vanishManager; }
 
-    public WhitelistManager getWhitelistManager() { return whitelistManager; }
-    public WhitelistManager getWhitelist() { return whitelistManager; }
-
     public CherryTabManager getTabManager() { return tabManager; }
-
-    public ElevatorManager getElevatorManager() { return elevatorManager; }
-    public ElevatorManager getElevators() { return elevatorManager; }
 
     public WorldDownloader getWorldDownloader() { return worldDownloader; }
 }

@@ -161,13 +161,13 @@ commands:
     permission: cherrycore.clearchat
 
   avantiilprimo:
-    description: Avanti il Primo
-    usage: /primo
-    permission: annunci.primo
+    description: Avanti il primo
+    usage: /avantiilprimo
+    aliases: [primo, aip]
   avantiunaltro:
-    description: Avanti un Altro
-    usage: /prossimo
-    permission: annunci.unaltro
+    description: Avanti un altro
+    usage: /avantiunaltro
+    aliases: [unaltro, aua]
   annuncio:
     description: Annuncio personalizzato
     usage: /annuncio <testo>

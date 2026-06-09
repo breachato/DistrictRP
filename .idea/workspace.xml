@@ -5,7 +5,27 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f8484a99-3ebb-4cf7-8822-eb79d36ef2c3" name="Changes" comment=",">
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/cherryCore/functions/CommandBlocker.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/cherryCore/CherryCore.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/cherryCore/CherryCore.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/cherryCore/commands/elevators/ElevatorCommand.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/cherryCore/commands/elevators/ElevatorGUI.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/cherryCore/commands/elevators/ElevatorListener.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/cherryCore/commands/elevators/ElevatorManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/cherryCore/commands/staff/AnnunciCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/cherryCore/commands/staff/AnnunciCommands.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/cherryCore/commands/staff/DisguiseCommand.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/cherryCore/commands/staff/NickCommand.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/cherryCore/commands/staff/PermsCommand.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/cherryCore/commands/staff/StaffModeListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/cherryCore/commands/staff/StaffModeListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/cherryCore/commands/utils/MsgCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/cherryCore/commands/utils/MsgCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/cherryCore/commands/utils/SpawnCommands.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/cherryCore/core/CherryCoreDispatcher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/cherryCore/core/CherryCoreDispatcher.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/cherryCore/core/GlobalListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/cherryCore/core/GlobalListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/cherryCore/core/SpawnWorldListener.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/cherryCore/functions/DataManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/cherryCore/functions/DataManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/cherryCore/functions/VanishManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/cherryCore/functions/VanishManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/cherryCore/functions/WhitelistManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/plugin.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -224,7 +244,15 @@
       <option name="project" value="LOCAL" />
       <updated>1780961158251</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary=",">
+      <option name="closed" value="true" />
+      <created>1780967975702</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1780967975702</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

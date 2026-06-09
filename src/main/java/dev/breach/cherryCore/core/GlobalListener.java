@@ -30,7 +30,6 @@ public class GlobalListener implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent e) {
         Player p = e.getPlayer();
-        plugin.getWhitelist().rememberName(p);
 
         // TAB integration (via dispatch)
         Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
@@ -93,7 +92,7 @@ public class GlobalListener implements Listener {
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public void onPlace(BlockPlaceEvent e) {
         Player p = e.getPlayer();
-        if (p.getGameMode() == GameMode.CREATIVE && !plugin.getWhitelist().inWhitelist(p)) {
+        if (p.getGameMode() == GameMode.CREATIVE) {
             e.setCancelled(true);
         }
     }
@@ -101,7 +100,7 @@ public class GlobalListener implements Listener {
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public void onBreak(BlockBreakEvent e) {
         Player p = e.getPlayer();
-        if (p.getGameMode() == GameMode.CREATIVE && !plugin.getWhitelist().inWhitelist(p)) {
+        if (p.getGameMode() == GameMode.CREATIVE) {
             e.setCancelled(true);
         }
     }
@@ -110,7 +109,7 @@ public class GlobalListener implements Listener {
     @SuppressWarnings("deprecation")
     public void onPickup(PlayerPickupItemEvent e) {
         Player p = e.getPlayer();
-        if (p.getGameMode() == GameMode.CREATIVE && !plugin.getWhitelist().inWhitelist(p)) {
+        if (p.getGameMode() == GameMode.CREATIVE) {
             e.setCancelled(true);
         }
     }
@@ -118,7 +117,7 @@ public class GlobalListener implements Listener {
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public void onInvClick(InventoryClickEvent e) {
         if (!(e.getWhoClicked() instanceof Player p)) return;
-        if (p.getGameMode() == GameMode.CREATIVE && !plugin.getWhitelist().inWhitelist(p)) {
+        if (p.getGameMode() == GameMode.CREATIVE) {
             if (e.getClickedInventory() != null
                     && !e.getClickedInventory().equals(p.getInventory())) {
                 e.setCancelled(true);

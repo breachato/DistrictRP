@@ -180,35 +180,39 @@ public class StaffModeListener implements Listener {
 
     private void sendPlayerInfo(Player viewer, Player target) {
         MessageUtils.send(viewer, "");
-        MessageUtils.send(viewer, "&d&l━━━━━━━━━━━━━━━━━━━━━━━━");
-        MessageUtils.send(viewer, "&d&l   ❀ INFO &f" + target.getName());
-        MessageUtils.send(viewer, "&d&l━━━━━━━━━━━━━━━━━━━━━━━━");
-        MessageUtils.send(viewer, "&d  ▸ UUID: &7" + target.getUniqueId());
+        MessageUtils.send(viewer, "");
+        MessageUtils.send(viewer, "&d&l   INFO &f" + target.getName());
+        MessageUtils.send(viewer, "");
         MessageUtils.send(viewer, "&d  ▸ IP: &7" + (target.getAddress() != null
                 ? target.getAddress().getAddress().getHostAddress() : "?"));
         MessageUtils.send(viewer, "&d  ▸ Mondo: &7" + target.getWorld().getName());
         MessageUtils.send(viewer, "&d  ▸ Gamemode: &7" + target.getGameMode());
-        MessageUtils.send(viewer, "&d  ▸ Health: &7" + Math.round(target.getHealth())
-                + "/" + Math.round(target.getMaxHealth()));
-        MessageUtils.send(viewer, "&d  ▸ Food: &7" + target.getFoodLevel());
-        MessageUtils.send(viewer, "&d  ▸ XP Level: &7" + target.getLevel());
+        MessageUtils.send(viewer, "&d  ▸ Health: &7" + Math.round(target.getHealth()));
         MessageUtils.send(viewer, "&d  ▸ Ping: &7" + target.getPing() + "ms");
         MessageUtils.send(viewer, "&d  ▸ Posizione: &7"
                 + target.getLocation().getBlockX() + ", "
                 + target.getLocation().getBlockY() + ", "
                 + target.getLocation().getBlockZ());
-        MessageUtils.send(viewer, "&d  ▸ Vanish: &7" + plugin.getVanishManager().isVanished(target));
-        MessageUtils.send(viewer, "&d&l━━━━━━━━━━━━━━━━━━━━━━━━");
+        MessageUtils.send(viewer, "");
     }
 
     private void randomTeleport(Player p) {
-        World w = p.getWorld();
-        int x = random.nextInt(2000) - 1000;
-        int z = random.nextInt(2000) - 1000;
-        int y = w.getHighestBlockYAt(x, z);
-        Location dest = new Location(w, x + 0.5, y + 1, z + 0.5, p.getLocation().getYaw(), p.getLocation().getPitch());
-        p.teleport(dest);
-        MessageUtils.sendPrefixed(p, "&aRandom TP a &f" + x + ", " + y + ", " + z + "&a.");
+        if (Bukkit.getOnlinePlayers().size() <= 1) {
+            MessageUtils.sendPrefixed(p, "&cNessun player disponibile per il teletrasporto.");
+            return;
+        }
+
+        Player[] players = Bukkit.getOnlinePlayers().toArray(new Player[0]);
+
+        Player target;
+        do {
+            target = players[random.nextInt(players.length)];
+        } while (target.getUniqueId().equals(p.getUniqueId()));
+
+        Location loc = target.getLocation().clone();
+
+        p.teleport(loc);
+        MessageUtils.sendPrefixed(p, "&aTeletrasportato su &f" + target.getName() + "&a.");
     }
 
     // ============================================================
@@ -272,16 +276,6 @@ public class StaffModeListener implements Listener {
         // Refresh vanish per il nuovo arrivato
         plugin.getVanishManager().refreshFor(p);
 
-        // Ripristina disguise se attivo
-        String disguise = plugin.getDataManager().getDisguise(p.getUniqueId());
-        if (disguise != null) {
-            Bukkit.getScheduler().runTaskLater(plugin, () -> {
-                Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
-                        "skin set " + p.getName() + " " + disguise);
-                p.setDisplayName(disguise);
-                p.setPlayerListName(disguise);
-            }, 20L);
-        }
     }
 
     @EventHandler

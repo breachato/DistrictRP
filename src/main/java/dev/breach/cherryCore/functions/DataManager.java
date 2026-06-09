@@ -16,7 +16,7 @@ public class DataManager {
 
     private final CherryCore plugin;
 
-    private File homesFile, warpsFile, spawnFile, permsFile, recFile, elevatorsFile, mondiFile;
+    private File homesFile, warpsFile, recFile, mondiFile;
     private FileConfiguration homes, warps, spawn, perms, rec, elevators, mondi;
     private File staffFile;
     private FileConfiguration staff;
@@ -27,20 +27,14 @@ public class DataManager {
 
         homesFile     = load("homes.yml");
         warpsFile     = load("warps.yml");
-        spawnFile     = load("spawn.yml");
-        permsFile     = load("perms.yml");
         recFile       = load("rec.yml");
-        elevatorsFile = load("elevators.yml");
         mondiFile     = load("mondi.yml");
         staffFile = load("staff.yml");
 
         staff = YamlConfiguration.loadConfiguration(staffFile);
         homes     = YamlConfiguration.loadConfiguration(homesFile);
         warps     = YamlConfiguration.loadConfiguration(warpsFile);
-        spawn     = YamlConfiguration.loadConfiguration(spawnFile);
-        perms     = YamlConfiguration.loadConfiguration(permsFile);
         rec       = YamlConfiguration.loadConfiguration(recFile);
-        elevators = YamlConfiguration.loadConfiguration(elevatorsFile);
         mondi     = YamlConfiguration.loadConfiguration(mondiFile);
     }
 
@@ -55,10 +49,7 @@ public class DataManager {
     public void saveAll() {
         save(homes, homesFile);
         save(warps, warpsFile);
-        save(spawn, spawnFile);
-        save(perms, permsFile);
         save(rec,   recFile);
-        save(elevators, elevatorsFile);
         save(mondi, mondiFile);
         save(staff, staffFile);
     }
@@ -111,17 +102,12 @@ public class DataManager {
     public FileConfiguration homes()     { return homes; }
     public FileConfiguration warps()     { return warps; }
     public FileConfiguration spawn()     { return spawn; }
-    public FileConfiguration perms()     { return perms; }
     public FileConfiguration rec()       { return rec; }
-    public FileConfiguration elevators() { return elevators; }
     public FileConfiguration mondi()     { return mondi; }
 
     public void saveHomes()     { save(homes, homesFile); }
     public void saveWarps()     { save(warps, warpsFile); }
-    public void saveSpawn()     { save(spawn, spawnFile); }
-    public void savePerms()     { save(perms, permsFile); }
     public void saveRec()       { save(rec, recFile); }
-    public void saveElevators() { save(elevators, elevatorsFile); }
     public void saveMondi()     { save(mondi, mondiFile); }
 
     public FileConfiguration staff() { return staff; }
@@ -159,15 +145,6 @@ public class DataManager {
         saveStaff();
     }
 
-    // === DISGUISE ===
-    public String getDisguise(UUID uuid) {
-        return staff.getString("disguise." + uuid);
-    }
-    public void setDisguise(UUID uuid, String name) {
-        if (name == null) staff.set("disguise." + uuid, null);
-        else staff.set("disguise." + uuid, name);
-        saveStaff();
-    }
 
     // ============================================================
     // HOMES
@@ -206,12 +183,6 @@ public class DataManager {
     public Set<String> listWarps() {
         return warps.getKeys(false);
     }
-
-    // ============================================================
-    // SPAWN
-    // ============================================================
-    public void setSpawn(Location l) { spawn.set("spawn", locToMap(l)); saveSpawn(); }
-    public Location getSpawn()       { return sectionToLoc(spawn.getConfigurationSection("spawn")); }
 
     // ============================================================
     // MONDI - WHITELIST / BLACKLIST

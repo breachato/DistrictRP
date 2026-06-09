@@ -40,8 +40,8 @@ public class MsgCommand implements CommandExecutor {
         }
         String msg = sb.toString();
 
-        MessageUtils.send(p,      "&f[&fTu &f-> &f" + target.getName() + "&f] " + msg);
-        MessageUtils.send(target, "&f[&f" + p.getName() + " &f-> &fTe&f] " + msg);
+        MessageUtils.send(p,      "&7Tu &8» &7" + target.getName() + ": " + msg);
+        MessageUtils.send(target, "&7" + p.getName() + " &8» &7Te: " + msg);
 
         plugin.reply.put(p.getUniqueId(),      target.getUniqueId());
         plugin.reply.put(target.getUniqueId(), p.getUniqueId());

@@ -10,12 +10,11 @@ public class AnnunciCommands {
 
     private final CherryCore plugin;
 
-    private static final String ANN_PREFIX   = "&6&l";
-    private static final String ANN_SUBTITLE = "&7Preparati!";
-    private static final String ANN_SUBTITLE2 = "";
-    private static final int    FADE_IN      = 20;
-    private static final int    STAY         = 60;   // 3 secondi = 60 tick
-    private static final int    FADE_OUT     = 20;
+    private static final String ANN_PREFIX    = "&6&l";
+    private static final String ANN_NO_SUB    = "";
+    private static final int    FADE_IN       = 20;
+    private static final int    STAY          = 60;   // 3 secondi = 60 tick
+    private static final int    FADE_OUT      = 20;
 
     public AnnunciCommands(CherryCore plugin) {
         this.plugin = plugin;
@@ -30,7 +29,7 @@ public class AnnunciCommands {
             }
             broadcastTitle(
                     MessageUtils.color(ANN_PREFIX + "AVANTI IL PRIMO!"),
-                    MessageUtils.color(ANN_SUBTITLE)
+                    MessageUtils.color(ANN_NO_SUB)
             );
             MessageUtils.send(sender, "&a✓ Annuncio inviato.");
             return true;
@@ -46,7 +45,7 @@ public class AnnunciCommands {
             }
             broadcastTitle(
                     MessageUtils.color(ANN_PREFIX + "AVANTI UN ALTRO!"),
-                    MessageUtils.color(ANN_SUBTITLE2)
+                    MessageUtils.color(ANN_NO_SUB)
             );
             MessageUtils.send(sender, "&a✓ Annuncio inviato.");
             return true;
@@ -67,7 +66,7 @@ public class AnnunciCommands {
             String testo = String.join(" ", args);
             broadcastTitle(
                     MessageUtils.color(ANN_PREFIX + testo),
-                    MessageUtils.color(ANN_SUBTITLE2)
+                    MessageUtils.color(ANN_NO_SUB)
             );
             MessageUtils.send(sender, "&a✓ Annuncio \"" + testo + "\" inviato.");
             return true;
