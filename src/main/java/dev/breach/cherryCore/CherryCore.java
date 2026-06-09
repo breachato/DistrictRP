@@ -102,7 +102,6 @@ public class CherryCore extends JavaPlugin {
         getLogger().info("[LISTENER] Registrazione listener...");
         safeRegisterListener("GlobalListener",     () -> new GlobalListener(this));
         safeRegisterListener("StaffModeListener",  () -> new StaffModeListener(this));
-        safeRegisterListener("SpawnWorldListener", () -> new SpawnWorldListener(this));
         safeRegisterListener("RecChatListener",   () -> new RecCommand.ChatListener(this));
 
         getLogger().info("[COMMANDS] Registrazione comandi...");

@@ -20,11 +20,6 @@ commands:
     permission: cherrycore.use
     permission-message: §c✗ Non hai accesso a CherryCore.
 
-  perms:
-    description: Gestisce la whitelist creativa
-    usage: /perms <list|add|remove> [player]
-    permission: perms.admin
-
   rec:
     description: Attiva o disattiva la rec mode
     usage: /rec
@@ -72,14 +67,6 @@ commands:
     usage: /warps
     permission: cherrycore.warp
 
-  setspawn:
-    description: Imposta lo spawn
-    usage: /setspawn
-    permission: cherrycore.spawn.set
-  spawn:
-    description: Teleport allo spawn
-    usage: /spawn
-    permission: cherrycore.spawn
   back:
     description: Torna alla posizione precedente
     usage: /back
@@ -192,13 +179,6 @@ commands:
     description: Vai alla citta
     usage: /inizia
 
-  elevator:
-    description: Sistema ascensori
-    usage: /el [sub-comando]
-    aliases:
-      - el
-      - ascensore
-
   mondo:
     description: Gestione mondi (Multiverse)
     usage: /mondo <aggiungi|rimuovi|visita|lista|whitelist|blacklist>
@@ -212,13 +192,6 @@ commands:
     aliases:
       - v
     permission: cherrycore.vanish
-  disguise:
-    description: Travestiti da un altro giocatore
-    usage: /disguise <nick|off>
-    aliases:
-      - d
-      - dis
-    permission: cherrycore.disguise
   staffmode:
     description: Attiva/disattiva la modalita staff completa
     usage: /staffmode
@@ -234,8 +207,6 @@ permissions:
     default: op
   cherrycore.vanish.others:
     default: op
-  cherrycore.disguise:
-    default: op
   cherrycore.staffmode:
     default: op
   cherrycore.use:
@@ -247,10 +218,6 @@ permissions:
   cherrycore.warp.set:
     default: op
   cherrycore.warp.delete:
-    default: op
-  cherrycore.spawn:
-    default: op
-  cherrycore.spawn.set:
     default: op
   cherrycore.back:
     default: op
@@ -270,10 +237,6 @@ permissions:
     default: op
   cherrycore.msg:
     default: true
-  cherrycore.nick:
-    default: op
-  cherrycore.nick.others:
-    default: op
   cherrycore.invsee:
     default: op
   cherrycore.enderchest:
