@@ -125,9 +125,7 @@ public class RecCommand implements CommandExecutor {
         return it;
     }
 
-    // ============================================================
     // /recskinset
-    // ============================================================
     public static class Set implements CommandExecutor {
 
         private final CherryCore plugin;
@@ -154,9 +152,7 @@ public class RecCommand implements CommandExecutor {
         }
     }
 
-    // ============================================================
     // /recskindel
-    // ============================================================
     public static class Del implements CommandExecutor {
 
         private final CherryCore plugin;
@@ -183,9 +179,6 @@ public class RecCommand implements CommandExecutor {
         }
     }
 
-    // ============================================================
-    // ChatListener + GUI click listener
-    // ============================================================
     public static class ChatListener implements Listener {
 
         private final CherryCore plugin;
