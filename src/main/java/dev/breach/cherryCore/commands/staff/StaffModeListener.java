@@ -42,9 +42,6 @@ public class StaffModeListener implements Listener {
         this.plugin = plugin;
     }
 
-    // ============================================================
-    // PROTEZIONE: niente damage / drop / pickup in vanish o staff mode
-    // ============================================================
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public void onDamage(EntityDamageEvent e) {
         if (!(e.getEntity() instanceof Player p)) return;
@@ -57,7 +54,6 @@ public class StaffModeListener implements Listener {
     public void onDamageBy(EntityDamageByEntityEvent e) {
         if (e.getDamager() instanceof Player p) {
             if (StaffModeCommand.isInStaffMode(p) && !(e.getEntity() instanceof Player)) {
-                // Permettiamo di non danneggiare mob in staff mode
                 e.setCancelled(true);
             }
         }
@@ -93,7 +89,6 @@ public class StaffModeListener implements Listener {
     public void onInvMove(InventoryClickEvent e) {
         if (!(e.getWhoClicked() instanceof Player p)) return;
         if (!StaffModeCommand.isInStaffMode(p)) return;
-        // Blocca lo spostamento degli staff tool
         ItemStack it = e.getCurrentItem();
         if (StaffModeCommand.isStaffTool(it)) {
             e.setCancelled(true);
@@ -113,9 +108,6 @@ public class StaffModeListener implements Listener {
         }
     }
 
-    // ============================================================
-    // USO STAFF TOOLS (click sinistro/destro)
-    // ============================================================
     @EventHandler
     public void onUseTool(PlayerInteractEvent e) {
         Player p = e.getPlayer();
@@ -151,9 +143,6 @@ public class StaffModeListener implements Listener {
         }
     }
 
-    // ============================================================
-    // INTERAZIONE CON ALTRI PLAYER (invsee / info)
-    // ============================================================
     @EventHandler
     public void onInteractPlayer(PlayerInteractAtEntityEvent e) {
         Player p = e.getPlayer();
@@ -215,9 +204,6 @@ public class StaffModeListener implements Listener {
         MessageUtils.sendPrefixed(p, "&aTeletrasportato su &f" + target.getName() + "&a.");
     }
 
-    // ============================================================
-    // GUI TELEPORT PLAYER
-    // ============================================================
     private void openPlayerTpGui(Player viewer) {
         int size = (int) Math.ceil(Bukkit.getOnlinePlayers().size() / 9.0) * 9;
         if (size < 9) size = 9;
@@ -267,13 +253,9 @@ public class StaffModeListener implements Listener {
         MessageUtils.sendPrefixed(viewer, "&aTeletrasportato da &f" + target.getName() + "&a.");
     }
 
-    // ============================================================
-    // JOIN / QUIT
-    // ============================================================
     @EventHandler
     public void onJoin(PlayerJoinEvent e) {
         Player p = e.getPlayer();
-        // Refresh vanish per il nuovo arrivato
         plugin.getVanishManager().refreshFor(p);
 
     }
@@ -281,7 +263,6 @@ public class StaffModeListener implements Listener {
     @EventHandler
     public void onQuit(PlayerQuitEvent e) {
         Player p = e.getPlayer();
-        // Se in staff mode al logout, esci automaticamente (salva inventario)
         if (StaffModeCommand.isInStaffMode(p)) {
             StaffModeCommand.exitStaffMode(plugin, p);
         }
