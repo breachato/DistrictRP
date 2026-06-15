@@ -28,7 +28,7 @@ public class CommandBlocker {
 
             Field kcField = SimpleCommandMap.class.getDeclaredField("knownCommands");
             kcField.setAccessible(true);
-            //noinspection unchecked
+            
             this.knownCommands = (Map<String, Command>) kcField.get(this.commandMap);
 
             plugin.getLogger().info("[CommandBlocker] Inizializzato correttamente.");
