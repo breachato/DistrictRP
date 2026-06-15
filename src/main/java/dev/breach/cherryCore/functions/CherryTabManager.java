@@ -122,10 +122,6 @@ public class CherryTabManager implements TabCompleter {
         }
     }
 
-    // ============================================================
-    // HANDLERS
-    // ============================================================
-
     private List<String> handleCherryCore(CommandSender sender, String[] args) {
         if (args.length == 1) {
             return filter(CC_SUBS, args[0]);
@@ -242,10 +238,6 @@ public class CherryTabManager implements TabCompleter {
         }
         return empty();
     }
-
-    // ============================================================
-    // UTILITY
-    // ============================================================
 
     private List<String> filter(List<String> options, String prefix) {
         if (prefix == null || prefix.isEmpty()) return new ArrayList<>(options);
