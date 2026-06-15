@@ -28,9 +28,6 @@ public class VanishManager {
         }
     }
 
-    // ============================================================
-    // CHECK
-    // ============================================================
     public boolean isVanished(Player p) {
         return vanished.contains(p.getUniqueId());
     }
@@ -39,9 +36,6 @@ public class VanishManager {
         return vanished.contains(uuid);
     }
 
-    // ============================================================
-    // ENABLE
-    // ============================================================
     public void enable(Player p) {
         vanished.add(p.getUniqueId());
         plugin.getDataManager().setVanished(p.getUniqueId(), true);
@@ -52,9 +46,6 @@ public class VanishManager {
         MessageUtils.sendPrefixed(p, "&7Sei ora in &fVanish&a.");
     }
 
-    // ============================================================
-    // DISABLE
-    // ============================================================
     public void disable(Player p) {
         vanished.remove(p.getUniqueId());
         plugin.getDataManager().setVanished(p.getUniqueId(), false);
@@ -70,9 +61,6 @@ public class VanishManager {
         else enable(p);
     }
 
-    // ============================================================
-    // VANISH APPLY
-    // ============================================================
     public void applyVanish(Player p) {
         for (Player other : Bukkit.getOnlinePlayers()) {
             if (other.equals(p)) continue;
@@ -94,9 +82,6 @@ public class VanishManager {
         p.setCollidable(false);
     }
 
-    // ============================================================
-    // REMOVE VANISH
-    // ============================================================
     public void removeVanish(Player p) {
         for (Player other : Bukkit.getOnlinePlayers()) {
             if (other.equals(p)) continue;
@@ -107,9 +92,6 @@ public class VanishManager {
         p.setCollidable(true);
     }
 
-    // ============================================================
-    // TAB TAG VANISH
-    // ============================================================
     private void setVanishTag(Player p, boolean state) {
         Scoreboard sb = Bukkit.getScoreboardManager().getMainScoreboard();
 
@@ -126,9 +108,6 @@ public class VanishManager {
         }
     }
 
-    // ============================================================
-    // JOIN REFRESH
-    // ============================================================
     public void refreshFor(Player joiner) {
         if (!joiner.hasPermission("cherrycore.vanish.see")) {
             for (UUID uuid : vanished) {
