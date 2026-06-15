@@ -81,9 +81,6 @@ public class MondoCommand implements CommandExecutor {
         return true;
     }
 
-    // ============================================================
-    // ADD - importa cartella locale o scarica da URL
-    // ============================================================
     private void handleAdd(CommandSender s, String[] args) {
         if (args.length < 2) {
             MessageUtils.sendPrefixed(s, "&cUsa: /mondo aggiungi <cartella|url> [nome]");
@@ -97,10 +94,8 @@ public class MondoCommand implements CommandExecutor {
         String source = args[1];
         String targetName = args.length >= 3 ? args[2] : null;
 
-        // === Caso 1: URL (zip/tar.gz/rar) ===
         if (source.startsWith("http://") || source.startsWith("https://")) {
             if (targetName == null) {
-                // estrai nome dall'URL
                 String fileName = source.substring(source.lastIndexOf('/') + 1);
                 fileName = fileName.replaceAll("\\.zip$|\\.tar\\.gz$|\\.tgz$|\\.rar$", "");
                 targetName = fileName;
@@ -128,7 +123,6 @@ public class MondoCommand implements CommandExecutor {
             return;
         }
 
-        // === Caso 2: percorso assoluto (cartella locale fuori dal server) ===
         if (source.contains(":") || source.startsWith("/")) {
             if (targetName == null) {
                 File src = new File(source);
@@ -157,7 +151,6 @@ public class MondoCommand implements CommandExecutor {
             return;
         }
 
-        // === Caso 3: cartella già presente nella root del server ===
         File serverFolder = new File(Bukkit.getWorldContainer(), source);
         if (!serverFolder.exists() || !serverFolder.isDirectory()) {
             MessageUtils.sendPrefixed(s, "&cCartella &f" + source + " &cnon trovata nella root del server.");
@@ -168,7 +161,6 @@ public class MondoCommand implements CommandExecutor {
             return;
         }
 
-        // Eventuale rinomina
         if (targetName != null && !targetName.equals(source)) {
             File newFolder = new File(Bukkit.getWorldContainer(), targetName);
             if (newFolder.exists()) {
@@ -200,9 +192,6 @@ public class MondoCommand implements CommandExecutor {
         }
     }
 
-    // ============================================================
-    // REMOVE
-    // ============================================================
     private void handleRemove(CommandSender s, String[] args) {
         if (args.length < 2) {
             MessageUtils.sendPrefixed(s, "&cUsa: /mondo rimuovi <nome>");
@@ -222,9 +211,6 @@ public class MondoCommand implements CommandExecutor {
         }
     }
 
-    // ============================================================
-    // VISIT
-    // ============================================================
     private void handleVisit(CommandSender s, String[] args) {
         if (!(s instanceof Player p)) {
             MessageUtils.send(s, "&cSolo i giocatori.");
@@ -261,9 +247,6 @@ public class MondoCommand implements CommandExecutor {
         }
     }
 
-    // ============================================================
-    // LIST
-    // ============================================================
     private void handleList(CommandSender s) {
         List<String> worlds = plugin.getMultiverse().listWorlds();
         MessageUtils.send(s, "");
@@ -284,9 +267,6 @@ public class MondoCommand implements CommandExecutor {
         MessageUtils.send(s, "");
     }
 
-    // ============================================================
-    // WHITELIST
-    // ============================================================
     private void handleWhitelist(CommandSender s, String[] args) {
         if (args.length < 2) {
             MessageUtils.sendPrefixed(s, "&cUsa: /mondo whitelist <aggiungi|rimuovi|lista> <mondo> [player]");
@@ -351,9 +331,6 @@ public class MondoCommand implements CommandExecutor {
         }
     }
 
-    // ============================================================
-    // BLACKLIST
-    // ============================================================
     private void handleBlacklist(CommandSender s, String[] args) {
         if (args.length < 2) {
             MessageUtils.sendPrefixed(s, "&cUsa: /mondo blacklist <aggiungi|rimuovi|lista> <mondo> [player]");
@@ -418,9 +395,6 @@ public class MondoCommand implements CommandExecutor {
         }
     }
 
-    // ============================================================
-    // HELP
-    // ============================================================
     private void sendHelp(CommandSender s) {
         MessageUtils.send(s, "");
         MessageUtils.send(s, "&d&l   Cherry University");
