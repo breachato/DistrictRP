@@ -31,13 +31,11 @@ public class GlobalListener implements Listener {
     public void onJoin(PlayerJoinEvent e) {
         Player p = e.getPlayer();
 
-        // TAB integration (via dispatch)
         Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
                 "tab player " + p.getName() + " tagprefix");
         Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
                 "tab player " + p.getName() + " tabprefix");
 
-        // Glowing per group.perms
         if (p.hasPermission("group.perms")) {
             p.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING,
                     Integer.MAX_VALUE, 0, false, false));
@@ -45,7 +43,6 @@ public class GlobalListener implements Listener {
             p.removePotionEffect(PotionEffectType.GLOWING);
         }
 
-        // Rec mode persistente
         if (Boolean.TRUE.equals(plugin.recActive.get(p.getUniqueId()))) {
             String skin = plugin.recSkin.get(p.getUniqueId());
             if (skin != null) {
@@ -60,11 +57,6 @@ public class GlobalListener implements Listener {
                 }
             }
         }
-    }
-
-    @EventHandler
-    public void onQuit(PlayerQuitEvent e) {
-        // pulizia eventuale (placeholder per AFK ecc.)
     }
 
     @EventHandler
@@ -84,44 +76,6 @@ public class GlobalListener implements Listener {
         if (!(e.getEntity() instanceof Player p)) return;
         if (Boolean.TRUE.equals(plugin.godMode.get(p.getUniqueId()))) {
             e.setCancelled(true);
-        }
-    }
-
-    // === Protezione creative ===
-
-    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
-    public void onPlace(BlockPlaceEvent e) {
-        Player p = e.getPlayer();
-        if (p.getGameMode() == GameMode.CREATIVE) {
-            e.setCancelled(true);
-        }
-    }
-
-    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
-    public void onBreak(BlockBreakEvent e) {
-        Player p = e.getPlayer();
-        if (p.getGameMode() == GameMode.CREATIVE) {
-            e.setCancelled(true);
-        }
-    }
-
-    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
-    @SuppressWarnings("deprecation")
-    public void onPickup(PlayerPickupItemEvent e) {
-        Player p = e.getPlayer();
-        if (p.getGameMode() == GameMode.CREATIVE) {
-            e.setCancelled(true);
-        }
-    }
-
-    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
-    public void onInvClick(InventoryClickEvent e) {
-        if (!(e.getWhoClicked() instanceof Player p)) return;
-        if (p.getGameMode() == GameMode.CREATIVE) {
-            if (e.getClickedInventory() != null
-                    && !e.getClickedInventory().equals(p.getInventory())) {
-                e.setCancelled(true);
-            }
         }
     }
 }
