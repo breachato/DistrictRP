@@ -58,9 +58,6 @@ public class DataManager {
         try { c.save(f); } catch (IOException e) { e.printStackTrace(); }
     }
 
-    // ============================================================
-    // HELPERS LOCATION
-    // ============================================================
     public static Map<String, Object> locToMap(Location l) {
         Map<String, Object> m = new LinkedHashMap<>();
         m.put("world", l.getWorld().getName());
@@ -96,9 +93,6 @@ public class DataManager {
                 (float) sec.getDouble("pitch", 0));
     }
 
-    // ============================================================
-    // GETTERS CONFIG
-    // ============================================================
     public FileConfiguration homes()     { return homes; }
     public FileConfiguration warps()     { return warps; }
     public FileConfiguration spawn()     { return spawn; }
@@ -127,7 +121,6 @@ public class DataManager {
         return s == null ? new HashSet<>() : s.getKeys(false);
     }
 
-    // === STAFF MODE ===
     public boolean isStaffMode(UUID uuid) {
         return staff.getBoolean("staffmode." + uuid + ".active", false);
     }
@@ -145,10 +138,6 @@ public class DataManager {
         saveStaff();
     }
 
-
-    // ============================================================
-    // HOMES
-    // ============================================================
     public void setHome(UUID uuid, String name, Location loc) {
         homes.set(uuid + "." + name, locToMap(loc));
         saveHomes();
@@ -164,10 +153,7 @@ public class DataManager {
         ConfigurationSection s = homes.getConfigurationSection(uuid.toString());
         return s == null ? Collections.emptySet() : s.getKeys(false);
     }
-
-    // ============================================================
-    // WARPS
-    // ============================================================
+    
     public void setWarp(String name, Location loc, String creator) {
         warps.set(name + ".loc", locToMap(loc));
         warps.set(name + ".creator", creator);
@@ -184,9 +170,6 @@ public class DataManager {
         return warps.getKeys(false);
     }
 
-    // ============================================================
-    // MONDI - WHITELIST / BLACKLIST
-    // ============================================================
     public List<String> getWhitelist(String world) {
         return mondi.getStringList("worlds." + world + ".whitelist");
     }
