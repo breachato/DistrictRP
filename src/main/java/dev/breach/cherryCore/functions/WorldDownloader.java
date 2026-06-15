@@ -11,18 +11,6 @@ import java.util.function.Consumer;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
-/**
- * Scarica un archivio (zip/tar.gz/rar) da un URL, lo estrae nella cartella del server,
- * rinominandolo come specificato.
- *
- * Supporto:
- *   - .zip  (nativo)
- *   - .tar.gz / .tgz (richiede Apache Commons Compress - opzionale)
- *   - .rar  (richiede junrar - opzionale)
- *
- * Per semplicita, di base supportiamo solo ZIP. tar.gz e rar daranno errore se non
- * sono presenti le librerie.
- */
 public class WorldDownloader {
 
     private final CherryCore plugin;
@@ -31,13 +19,6 @@ public class WorldDownloader {
         this.plugin = plugin;
     }
 
-    /**
-     * Esegue il download e l'estrazione in modo asincrono.
-     * @param url        URL dell'archivio
-     * @param targetName nome finale della cartella mondo nel server
-     * @param onSuccess  callback su success (riceve true se OK)
-     * @param onError    callback su errore (riceve il messaggio)
-     */
     public void downloadAndExtract(String url, String targetName,
                                    Consumer<Boolean> onSuccess, Consumer<String> onError) {
         Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
@@ -49,7 +30,6 @@ public class WorldDownloader {
                     return;
                 }
 
-                // Scarica in temp
                 File tmpDir = new File(plugin.getDataFolder(), "tmp");
                 if (!tmpDir.exists()) tmpDir.mkdirs();
 
@@ -80,7 +60,6 @@ public class WorldDownloader {
 
                 plugin.getLogger().info("[Mondo] Download completato. Estrazione in corso...");
 
-                // Estrazione
                 File extractDir = new File(tmpDir, "extract_" + System.currentTimeMillis());
                 extractDir.mkdirs();
 
@@ -96,17 +75,14 @@ public class WorldDownloader {
                         return;
                 }
 
-                // Trova la cartella con level.dat dentro l'estrazione
                 File worldFolder = findWorldFolder(extractDir);
                 if (worldFolder == null) {
                     runSync(() -> onError.accept("Nessun mondo Minecraft trovato nell'archivio (manca level.dat)."));
                     return;
                 }
 
-                // Sposta nella root del server con il nome corretto
                 moveDirectory(worldFolder, target);
 
-                // Pulisci temp
                 deleteRecursive(downloaded);
                 deleteRecursive(extractDir);
 
@@ -121,9 +97,6 @@ public class WorldDownloader {
         });
     }
 
-    /**
-     * Importa una cartella locale dal disco copiandola nella server root.
-     */
     public void importLocalFolder(String absolutePath, String targetName,
                                   Consumer<Boolean> onSuccess, Consumer<String> onError) {
         Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
@@ -150,10 +123,7 @@ public class WorldDownloader {
             }
         });
     }
-
-    // ============================================================
-    // UTILITY INTERNE
-    // ============================================================
+    
     private void runSync(Runnable r) {
         Bukkit.getScheduler().runTask(plugin, r);
     }
@@ -164,7 +134,6 @@ public class WorldDownloader {
             byte[] buf = new byte[8192];
             while ((entry = zis.getNextEntry()) != null) {
                 File out = new File(destDir, entry.getName());
-                // Prevent zip slip
                 if (!out.getCanonicalPath().startsWith(destDir.getCanonicalPath())) {
                     throw new IOException("Zip slip rilevato: " + entry.getName());
                 }
@@ -181,10 +150,7 @@ public class WorldDownloader {
             }
         }
     }
-
-    /**
-     * Cerca ricorsivamente una cartella che contenga level.dat.
-     */
+    
     private File findWorldFolder(File dir) {
         if (dir == null || !dir.isDirectory()) return null;
         if (new File(dir, "level.dat").exists()) return dir;
@@ -201,7 +167,7 @@ public class WorldDownloader {
 
     private void moveDirectory(File source, File dest) throws IOException {
         if (!source.renameTo(dest)) {
-            // fallback: copia + cancella
+            
             copyDirectory(source, dest);
             deleteRecursive(source);
         }
