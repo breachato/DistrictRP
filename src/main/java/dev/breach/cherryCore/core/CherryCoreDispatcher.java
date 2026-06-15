@@ -26,7 +26,6 @@ public class CherryCoreDispatcher implements CommandExecutor, TabCompleter, List
     private static final String GUI_TITLE = ChatColor.translateAlternateColorCodes('&',
             "&d&l  𝐂𝐡𝐞𝐫𝐫𝐲 𝐔𝐧𝐢𝐯𝐞𝐫𝐬𝐢𝐭𝐲");
 
-    // Lista dei subcomandi disponibili
     private static final List<String> SUBCOMMANDS = Arrays.asList(
             "help", "gui", "rtp", "reload", "info"
     );
@@ -105,9 +104,6 @@ public class CherryCoreDispatcher implements CommandExecutor, TabCompleter, List
         return true;
     }
 
-    // ============================================================
-    // TAB COMPLETER
-    // ============================================================
     @Nullable
     @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command,
@@ -126,9 +122,6 @@ public class CherryCoreDispatcher implements CommandExecutor, TabCompleter, List
         return Collections.emptyList();
     }
 
-    // ============================================================
-    // GUI
-    // ============================================================
     private void openGui(Player p) {
         Inventory inv = Bukkit.createInventory(null, 54, GUI_TITLE);
 
