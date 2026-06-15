@@ -20,15 +20,10 @@ import java.util.logging.Level;
 
 public class CherryCore extends JavaPlugin {
 
-    // ============================================================
-    // VERSION TAG
-    // ============================================================
     public static final String BUILD_TAG = "Private";
-    // ============================================================
 
     private static CherryCore instance;
 
-    // ===== CAMPI PUBBLICI =====
     public final Map<UUID, UUID> reply = new HashMap<>();
     public final Map<UUID, String> recSkin = new HashMap<>();
     public final Map<UUID, Boolean> recActive = new HashMap<>();
@@ -38,7 +33,6 @@ public class CherryCore extends JavaPlugin {
     public final Map<UUID, Location> back = new HashMap<>();
     public final Map<UUID, Boolean> spawnInvis = new HashMap<>();
 
-    // ===== MANAGER =====
     private DataManager dataManager;
     private WorldManager worldManager;
     private VanishManager vanishManager;
@@ -122,9 +116,6 @@ public class CherryCore extends JavaPlugin {
         getLogger().info("[CherryCore] Plugin disabilitato. (Tag: " + BUILD_TAG + ")");
     }
 
-    // ============================================================
-    // Helper safe
-    // ============================================================
     @FunctionalInterface
     private interface ThrowingSupplier<T> { T get() throws Throwable; }
 
@@ -171,10 +162,8 @@ public class CherryCore extends JavaPlugin {
     }
 
     private void registerCommands() {
-        // CORE
         safeRegister("cherrycore", new CherryCoreDispatcher(this));
 
-        // REC
         safeRegister("rec", new RecCommand(this));
         safeRegister("recskinset", new RecCommand.Set(this));
         safeRegister("recskindel", new RecCommand.Del(this));
@@ -190,40 +179,34 @@ public class CherryCore extends JavaPlugin {
         safeRegister("tpall", new TpAllCommand(this));
         safeRegister("tphere", new TpHereCommand(this));
 
-        // GAMEMODES
         GamemodeCommands gmCmds = new GamemodeCommands(this);
         safeRegister("gms", gmCmds.gms());
         safeRegister("gmc", gmCmds.gmc());
         safeRegister("gma", gmCmds.gma());
         safeRegister("gmsp", gmCmds.gmsp());
 
-        // HOMES
         HomeCommands homeCmds = new HomeCommands(this);
         safeRegister("sethome", homeCmds.sethome());
         safeRegister("home", homeCmds.home());
         safeRegister("delhome", homeCmds.delhome());
         safeRegister("homes", homeCmds.homes());
 
-        // WARPS
         WarpCommands warpCmds = new WarpCommands(this);
         safeRegister("setwarp", warpCmds.setwarp());
         safeRegister("warp", warpCmds.warp());
         safeRegister("delwarp", warpCmds.delwarp());
         safeRegister("warps", warpCmds.warps());
 
-        // MSG
         MsgCommand msgCmd = new MsgCommand(this);
         safeRegister("msg", msgCmd);
         safeRegister("reply", msgCmd.reply());
 
-        // ALTRI
         safeRegister("back", new BackCommand(this));
         safeRegister("clearchat", new ClearChatCommand(this));
         safeRegister("build", new BuildCommand(this));
         safeRegister("inizia", new IniziaCommand(this));
         safeRegister("mondo", new MondoCommand(this));
 
-        // ANNUNCI
         AnnunciCommands annCmds = new AnnunciCommands(this);
         safeRegister("avantiilprimo", annCmds.primo());
         safeRegister("avantiunaltro", annCmds.prossimo());
@@ -232,15 +215,14 @@ public class CherryCore extends JavaPlugin {
 
     }
 
-    // ===== GETTERS =====
     public static CherryCore getInstance() { return instance; }
     public static CherryCore get() { return instance; }
 
     public DataManager getDataManager() { return dataManager; }
 
     public WorldManager getWorldManager() { return worldManager; }
-    public WorldManager getMultiverseManager() { return worldManager; } // alias
-    public WorldManager getMultiverse() { return worldManager; }        // alias
+    public WorldManager getMultiverseManager() { return worldManager; }
+    public WorldManager getMultiverse() { return worldManager; }
 
     public VanishManager getVanishManager() { return vanishManager; }
 
