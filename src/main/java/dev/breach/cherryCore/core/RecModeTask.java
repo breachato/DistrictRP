@@ -6,13 +6,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
-/**
- * Equivalente di:
- *   every 1 tick: action bar AB_PREFIX + AB_MESSAGE se non in rec
- *   every 6 ticks: cancella l'action bar
- *
- * Implementato come singolo runnable per non duplicare il task.
- */
 public class RecModeTask extends BukkitRunnable {
 
     private final CherryCore plugin;
@@ -30,7 +23,6 @@ public class RecModeTask extends BukkitRunnable {
             boolean bypass    = p.hasPermission("rec.bypassflag");
 
             if (!recActive && !bypass) {
-                // ogni 6 tick mando uno spazio per evitare flicker (come nello Skript)
                 if (counter % 6 == 0) {
                     MessageUtils.actionBar(p, " ");
                 } else {
