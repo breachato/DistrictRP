@@ -92,7 +92,6 @@ public class CommandBlocker {
         return toRemove.size();
     }
 
-
     public boolean override(String commandName) {
         boolean removed = unregister(commandName);
         overriddenCommands.add(commandName);
