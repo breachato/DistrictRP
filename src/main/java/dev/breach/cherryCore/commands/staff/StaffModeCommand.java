@@ -21,7 +21,6 @@ public class StaffModeCommand implements CommandExecutor {
 
     private final CherryCore plugin;
 
-    // Mappa volatile per ripristino quando si esce
     public static final Map<UUID, ItemStack[]> savedInventory = new HashMap<>();
     public static final Map<UUID, ItemStack[]> savedArmor     = new HashMap<>();
     public static final Map<UUID, GameMode>    savedGamemode  = new HashMap<>();
@@ -59,7 +58,6 @@ public class StaffModeCommand implements CommandExecutor {
         UUID uuid = p.getUniqueId();
         PlayerInventory inv = p.getInventory();
 
-        // Backup inventario
         savedInventory.put(uuid, inv.getContents().clone());
         savedArmor.put(uuid, inv.getArmorContents().clone());
         savedGamemode.put(uuid, p.getGameMode());
@@ -71,12 +69,10 @@ public class StaffModeCommand implements CommandExecutor {
         p.setAllowFlight(true);
         p.setFlying(true);
 
-        // Vanish auto
         if (!plugin.getVanishManager().isVanished(p)) {
             plugin.getVanishManager().enable(p);
         }
 
-        // Hotbar staff
         inv.setItem(0, tool(Material.COMPASS,    "&d&l⌖ Teleport Player", "&7Click per teletrasportarti a un player"));
         inv.setItem(1, tool(Material.PLAYER_HEAD,"&d&l▦ Inventario",       "&7Click destro su un player per vedere il suo inventario"));
         inv.setItem(2, tool(Material.BOOK,       "&d&l📖 Info Player",     "&7Click destro su un player per info"));
@@ -105,7 +101,6 @@ public class StaffModeCommand implements CommandExecutor {
         if (backFl  != null) p.setAllowFlight(backFl);
         p.setFlying(false);
 
-        // Spegne vanish se attivo
         if (plugin.getVanishManager().isVanished(p)) {
             plugin.getVanishManager().disable(p);
         }
@@ -124,7 +119,6 @@ public class StaffModeCommand implements CommandExecutor {
                 for (String s : lore) l.add(ChatColor.translateAlternateColorCodes('&', s));
                 m.setLore(l);
             }
-            // Marker NBT per identificarlo nei listener
             m.getPersistentDataContainer().set(
                     new org.bukkit.NamespacedKey(CherryCore.get(), "staff_tool"),
                     PersistentDataType.STRING,
