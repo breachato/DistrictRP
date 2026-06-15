@@ -19,7 +19,7 @@ public class IniziaCommand implements CommandExecutor {
     public static final double X     = 30;
     public static final double Y     = 68;
     public static final double Z     = -10;
-    public static final float  YAW   = 0f;    // ← cambia se vuoi altro sguardo
+    public static final float  YAW   = 0f;    
     public static final float  PITCH = 0f;
 
     private final CherryCore plugin;
