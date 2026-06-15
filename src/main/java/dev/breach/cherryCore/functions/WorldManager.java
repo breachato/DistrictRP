@@ -14,15 +14,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-/**
- * Gestore mondi ibrido.
- * Usa Multiverse se disponibile, altrimenti API Bukkit diretta.
- * NON dipende da classi Multiverse importate staticamente.
- */
 public class WorldManager {
 
     private final CherryCore plugin;
-    private final Object mvWorldManager; // Reflection wrapper per MVWorldManager
+    private final Object mvWorldManager;
     private final boolean mvAvailable;
 
     public WorldManager(CherryCore plugin) {
@@ -47,10 +42,7 @@ public class WorldManager {
 
     public boolean isReady() { return true; }
     public boolean isMultiverseHooked() { return mvAvailable; }
-
-    // ============================================================
-    // WORLD EXISTS
-    // ============================================================
+    
     public boolean worldExists(String name) {
         if (name == null) return false;
         if (mvAvailable) {
@@ -63,9 +55,6 @@ public class WorldManager {
         return f.isDirectory() && new File(f, "level.dat").exists();
     }
 
-    // ============================================================
-    // IMPORT WORLD
-    // ============================================================
     public boolean importWorld(String folderName, World.Environment env) {
         if (folderName == null || folderName.isEmpty()) return false;
 
@@ -107,9 +96,6 @@ public class WorldManager {
         }
     }
 
-    // ============================================================
-    // REMOVE WORLD (unload senza cancellare file)
-    // ============================================================
     public boolean removeWorld(String name) {
         if (name == null) return false;
 
@@ -144,9 +130,6 @@ public class WorldManager {
         }
     }
 
-    // ============================================================
-    // TELEPORT
-    // ============================================================
     public boolean teleport(Player p, String worldName) {
         if (p == null || worldName == null) return false;
 
@@ -182,9 +165,6 @@ public class WorldManager {
         }
     }
 
-    // ============================================================
-    // LIST WORLDS
-    // ============================================================
     @SuppressWarnings("unchecked")
     public List<String> listWorlds() {
         List<String> result = new ArrayList<>();
@@ -213,10 +193,7 @@ public class WorldManager {
         }
         return result;
     }
-
-    // ============================================================
-    // HELPER REFLECTION
-    // ============================================================
+    
     private Object reflectInvoke(Object target, String methodName, Class<?>[] paramTypes, Object... args) {
         try {
             Method m = target.getClass().getMethod(methodName, paramTypes);
