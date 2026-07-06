@@ -5,8 +5,111 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f8484a99-3ebb-4cf7-8822-eb79d36ef2c3" name="Changes" comment=",">
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/ChatGate/ChatGate.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/ChatGate/commands/ChatCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/ChatGate/commands/ChatGateCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/ChatGate/listeners/ChatListener.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/ChatGate/managers/ChatManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/ChatGate/managers/ColorManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/ChatGate/managers/MessageManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/ChatGate/models/CustomChat.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/ChatGate/placeholders/PlaceholderAPIExpansion.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/RoleplayModule.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/RoleplayPlaceholders.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/appuntamenti/Appuntamento.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/appuntamenti/AppuntamentoCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/appuntamenti/AppuntamentoGUI.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/appuntamenti/AppuntamentoManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/bots/BotManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/bots/DiscordBot.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/bots/RecapScheduler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/bots/TelegramBot.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/chat/AzioneCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/chat/BisbiglioCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/chat/ChatFlags.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/chat/ChatModule.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/chat/ChatSymCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/chat/ChatSymListener.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/chat/ChatSymManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/chat/StaffListCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/chat/UrloCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/emoji/EmojiCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/emoji/EmojiGUI.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/emoji/EmojiListener.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/emoji/EmojiManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/logs/LogEntry.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/logs/LogModule.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/logs/LogsAPI.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/logs/LogsCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/playtime/PlaytimeCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/playtime/PlaytimeData.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/playtime/PlaytimeTracker.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/profile/JobService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/profile/ProfileCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/profile/RPProfile.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/profile/RPProfileManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/protection/ProtectionCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/protection/ProtectionInteractionsGUI.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/protection/ProtectionListener.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/protection/ProtectionManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/stuck/StuckCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/supporto/SupportoCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/supporto/SupportoListener.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/ticket/Ticket.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/ticket/TicketCategory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/ticket/TicketCategoryGUI.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/ticket/TicketCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/ticket/TicketComment.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/ticket/TicketManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/ticket/TicketQuickRepliesGUI.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/vanish/VanishTabHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/staff/StaffModeActionBar.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/staff/StaffModeGUI.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/staff/StaffModeItems.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/staff/StaffModeManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/utils/SpawnCommands.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/utils/WipeCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/functions/ColorUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/functions/LobbyModeManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/config.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/messages.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/cherryCore/CherryCore.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/cherryCore/CherryCore.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/settings.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/settings.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/cherryCore/CherryCore.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/DistrictRP.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/cherryCore/commands/staff/AnnunciCommands.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/cherryCore/commands/staff/ClearCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/staff/ClearCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/cherryCore/commands/staff/EnderchestCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/staff/EnderchestCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/cherryCore/commands/staff/FlyCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/staff/FlyCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/cherryCore/commands/staff/GamemodeCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/staff/GamemodeCommands.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/cherryCore/commands/staff/GodCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/staff/GodCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/cherryCore/commands/staff/InvseeCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/staff/InvseeCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/cherryCore/commands/staff/RecCommand.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/cherryCore/commands/staff/SpeedCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/staff/SpeedCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/cherryCore/commands/staff/StaffModeCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/staff/StaffModeCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/cherryCore/commands/staff/StaffModeListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/staff/StaffModeListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/cherryCore/commands/staff/TpAllCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/staff/TpAllCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/cherryCore/commands/staff/TpHereCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/staff/TpHereCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/cherryCore/commands/staff/VanishCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/staff/VanishCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/cherryCore/commands/utils/BackCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/utils/BackCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/cherryCore/commands/utils/BuildCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/utils/BuildCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/cherryCore/commands/utils/ClearChatCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/utils/ClearChatCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/cherryCore/commands/utils/HomeCommands.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/cherryCore/commands/utils/IniziaCommand.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/cherryCore/commands/utils/MondoCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/utils/MondoCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/cherryCore/commands/utils/MsgCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/utils/MsgCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/cherryCore/commands/utils/WarpCommands.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/cherryCore/core/CherryCoreDispatcher.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/cherryCore/core/GlobalListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/core/GlobalListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/cherryCore/core/RecModeTask.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/cherryCore/functions/CherryTabManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/functions/DistrictTabManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/cherryCore/functions/CommandBlocker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/functions/CommandBlocker.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/cherryCore/functions/DataManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/functions/DataManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/cherryCore/functions/MessageUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/functions/MessageUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/cherryCore/functions/VanishManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/functions/VanishManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/cherryCore/functions/WorldDownloader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/functions/WorldDownloader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/cherryCore/functions/WorldManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/functions/WorldManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/plugin.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -33,18 +136,23 @@
             <expand>
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="FluentCore" type="f1a62948:ProjectNode" />
+                <item name="DistrictRP" type="f1a62948:ProjectNode" />
               </path>
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="FluentCore" type="f1a62948:ProjectNode" />
+                <item name="DistrictRP" type="f1a62948:ProjectNode" />
                 <item name="Tasks" type="e4a08cd1:TasksNode" />
               </path>
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="FluentCore" type="f1a62948:ProjectNode" />
+                <item name="DistrictRP" type="f1a62948:ProjectNode" />
                 <item name="Tasks" type="e4a08cd1:TasksNode" />
                 <item name="build" type="c8890929:TasksNode$1" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="DistrictRP" type="f1a62948:ProjectNode" />
+                <item name="Run Configurations" type="7b0102dc:RunConfigurationsNode" />
               </path>
             </expand>
             <select />
@@ -62,6 +170,7 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="UPDATE_TYPE" value="REBASE" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
   &quot;lastFilter&quot;: {
@@ -71,10 +180,13 @@
 }</component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/breachato/CherryCore.git&quot;,
+    &quot;url&quot;: &quot;https://github.com/breachato/DistrictRP.git&quot;,
     &quot;accountId&quot;: &quot;15d14a22-37cb-4ef1-9dc0-e9881ebe26c7&quot;
   }
 }</component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.spigotmc/spigot-api/1.20.1-R0.1-SNAPSHOT/db707b55ae958245adecc7f15b611e1a571e7fe4/spigot-api-1.20.1-R0.1-SNAPSHOT-sources.jar!/org/bukkit/configuration/file/YamlConfiguration.java" root0="FORCE_HIGHLIGHTING" />
+  </component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
   </component>
@@ -97,18 +209,24 @@
     &quot;Gradle.FluentCore [build].executor&quot;: &quot;Run&quot;,
     &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
     &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/krythh/IdeaProjects/FluentCore&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/krythh/IdeaProjects/DistrictRP/src/main/java/dev/breach/DistrictRP/commands&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;org.jetbrains.plugins.github.ui.GithubSettingsConfigurable&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\krythh\IdeaProjects\DistrictRP\src\main\java\dev\breach\DistrictRP\commands" />
+    </key>
+  </component>
   <component name="RunManager" selected="Gradle.FluentCore [build]">
     <configuration name="Build" type="GradleRunConfiguration" factoryName="Gradle">
       <ExternalSystemSettings>
@@ -242,7 +360,15 @@
       <option name="project" value="LOCAL" />
       <updated>1781004555109</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary=",">
+      <option name="closed" value="true" />
+      <created>1781009678005</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1781009678005</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

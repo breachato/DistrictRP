@@ -1,0 +1,217 @@
+package dev.breach.DistrictRP.commands.roleplay;
+
+import dev.breach.DistrictRP.DistrictRP;
+import dev.breach.DistrictRP.commands.roleplay.appuntamenti.AppuntamentoCommand;
+import dev.breach.DistrictRP.commands.roleplay.appuntamenti.AppuntamentoGUI;
+import dev.breach.DistrictRP.commands.roleplay.appuntamenti.AppuntamentoManager;
+import dev.breach.DistrictRP.commands.roleplay.bots.BotManager;
+import dev.breach.DistrictRP.commands.roleplay.chat.*;
+import dev.breach.DistrictRP.commands.roleplay.emoji.EmojiCommand;
+import dev.breach.DistrictRP.commands.roleplay.emoji.EmojiGUI;
+import dev.breach.DistrictRP.commands.roleplay.emoji.EmojiListener;
+import dev.breach.DistrictRP.commands.roleplay.emoji.EmojiManager;
+import dev.breach.DistrictRP.commands.roleplay.logs.LogsAPI;
+import dev.breach.DistrictRP.commands.roleplay.logs.LogsCommand;
+import dev.breach.DistrictRP.commands.roleplay.playtime.PlaytimeCommand;
+import dev.breach.DistrictRP.commands.roleplay.playtime.PlaytimeTracker;
+import dev.breach.DistrictRP.commands.roleplay.profile.JobService;
+import dev.breach.DistrictRP.commands.roleplay.profile.ProfileCommand;
+import dev.breach.DistrictRP.commands.roleplay.profile.RPProfileManager;
+import dev.breach.DistrictRP.commands.roleplay.protection.ProtectionCommand;
+import dev.breach.DistrictRP.commands.roleplay.protection.ProtectionInteractionsGUI;
+import dev.breach.DistrictRP.commands.roleplay.protection.ProtectionListener;
+import dev.breach.DistrictRP.commands.roleplay.protection.ProtectionManager;
+import dev.breach.DistrictRP.commands.roleplay.stafflist.StaffListCommand;
+import dev.breach.DistrictRP.commands.roleplay.stuck.StuckCommand;
+import dev.breach.DistrictRP.commands.roleplay.supporto.SupportoCommand;
+import dev.breach.DistrictRP.commands.roleplay.supporto.SupportoListener;
+import dev.breach.DistrictRP.commands.roleplay.ticket.TicketCategoryGUI;
+import dev.breach.DistrictRP.commands.roleplay.ticket.TicketCommand;
+import dev.breach.DistrictRP.commands.roleplay.ticket.TicketManager;
+import dev.breach.DistrictRP.commands.roleplay.ticket.TicketQuickRepliesGUI;
+import dev.breach.DistrictRP.commands.roleplay.vanish.VanishTabHandler;
+import org.bukkit.Bukkit;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandMap;
+import org.bukkit.command.PluginCommand;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+
+public class RoleplayModule {
+
+    private final DistrictRP plugin;
+
+    private RPProfileManager profileManager;
+    private JobService jobService;
+    private PlaytimeTracker playtimeTracker;
+    private TicketManager ticketManager;
+    private TicketCategoryGUI ticketGui;
+    private TicketQuickRepliesGUI ticketQuickRepliesGUI;
+    private AppuntamentoManager appuntamentoManager;
+    private ChatSymManager chatSymManager;
+    private EmojiManager emojiManager;
+    private LogsAPI logsAPI;
+    private BotManager botManager;
+    private ProtectionManager protectionManager;
+    private VanishTabHandler vanishTabHandler;
+    private dev.breach.DistrictRP.commands.ChatGate.ChatGate chatGate;
+
+    public RoleplayModule(DistrictRP plugin) {
+        this.plugin = plugin;
+    }
+
+    public void enable() {
+        profileManager = new RPProfileManager(plugin);
+        jobService = new JobService(plugin, profileManager);
+        playtimeTracker = new PlaytimeTracker(plugin);
+        ticketManager = new TicketManager(plugin);
+        appuntamentoManager = new AppuntamentoManager(plugin);
+        chatSymManager = new ChatSymManager(plugin);
+        emojiManager = new EmojiManager(plugin);
+        logsAPI = new LogsAPI(plugin);
+
+        chatGate = new dev.breach.DistrictRP.commands.ChatGate.ChatGate(plugin);
+        chatGate.enable();
+
+        botManager = new BotManager(plugin);
+        botManager.enable();
+
+        if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
+            new RoleplayPlaceholders(plugin, profileManager, playtimeTracker, ticketManager).register();
+            plugin.getLogger().info("PlaceholderAPI hookato -> %districtrp_...%");
+        }
+
+        Bukkit.getPluginManager().registerEvents(new ChatModule(plugin, profileManager), plugin);
+        plugin.getCommand("azione").setExecutor(new AzioneCommand(plugin));
+        plugin.getCommand("bisbiglio").setExecutor(new BisbiglioCommand(plugin));
+        plugin.getCommand("urlo").setExecutor(new UrloCommand(plugin));
+        plugin.getCommand("chatsym").setExecutor(new ChatSymCommand(plugin, chatSymManager));
+        Bukkit.getPluginManager().registerEvents(new ChatSymListener(plugin, chatSymManager), plugin);
+
+        ProfileCommand profileCmd = new ProfileCommand(plugin, profileManager);
+        if (plugin.getCommand("profilo") != null) {
+            plugin.getCommand("profilo").setExecutor(profileCmd);
+            plugin.getCommand("profilo").setTabCompleter(profileCmd);
+        }
+
+        EmojiGUI emojiGUI = new EmojiGUI(plugin, emojiManager);
+        EmojiCommand emojiCmd = new EmojiCommand(emojiManager);
+        emojiCmd.setGui(emojiGUI);
+        plugin.getCommand("emoji").setExecutor(emojiCmd);
+        Bukkit.getPluginManager().registerEvents(new EmojiListener(plugin, emojiManager), plugin);
+        Bukkit.getPluginManager().registerEvents(emojiGUI, plugin);
+
+        StaffListCommand slExecutor = new StaffListCommand(plugin);
+        plugin.getCommand("stafflist").setExecutor(slExecutor);
+        forceRegisterCommand("stafflist", slExecutor, "sl");
+
+        ticketGui = new TicketCategoryGUI(plugin, ticketManager);
+        Bukkit.getPluginManager().registerEvents(ticketGui, plugin);
+        TicketCommand tc = new TicketCommand(plugin, ticketManager);
+        plugin.getCommand("ticket").setExecutor(tc);
+        plugin.getCommand("ticket").setTabCompleter(tc);
+
+        ticketQuickRepliesGUI = new TicketQuickRepliesGUI(plugin, ticketManager);
+        Bukkit.getPluginManager().registerEvents(ticketQuickRepliesGUI, plugin);
+
+        SupportoListener supportoListener = new SupportoListener(plugin, ticketGui);
+        plugin.getCommand("supporto").setExecutor(new SupportoCommand(plugin, ticketGui));
+        Bukkit.getPluginManager().registerEvents(supportoListener, plugin);
+
+        plugin.getCommand("appuntamento").setExecutor(new AppuntamentoCommand(plugin, appuntamentoManager));
+        Bukkit.getPluginManager().registerEvents(new AppuntamentoGUI(plugin, appuntamentoManager), plugin);
+
+        StuckCommand stuckCmd = new StuckCommand(plugin);
+        plugin.getCommand("stuck").setExecutor(stuckCmd);
+        if (plugin.getCommand("stuck") != null) plugin.getCommand("stuck").setTabCompleter(stuckCmd);
+
+        plugin.getCommand("playtime").setExecutor(new PlaytimeCommand(plugin, playtimeTracker, profileManager));
+        Bukkit.getPluginManager().registerEvents(playtimeTracker, plugin);
+        playtimeTracker.start();
+
+        plugin.getCommand("logs").setExecutor(new LogsCommand(plugin, logsAPI));
+
+        protectionManager = new ProtectionManager(plugin);
+        ProtectionInteractionsGUI protGui = new ProtectionInteractionsGUI(plugin, protectionManager);
+        ProtectionCommand protCmd = new ProtectionCommand(plugin, protectionManager, protGui);
+        plugin.getCommand("protection").setExecutor(protCmd);
+        plugin.getCommand("protection").setTabCompleter(protCmd);
+        Bukkit.getPluginManager().registerEvents(new ProtectionListener(plugin, protectionManager), plugin);
+        Bukkit.getPluginManager().registerEvents(protGui, plugin);
+
+        vanishTabHandler = new VanishTabHandler(plugin);
+        Bukkit.getPluginManager().registerEvents(vanishTabHandler, plugin);
+        vanishTabHandler.start();
+
+        plugin.getLogger().info("RoleplayModule abilitato.");
+    }
+
+    private void forceRegisterCommand(String name, org.bukkit.command.CommandExecutor executor, String... aliases) {
+        try {
+            Field f = Bukkit.getServer().getClass().getDeclaredField("commandMap");
+            f.setAccessible(true);
+            CommandMap commandMap = (CommandMap) f.get(Bukkit.getServer());
+
+            java.lang.reflect.Field knownCmdsField = null;
+            try {
+                knownCmdsField = commandMap.getClass().getDeclaredField("knownCommands");
+            } catch (NoSuchFieldException nsf) {
+                for (java.lang.reflect.Field fld : commandMap.getClass().getSuperclass().getDeclaredFields()) {
+                    if (java.util.Map.class.isAssignableFrom(fld.getType())) {
+                        knownCmdsField = fld;
+                        break;
+                    }
+                }
+            }
+            if (knownCmdsField != null) {
+                knownCmdsField.setAccessible(true);
+                @SuppressWarnings("unchecked")
+                java.util.Map<String, Command> knownCmds = (java.util.Map<String, Command>) knownCmdsField.get(commandMap);
+                knownCmds.remove(name.toLowerCase());
+                for (String a : aliases) knownCmds.remove(a.toLowerCase());
+                for (java.util.Iterator<java.util.Map.Entry<String, Command>> it = knownCmds.entrySet().iterator(); it.hasNext();) {
+                    java.util.Map.Entry<String, Command> e = it.next();
+                    String key = e.getKey().toLowerCase();
+                    if (key.endsWith(":" + name.toLowerCase())) it.remove();
+                    for (String a : aliases) if (key.endsWith(":" + a.toLowerCase())) it.remove();
+                }
+            }
+
+            Constructor<PluginCommand> ctor = PluginCommand.class.getDeclaredConstructor(String.class, org.bukkit.plugin.Plugin.class);
+            ctor.setAccessible(true);
+            PluginCommand pc = ctor.newInstance(name, plugin);
+            pc.setExecutor(executor);
+            pc.setAliases(java.util.Arrays.asList(aliases));
+            commandMap.register("districtrp", pc);
+        } catch (Throwable t) {
+            plugin.getLogger().warning("[Roleplay] Impossibile forzare registrazione /" + name + ": " + t.getMessage());
+        }
+    }
+
+    public void disable() {
+        if (vanishTabHandler != null) vanishTabHandler.stop();
+        if (botManager != null) botManager.disable();
+        if (playtimeTracker != null) playtimeTracker.stop();
+        if (profileManager != null) profileManager.saveAll();
+        if (ticketManager != null) ticketManager.saveAll();
+        if (appuntamentoManager != null) appuntamentoManager.saveAll();
+        if (chatSymManager != null) chatSymManager.save();
+        if (chatGate != null) chatGate.disable();
+    }
+
+    public ProtectionManager getProtectionManager() { return protectionManager; }
+    public dev.breach.DistrictRP.commands.ChatGate.ChatGate getChatGate() { return chatGate; }
+    public RPProfileManager getProfileManager() { return profileManager; }
+    public JobService getJobService() { return jobService; }
+    public PlaytimeTracker getPlaytimeTracker() { return playtimeTracker; }
+    public TicketManager getTicketManager() { return ticketManager; }
+    public TicketCategoryGUI getTicketGui() { return ticketGui; }
+    public TicketQuickRepliesGUI getTicketQuickRepliesGUI() { return ticketQuickRepliesGUI; }
+    public AppuntamentoManager getAppuntamentoManager() { return appuntamentoManager; }
+    public ChatSymManager getChatSymManager() { return chatSymManager; }
+    public EmojiManager getEmojiManager() { return emojiManager; }
+    public LogsAPI getLogsAPI() { return logsAPI; }
+    public BotManager getBotManager() { return botManager; }
+    public VanishTabHandler getVanishTabHandler() { return vanishTabHandler; }
+}

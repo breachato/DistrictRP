@@ -1,0 +1,464 @@
+prefix: '&#FCD05C&lᴅɪꜱᴛʀɪᴄᴛʀᴘ &8» &r'
+
+general:
+  no-permission: '%prefix%&cɴᴏɴ ʜᴀɪ ɪʟ ᴘᴇʀᴍᴇꜱꜱᴏ ᴘᴇʀ ᴇꜱᴇɢᴜɪʀᴇ Qᴜᴇꜱᴛᴏ ᴄᴏᴍᴀɴᴅᴏ.'
+  only-player: '%prefix%&cᴄᴏᴍᴀɴᴅᴏ ᴇꜱᴇɢᴜɪʙɪʟᴇ ꜱᴏʟᴏ ᴅᴀ ᴜɴ ᴘʟᴀʏᴇʀ.'
+  player-not-found: '%prefix%&cᴘʟᴀʏᴇʀ ɴᴏɴ ᴛʀᴏᴠᴀᴛᴏ.'
+  invalid-args: '%prefix%&cᴀʀɢᴏᴍᴇɴᴛɪ ɴᴏɴ ᴠᴀʟɪᴅɪ.'
+  reloaded: '%prefix%&aᴄᴏɴꜰɪɢᴜʀᴀᴢɪᴏɴᴇ ʀɪᴄᴀʀɪᴄᴀᴛᴀ.'
+  cooldown: '%prefix%&cᴅᴇᴠɪ ᴀꜱᴘᴇᴛᴛᴀʀᴇ &#FCD05C%seconds% ꜱᴇᴄᴏɴᴅɪ &cᴘʀɪᴍᴀ ᴅɪ ʀɪᴜꜱᴀʀᴇ
+    Qᴜᴇꜱᴛᴏ ᴄᴏᴍᴀɴᴅᴏ.'
+  action-disabled: '%prefix%&cQᴜᴇꜱᴛᴀ ᴀᴢɪᴏɴᴇ è ᴀᴛᴛᴜᴀʟᴍᴇɴᴛᴇ ᴅɪꜱᴀʙɪʟɪᴛᴀᴛᴀ.'
+
+join:
+  first-time: ''
+  message: '&8+ %player%'
+  welcome-title: ''
+  welcome-subtitle: ''
+
+quit:
+  message: '&8- %player%'
+
+chat:
+  empty-message: '%prefix%&cᴅᴇᴠɪ ꜱᴄʀɪᴠᴇʀᴇ ᴜɴ ᴍᴇꜱꜱᴀɢɢɪᴏ.'
+  proximity-nobody: '&8&o(ɴᴇꜱꜱᴜɴᴏ ᴘᴜò ꜱᴇɴᴛɪʀᴛɪ Qᴜɪ ᴠɪᴄɪɴᴏ...)'
+  message-too-long: '%prefix%&cɪʟ ᴛᴜᴏ ᴍᴇꜱꜱᴀɢɢɪᴏ è ᴛʀᴏᴘᴘᴏ ʟᴜɴɢᴏ.'
+  message-blocked: '%prefix%&cɪʟ ᴛᴜᴏ ᴍᴇꜱꜱᴀɢɢɪᴏ ᴄᴏɴᴛɪᴇɴᴇ ᴘᴀʀᴏʟᴇ ɴᴏɴ ᴄᴏɴꜱᴇɴᴛɪᴛᴇ.'
+  chat-muted: '%prefix%&cʟᴀ ᴄʜᴀᴛ è ᴀᴛᴛᴜᴀʟᴍᴇɴᴛᴇ ᴍᴜᴛᴀᴛᴀ.'
+
+clearchat:
+  cleared: '%prefix%&aᴄʜᴀᴛ ᴘᴜʟɪᴛᴀ ᴅᴀ &#FCD05C%staff%&a.'
+
+spawn:
+  set: '%prefix%&aꜱᴘᴀᴡɴ ɪᴍᴘᴏꜱᴛᴀᴛᴏ ᴘᴇʀ ɪʟ ᴍᴏɴᴅᴏ &#FCD05C%world%'
+  teleported: '%prefix%&aᴛᴇʟᴇᴛʀᴀꜱᴘᴏʀᴛᴀᴛᴏ ᴀʟʟᴏ ꜱᴘᴀᴡɴ &7(%world%)'
+  world-not-found: '%prefix%&cᴍᴏɴᴅᴏ &#FCD05C%world% &cɴᴏɴ ᴛʀᴏᴠᴀᴛᴏ.'
+  no-spawn-set: '%prefix%&cɴᴇꜱꜱᴜɴᴏ ꜱᴘᴀᴡɴ ᴄᴏɴꜰɪɢᴜʀᴀᴛᴏ ᴘᴇʀ Qᴜᴇꜱᴛᴏ ᴍᴏɴᴅᴏ.'
+
+back:
+  teleported: '%prefix%&aꜱᴇɪ ᴛᴏʀɴᴀᴛᴏ ᴀʟʟᴀ ᴛᴜᴀ ᴘᴏꜱɪᴢɪᴏɴᴇ ᴘʀᴇᴄᴇᴅᴇɴᴛᴇ.'
+  no-previous: '%prefix%&cɴᴇꜱꜱᴜɴᴀ ᴘᴏꜱɪᴢɪᴏɴᴇ ᴘʀᴇᴄᴇᴅᴇɴᴛᴇ ᴅɪꜱᴘᴏɴɪʙɪʟᴇ.'
+
+fly:
+  enabled: '%prefix%&aᴠᴏʟᴏ &aᴀᴛᴛɪᴠᴀᴛᴏ.'
+  disabled: '%prefix%&cᴠᴏʟᴏ &cᴅɪꜱᴀᴛᴛɪᴠᴀᴛᴏ.'
+  enabled-other: '%prefix%&aᴠᴏʟᴏ ᴀᴛᴛɪᴠᴀᴛᴏ ᴘᴇʀ &#FCD05C%player%&a.'
+  disabled-other: '%prefix%&cᴠᴏʟᴏ ᴅɪꜱᴀᴛᴛɪᴠᴀᴛᴏ ᴘᴇʀ &#FCD05C%player%&c.'
+
+god:
+  enabled: '%prefix%&aɢᴏᴅ ᴍᴏᴅᴇ &aᴀᴛᴛɪᴠᴀᴛᴏ.'
+  disabled: '%prefix%&cɢᴏᴅ ᴍᴏᴅᴇ &cᴅɪꜱᴀᴛᴛɪᴠᴀᴛᴏ.'
+
+speed:
+  set: '%prefix%&aᴠᴇʟᴏᴄɪᴛà ɪᴍᴘᴏꜱᴛᴀᴛᴀ ᴀ &#FCD05C%speed%&a.'
+  invalid: '%prefix%&cᴠᴀʟᴏʀᴇ ɴᴏɴ ᴠᴀʟɪᴅᴏ &7(0-10)&c.'
+
+msg:
+  format-sent: '&8[&#FCD05Cᴛᴜ &8→ &#FCD05C%target%&8] &7%message%'
+  format-received: '&8[&#FCD05C%sender% &8→ &#FCD05Cᴛᴜ&8] &7%message%'
+  format-social-spy: '&8[&d&lꜱᴘʏ&8] &7%sender% &8→ &7%target%&8: &f%message%'
+  self: '%prefix%&cɴᴏɴ ᴘᴜᴏɪ ᴍᴀɴᴅᴀʀᴇ ᴜɴ ᴍᴇꜱꜱᴀɢɢɪᴏ ᴀ ᴛᴇ ꜱᴛᴇꜱꜱᴏ.'
+  no-reply-target: '%prefix%&cɴᴇꜱꜱᴜɴᴏ ᴀ ᴄᴜɪ ʀɪꜱᴘᴏɴᴅᴇʀᴇ.'
+  target-offline: '%prefix%&cɪʟ ᴅᴇꜱᴛɪɴᴀᴛᴀʀɪᴏ ɴᴏɴ è ᴏɴʟɪɴᴇ.'
+
+gamemode:
+  changed: '%prefix%&aᴍᴏᴅᴀʟɪᴛà ᴅɪ ɢɪᴏᴄᴏ ɪᴍᴘᴏꜱᴛᴀᴛᴀ ᴀ &#FCD05C%mode%&a.'
+  changed-other: '%prefix%&aᴍᴏᴅᴀʟɪᴛà ᴅɪ &#FCD05C%player% &aɪᴍᴘᴏꜱᴛᴀᴛᴀ ᴀ &#FCD05C%mode%&a.'
+
+invsee:
+  opened: '%prefix%&aꜱᴛᴀɪ ɪꜱᴘᴇᴢɪᴏɴᴀɴᴅᴏ ʟ''ɪɴᴠᴇɴᴛᴀʀɪᴏ ᴅɪ &#FCD05C%player%&a.'
+
+enderchest:
+  opened-self: '%prefix%&aᴀᴘᴇʀᴛᴀ ʟᴀ ᴛᴜᴀ ᴇɴᴅᴇʀ ᴄʜᴇꜱᴛ.'
+  opened-other: '%prefix%&aᴀᴘᴇʀᴛᴀ ʟᴀ ᴇɴᴅᴇʀ ᴄʜᴇꜱᴛ ᴅɪ &#FCD05C%player%&a.'
+
+clear:
+  self: '%prefix%&aɪɴᴠᴇɴᴛᴀʀɪᴏ ꜱᴠᴜᴏᴛᴀᴛᴏ.'
+  other: '%prefix%&aɪɴᴠᴇɴᴛᴀʀɪᴏ ᴅɪ &#FCD05C%player% &aꜱᴠᴜᴏᴛᴀᴛᴏ.'
+
+tphere:
+  success: '%prefix%&aʜᴀɪ ᴛᴇʟᴇᴛʀᴀꜱᴘᴏʀᴛᴀᴛᴏ &#FCD05C%player% &aᴅᴀ ᴛᴇ.'
+
+tpall:
+  success: '%prefix%&aᴛᴜᴛᴛɪ ɪ ɢɪᴏᴄᴀᴛᴏʀɪ ꜱᴏɴᴏ ꜱᴛᴀᴛɪ ᴛᴇʟᴇᴛʀᴀꜱᴘᴏʀᴛᴀᴛɪ ᴅᴀ ᴛᴇ &7(%count%)&a.'
+
+vanish:
+  enabled: '%prefix%&aꜱᴇɪ ᴏʀᴀ ɪɴ &fᴠᴀɴɪꜱʜ&a.'
+  disabled: '%prefix%&7ɴᴏɴ ꜱᴇɪ ᴘɪù ɪɴ &fᴠᴀɴɪꜱʜ&c.'
+
+nick:
+  set: '%prefix%&aɪʟ ᴛᴜᴏ ɴɪᴄᴋ è ꜱᴛᴀᴛᴏ ᴄᴀᴍʙɪᴀᴛᴏ ɪɴ &#FCD05C%nick%&a.'
+  reset: '%prefix%&aɪʟ ᴛᴜᴏ ɴɪᴄᴋ è ꜱᴛᴀᴛᴏ ʀᴇꜱᴇᴛᴛᴀᴛᴏ.'
+
+chatsym:
+  help:
+    - '&#FCD05C&l⓵ &r&#FCD05C/ᴄʜᴀᴛꜱʏᴍ'
+    - ''
+    - '&#FCD05C» &r&#FCD05C/ᴄʜᴀᴛꜱʏᴍ ᴀɢɢɪᴜɴɢɪ &7<ɴᴏᴍᴇ> <ꜱɪᴍʙᴏʟᴏ>'
+    - '&#FCD05C» &r&#FCD05C/ᴄʜᴀᴛꜱʏᴍ ʀɪᴍᴜᴏᴠɪ &7<ꜱɪᴍʙᴏʟᴏ>'
+  added: '%prefix%&aꜱɪᴍʙᴏʟᴏ &#FCD05C%symbol% &aᴀɢɢɪᴜɴᴛᴏ ᴀʟ ᴄᴏᴍᴀɴᴅᴏ &#FCD05C/%command%'
+  removed: '%prefix%&aꜱɪᴍʙᴏʟᴏ &#FCD05C%symbol% &aʀɪᴍᴏꜱꜱᴏ.'
+  not-found: '%prefix%&cQᴜᴇʟ ꜱɪᴍʙᴏʟᴏ ɴᴏɴ ᴇꜱɪꜱᴛᴇ.'
+  already-exists: '%prefix%&cQᴜᴇʟ ꜱɪᴍʙᴏʟᴏ è ɢɪà ʀᴇɢɪꜱᴛʀᴀᴛᴏ.'
+
+emoji:
+  no-access: '%prefix%&cɴᴏɴ ʜᴀɪ ᴀᴄᴄᴇꜱꜱᴏ ᴀʟʟᴇ ᴇᴍᴏᴊɪ.'
+  gui-info: '&7ᴄʟɪᴄᴄᴀ ᴜɴ''ᴇᴍᴏᴊɪ ᴘᴇʀ ɪɴᴠɪᴀʀʟᴀ ɪɴ ᴄʜᴀᴛ.'
+
+stafflist:
+  header: '&#FCD05Cʟɪꜱᴛᴀ ᴅᴇʟʟᴏ &a&lꜱᴛᴀꜰꜰ ᴏɴʟɪɴᴇ'
+  empty: '%prefix%&cɴᴇꜱꜱᴜɴᴏ ꜱᴛᴀꜰꜰ ᴏɴʟɪɴᴇ.'
+  footer: '&8&m                                                                '
+
+ticket:
+  help-player:
+    - '&#FFB300&l⓵ &r&#FFB300/ᴛɪᴄᴋᴇᴛ'
+    - ''
+    - '&#FFB300» &r&#FFB300/ᴛɪᴄᴋᴇᴛ ᴄʀᴇᴀ &7<ᴍᴏᴛɪᴠᴏ>'
+    - '&#FFB300» &r&#FFB300/ᴛɪᴄᴋᴇᴛ ᴄʜɪᴜᴅɪ &7<ɪᴅ>'
+    - '&#FFB300» &r&#FFB300/ᴛɪᴄᴋᴇᴛ ɪɴꜰᴏ &7<ɪᴅ>'
+    - '&#FFB300» &r&#FFB300/ᴛɪᴄᴋᴇᴛ ᴄᴏᴍᴍᴇɴᴛᴀ &7<ɪᴅ> <ᴄᴏᴍᴍᴇɴᴛᴏ>'
+    - '&#FFB300» &r&#FFB300/ᴛɪᴄᴋᴇᴛ ʟɪꜱᴛᴀ'
+  help-staff:
+    - '&#FFB300&l⓵ &r&#FFB300/ᴛɪᴄᴋᴇᴛ'
+    - ''
+    - '&#FFB300» &r&#FFB300/ᴛɪᴄᴋᴇᴛ ᴄʀᴇᴀ &7<ᴍᴏᴛɪᴠᴏ>'
+    - '&#FFB300» &r&#FFB300/ᴛɪᴄᴋᴇᴛ ᴄʟᴀɪᴍ &7<ɪᴅ>'
+    - '&#FFB300» &r&#FFB300/ᴛɪᴄᴋᴇᴛ ᴜɴᴄʟᴀɪᴍ &7<ɪᴅ>'
+    - '&#FFB300» &r&#FFB300/ᴛɪᴄᴋᴇᴛ ᴄʜɪᴜᴅɪ &7<ɪᴅ> <ᴍᴏᴛɪᴠᴏ>'
+    - '&#FFB300» &r&#FFB300/ᴛɪᴄᴋᴇᴛ ɪɴꜰᴏ &7<ɪᴅ>'
+    - '&#FFB300» &r&#FFB300/ᴛɪᴄᴋᴇᴛ ᴄᴀᴛᴇɢᴏʀɪᴀ &7<ɪᴅ> <ᴄᴀᴛᴇɢᴏʀɪᴀ>'
+    - '&#FFB300» &r&#FFB300/ᴛɪᴄᴋᴇᴛ ʀɪᴀᴘʀɪ &7<ɪᴅ>'
+    - '&#FFB300» &r&#FFB300/ᴛɪᴄᴋᴇᴛ ᴄᴏᴍᴍᴇɴᴛᴀ &7<ɪᴅ> <ᴄᴏᴍᴍᴇɴᴛᴏ>'
+    - '&#FFB300» &r&#FFB300/ᴛɪᴄᴋᴇᴛ ʟɪꜱᴛᴀ &7<ᴜꜱᴇʀ> <ᴘᴀɢɪɴᴀ> <ᴄᴀᴛᴇɢᴏʀɪᴀ>'
+    - '&#FFB300» &r&#FFB300/ᴛɪᴄᴋᴇᴛ ᴀʟʟ &7<ᴘᴀɢɪɴᴀ> <ᴄᴀᴛᴇɢᴏʀɪᴀ>'
+    - '&#FFB300» &r&#FFB300/ᴛɪᴄᴋᴇᴛ ᴀᴘᴇʀᴛɪ &7<ᴘᴀɢɪɴᴀ> <ᴄᴀᴛᴇɢᴏʀɪᴀ>'
+  help-hover:
+    crea: '&#55FF55ᴄʀᴇᴀ ᴜɴ ɴᴜᴏᴠᴏ ᴛɪᴄᴋᴇᴛ'
+    claim: '&#00D4FFᴘʀᴇɴᴅɪ ɪɴ ᴄᴀʀɪᴄᴏ ᴜɴ ᴛɪᴄᴋᴇᴛ'
+    unclaim: '&#FFB347ᴜɴᴄʟᴀɪᴍᴀ ᴜɴ ᴛɪᴄᴋᴇᴛ'
+    chiudi: '&#FF5555ᴄʜɪᴜᴅɪ ᴜɴ ᴛɪᴄᴋᴇᴛ'
+    info: '&#55AAFFᴠɪꜱᴜᴀʟɪᴢᴢᴀ ɪɴꜰᴏʀᴍᴀᴢɪᴏɴɪ ᴛɪᴄᴋᴇᴛ'
+    categoria: '&#C77DFFᴄᴀᴍʙɪᴀ ᴄᴀᴛᴇɢᴏʀɪᴀ ᴅᴇʟ ᴛɪᴄᴋᴇᴛ'
+    riapri: '&#55FF55ʀɪᴀᴘʀɪ ᴜɴ ᴛɪᴄᴋᴇᴛ'
+    commenta: '&#FFD54Fᴀɢɢɪᴜɴɢɪ ᴜɴ ᴄᴏᴍᴍᴇɴᴛᴏ'
+    lista: '&#AAAAAAʟɪꜱᴛᴀ ᴛɪᴄᴋᴇᴛ ᴅɪ ᴜɴ ᴜᴛᴇɴᴛᴇ'
+    all: '&#F7C948ʟɪꜱᴛᴀ ᴛᴜᴛᴛɪ ɪ ᴛɪᴄᴋᴇᴛ'
+    aperti: '&#00E676ʟɪꜱᴛᴀ ᴛɪᴄᴋᴇᴛ ᴀᴘᴇʀᴛɪ'
+  created: '%prefix%&aᴛɪᴄᴋᴇᴛ &#FCD05C#%id% &acʀᴇᴀᴛᴏ ᴄᴏɴ ꜱᴜᴄᴄᴇꜱꜱᴏ!'
+  closed: '%prefix%&aᴛɪᴄᴋᴇᴛ &#FCD05C#%id% &acʜɪᴜꜱᴏ.'
+  not-found: '%prefix%&cᴛɪᴄᴋᴇᴛ ɴᴏɴ ᴛʀᴏᴠᴀᴛᴏ.'
+  not-yours: '%prefix%&cQᴜᴇꜱᴛᴏ ᴛɪᴄᴋᴇᴛ ɴᴏɴ è ᴛᴜᴏ.'
+  already-closed: '%prefix%&cQᴜᴇꜱᴛᴏ ᴛɪᴄᴋᴇᴛ è ɢɪà ᴄʜɪᴜꜱᴏ.'
+  reopened: '%prefix%&aᴛɪᴄᴋᴇᴛ &#FCD05C#%id% &aʀɪᴀᴘᴇʀᴛᴏ.'
+  claimed: '%prefix%&aᴛɪᴄᴋᴇᴛ &#FCD05C#%id% &aᴘʀᴇꜱᴏ ɪɴ ᴄᴀʀɪᴄᴏ ᴅᴀ &#FCD05C%staff%'
+  unclaimed: '%prefix%&aᴛɪᴄᴋᴇᴛ &#FCD05C#%id% &aᴜɴᴄʟᴀɪᴍᴀᴛᴏ.'
+  category-changed: '%prefix%&aᴄᴀᴛᴇɢᴏʀɪᴀ ᴅᴇʟ ᴛɪᴄᴋᴇᴛ &#FCD05C#%id% &aᴄᴀᴍʙɪᴀᴛᴀ ɪɴ &#FCD05C%category%'
+  comment-added: '%prefix%&aᴄᴏᴍᴍᴇɴᴛᴏ ᴀɢɢɪᴜɴᴛᴏ ᴀʟ ᴛɪᴄᴋᴇᴛ &#FCD05C#%id%'
+  comment-cancelled-by-staff: '%prefix%&cᴄᴏᴍᴍᴇɴᴛᴏ ᴄᴀɴᴄᴇʟʟᴀᴛᴏ.'
+  comment-cancelled: '%prefix%&cᴄᴏᴍᴍᴇɴᴛᴏ ᴀɴɴᴜʟʟᴀᴛᴏ.'
+  comment-cancelled-placeholder: '*ᴄᴏᴍᴍᴇɴᴛᴏ ᴄᴀɴᴄᴇʟʟᴀᴛᴏ*'
+  comment-prompt: '%prefix%&7ꜱᴄʀɪᴠɪ ɪʟ ᴄᴏᴍᴍᴇɴᴛᴏ ɪɴ ᴄʜᴀᴛ. ᴅɪɢɪᴛᴀ &c&lᴀɴɴᴜʟʟᴀ &7ᴘᴇʀ
+    ᴀɴɴᴜʟʟᴀʀᴇ.'
+  staff-notify: '%prefix%&#FCD05C%player% &7ʜᴀ ᴄʀᴇᴀᴛᴏ ɪʟ ᴛɪᴄᴋᴇᴛ &#FCD05C#%id% &7[&f%category%&7]:
+    &f%reason%'
+  player-notify-claimed: '%prefix%&aɪʟ ᴛᴜᴏ ᴛɪᴄᴋᴇᴛ &#FCD05C#%id% &aè ꜱᴛᴀᴛᴏ ᴘʀᴇꜱᴏ ɪɴ
+    ᴄᴀʀɪᴄᴏ ᴅᴀ &#FCD05C%staff%'
+  player-notify-closed: '%prefix%&cɪʟ ᴛᴜᴏ ᴛɪᴄᴋᴇᴛ &#FCD05C#%id% &cè ꜱᴛᴀᴛᴏ ᴄʜɪᴜꜱᴏ ᴅᴀ
+    &#FCD05C%staff%'
+  player-notify-comment: '%prefix%&aè ꜱᴛᴀᴛᴏ ᴀɢɢɪᴜɴᴛᴏ ᴜɴ ɴᴜᴏᴠᴏ ᴄᴏᴍᴍᴇɴᴛᴏ ᴀʟ ᴛᴜᴏ ᴛɪᴄᴋᴇᴛ
+    &#FCD05C#%id%'
+  info:
+    separator: '&8&m                                                                '
+    title: '&aᴛɪᴄᴋᴇᴛ &#FCD05C#%id% &7[&#FCD05Cɪɴꜰᴏʀᴍᴀᴢɪᴏɴɪ&7]'
+    creator: '&7ᴄʀᴇᴀᴛᴏʀᴇ &8» &f%author%'
+    category: '&7ᴄᴀᴛᴇɢᴏʀɪᴀ &8» &#FCD05C%category%'
+    description: '&7ᴅᴇꜱᴄʀɪᴢɪᴏɴᴇ &8» &f%reason%'
+    comments-title: '&aᴄᴏᴍᴍᴇɴᴛɪ'
+    comment-entry: '&7%commenter% &8» &7%comment%'
+    no-comments: '&7ɴᴇꜱꜱᴜɴ ᴄᴏᴍᴍᴇɴᴛᴏ.'
+  info-hover:
+    title-open:
+      - '&7ꜱᴛᴀᴛᴏ &8» &aᴀᴘᴇʀᴛᴏ'
+      - '&7ᴅᴀᴛᴀ &8» &f%date%'
+      - '&7ᴘʀᴇꜱᴀ ɪɴ ᴄᴀʀɪᴄᴏ &8» &#FCD05C%staff%'
+    title-open-unclaimed:
+      - '&7ꜱᴛᴀᴛᴏ &8» &aᴀᴘᴇʀᴛᴏ'
+      - '&7ᴅᴀᴛᴀ &8» &f%date%'
+      - '&7ᴘʀᴇꜱᴀ ɪɴ ᴄᴀʀɪᴄᴏ &8» &7ɴᴇꜱꜱᴜɴᴏ'
+    title-closed:
+      - '&7ꜱᴛᴀᴛᴏ &8» &cᴄʜɪᴜꜱᴏ'
+      - '&7ᴅᴀᴛᴀ &8» &f%date%'
+      - '&7ᴘʀᴇꜱᴀ ɪɴ ᴄᴀʀɪᴄᴏ &8» &#FCD05C%staff%'
+    creator: '&#FCD05Cᴄʟɪᴄᴄᴀ ᴘᴇʀ ᴄᴏᴘɪᴀʀᴇ'
+    comment-user:
+      - '&7ᴅᴀᴛᴀ &8» &f%date%'
+      - '&7ʀᴜᴏʟᴏ &8» &aᴜᴛᴇɴᴛᴇ'
+    comment-staff:
+      - '&7ᴅᴀᴛᴀ &8» &f%date%'
+      - '&7ʀᴜᴏʟᴏ &8» &cꜱᴛᴀꜰꜰ'
+      - ''
+      - '&#FCD05Cᴄʟɪᴄᴄᴀ ᴘᴇʀ ᴄᴀɴᴄᴇʟʟᴀʀᴇ ɪʟ ᴄᴏᴍᴍᴇɴᴛᴏ'
+    action-commenta: '&#FCD05Cᴄʟɪᴄᴄᴀ ᴘᴇʀ ᴄᴏᴍᴍᴇɴᴛᴀʀᴇ'
+    action-claim: '&#FCD05Cᴄʟɪᴄᴄᴀ ᴘᴇʀ ᴘʀᴇɴᴅᴇʀᴇ ɪɴ ᴄᴀʀɪᴄᴏ'
+    action-unclaim: '&#FCD05Cᴄʟɪᴄᴄᴀ ᴘᴇʀ ʀɪʟᴀꜱᴄɪᴀʀᴇ'
+    action-chiudi: '&#FCD05Cᴄʟɪᴄᴄᴀ ᴘᴇʀ ᴄʜɪᴜᴅᴇʀᴇ'
+    action-riapri: '&#FCD05Cᴄʟɪᴄᴄᴀ ᴘᴇʀ ʀɪᴀᴘʀɪʀᴇ'
+    action-rapide: '&#FCD05Cᴄʟɪᴄᴄᴀ ᴘᴇʀ ꜱᴇʟᴇᴢɪᴏɴᴀʀᴇ ᴜɴᴀ ʀɪꜱᴘᴏꜱᴛᴀ ʀᴀᴘɪᴅᴀ'
+  actions:
+    label: '&aᴀᴢɪᴏɴɪ ʀᴀᴘɪᴅᴇ '
+    btn-commenta: '&8[&#FCD05Cᴄᴏᴍᴍᴇɴᴛᴀ&8]'
+    btn-claim: '&8[&#FCD05Cᴄʟᴀɪᴍ&8]'
+    btn-unclaim: '&8[&#FCD05Cᴜɴᴄʟᴀɪᴍ&8]'
+    btn-chiudi: '&8[&#FCD05Cᴄʜɪᴜᴅɪ&8]'
+    btn-riapri: '&8[&#FCD05Cʀɪᴀᴘʀɪ&8]'
+    btn-rapide: '&8[&#FCD05Cʀ. ʀᴀᴘɪᴅᴇ&8]'
+  list:
+    header-player: '&aᴛɪᴄᴋᴇᴛꜱ ᴅɪ &#FCD05C%player% &7(%count%)'
+    header-claimed: '&aᴛɪᴄᴋᴇᴛꜱ &#FCD05Cᴄʟᴀɪᴍᴀᴛɪ'
+    header-all: '&aᴛᴜᴛᴛɪ ɪ ᴛɪᴄᴋᴇᴛꜱ &7(%count%)'
+    header-open: '&aᴛɪᴄᴋᴇᴛꜱ &#FCD05Cᴀᴘᴇʀᴛɪ &7(%count%)'
+    entry-open: '&ao &#FCD05C#%id% &f%author% &7(%comments% &8✉&7) &8» &7%extra%'
+    entry-closed: '&8o &7#%id% &7%author% &7(%comments% &8✉&7) &8» &cᴄʜɪᴜꜱᴏ &a✔'
+    extra-waiting: ɪɴ ᴀᴛᴛᴇꜱᴀ ᴅᴇʟ &#FCD05Cɢɪᴏᴄᴀᴛᴏʀᴇ
+    extra-open: '&aᴀᴘᴇʀᴛᴏ'
+    entry-hover-claimed:
+      - '&aᴘʀᴇꜱᴏ ɪɴ ᴄᴀʀɪᴄᴏ ᴅᴀ &#FCD05C%staff%'
+      - ''
+      - '&#FCD05Cᴄʟɪᴄᴄᴀ ᴘᴇʀ ᴠɪꜱᴜᴀʟɪᴢᴢᴀʀᴇ'
+    entry-hover-open:
+      - '&#FCD05Cᴄʟɪᴄᴄᴀ ᴘᴇʀ ᴠɪꜱᴜᴀʟɪᴢᴢᴀʀᴇ'
+    next-page: '&#FCD05C→'
+    prev-page: '&#FCD05C←'
+    next-hover: '&#FCD05Cᴘᴀɢɪɴᴀ ꜱᴜᴄᴄᴇꜱꜱɪᴠᴀ'
+    prev-hover: '&#FCD05Cᴘᴀɢɪɴᴀ ᴘʀᴇᴄᴇᴅᴇɴᴛᴇ'
+  quick-replies-gui-title: '&8ʀɪꜱᴘᴏꜱᴛᴇ ʀᴀᴘɪᴅᴇ &7- &f%category%'
+  quick-replies-hover: '&#FCD05Cᴄʟɪᴄᴄᴀ ᴘᴇʀ ɪɴᴠɪᴀʀᴇ'
+  quick-replies-category:
+    name: '&#FCD05C&lʀɪꜱᴘᴏꜱᴛᴇ ʀᴀᴘɪᴅᴇ &7- &f%category%'
+    lore:
+      - ''
+      - '&7ᴄᴀᴛᴇɢᴏʀɪᴀ ᴅɪ ʀɪꜱᴘᴏꜱᴛᴇ ʀᴀᴘɪᴅᴇ'
+      - ''
+      - '&#FCD05Cᴄʟɪᴄᴄᴀ ᴘᴇʀ ᴀᴘʀɪʀᴇ'
+  quick-replies-select-gui-title: '&8ꜱᴇʟᴇᴢɪᴏɴᴀ ᴄᴀᴛᴇɢᴏʀɪᴀ'
+
+supporto:
+  message:
+    - ''
+    - '&a&lᴀꜱꜱɪꜱᴛᴇɴᴢᴀ &#FCD05C&lʀᴀᴘɪᴅᴀ'
+    - '&7ᴛʀᴀᴍɪᴛᴇ Qᴜᴇꜱᴛᴏ ꜱɪꜱᴛᴇᴍᴀ ᴘᴜᴏɪ ʀɪᴄʜɪᴇᴅᴇʀᴇ &fꜱᴜᴘᴘᴏʀᴛᴏ ʀᴀᴘɪᴅᴏ ᴠᴏᴄᴀʟᴇ &7ᴅᴀ'
+    - '&7ᴇꜰꜰᴇᴛᴛᴜᴀʀꜱɪ ꜱᴜ ᴅɪꜱᴄᴏʀᴅ. ᴄʟɪᴄᴄᴀ Qᴜᴀ ꜱᴏᴛᴛᴏ ᴘᴇʀ ᴄᴏɴᴛɪɴᴜᴀʀᴇ, ᴍᴀ ꜱᴏʟᴏ ꜱᴇ ʜᴀɪ'
+    - '&7ᴇꜰꜰᴇᴛᴛɪᴠᴏ ʙɪꜱᴏɢɴᴏ ᴅɪ ꜱᴜᴘᴘᴏʀᴛᴏ, ᴀʟᴛʀɪᴍᴇɴᴛɪ ᴘᴏᴛʀᴇꜱᴛɪ ᴇꜱꜱᴇʀᴇ ꜱᴀɴᴢɪᴏɴᴀᴛᴏ!'
+    - ''
+    - '&a&l» &a[ᴄᴏɴᴛɪɴᴜᴀ] &a&l«'
+    - ''
+  hover-continue: '&#FCD05Cᴄʟɪᴄᴄᴀ ᴘᴇʀ ᴀᴘʀɪʀᴇ'
+  requested: '%prefix%&aʀɪᴄʜɪᴇꜱᴛᴀ ᴅɪ ꜱᴜᴘᴘᴏʀᴛᴏ ɪɴᴠɪᴀᴛᴀ. ᴀᴛᴛᴇɴᴅɪ ʟᴏ ꜱᴛᴀꜰꜰ.'
+  staff-notify: '%prefix%&#FCD05C%player% &7ʜᴀ ʀɪᴄʜɪᴇꜱᴛᴏ ꜱᴜᴘᴘᴏʀᴛᴏ! &7ᴄᴀᴛᴇɢᴏʀɪᴀ: &f%category%'
+  started: '%prefix%&aꜱᴜᴘᴘᴏʀᴛᴏ ɪɴɪᴢɪᴀᴛᴏ ᴄᴏɴ &#FCD05C%player%'
+  ended: '%prefix%&cꜱᴜᴘᴘᴏʀᴛᴏ ᴛᴇʀᴍɪɴᴀᴛᴏ ᴄᴏɴ &#FCD05C%player%'
+  player-started: '%prefix%&aɪʟ ꜱᴜᴘᴘᴏʀᴛᴏ ᴄᴏɴ &#FCD05C%staff% &aè ɪɴɪᴢɪᴀᴛᴏ, ʀᴇᴄᴀᴛɪ
+    ɴᴇʟ ᴄᴀɴᴀʟᴇ ᴀᴛᴛᴇꜱᴀ ꜱᴜᴘᴘᴏʀᴛᴏ ꜱᴜʟ ɴᴏꜱᴛʀᴏ ᴅɪꜱᴄᴏʀᴅ!'
+  player-ended: '%prefix%&cɪʟ ꜱᴜᴘᴘᴏʀᴛᴏ ᴄᴏɴ &#FCD05C%staff% &cè ᴛᴇʀᴍɪɴᴀᴛᴏ.'
+  discord-channel-created: '%prefix%&aᴄᴀɴᴀʟᴇ ᴅɪꜱᴄᴏʀᴅ ᴄʀᴇᴀᴛᴏ: &#FCD05C%channel%'
+  discord-channel-deleted: '%prefix%&cᴄᴀɴᴀʟᴇ ᴅɪꜱᴄᴏʀᴅ ʀɪᴍᴏꜱꜱᴏ.'
+
+appuntamenti:
+  select-reparto: '&#FCD05C&lꜱᴇʟᴇᴢɪᴏɴᴀ &a&lᴄᴀᴛᴇɢᴏʀɪᴀ'
+  reparto-entry: '&8| &7%name%'
+  hover-reparto: '&#FCD05Cꜱᴇʟᴇᴢɪᴏɴᴀ %name%'
+  select-giorno: '&#FCD05C&lꜱᴇʟᴇᴢɪᴏɴᴀ &a&lɢɪᴏʀɴᴏ'
+  giorno-entry: '&8| &7%day%'
+  hover-giorno: '&#FCD05Cꜱᴇʟᴇᴢɪᴏɴᴀ %day%'
+  select-fascia: '&#FCD05C&lꜱᴇʟᴇᴢɪᴏɴᴀ &a&lꜰᴀꜱᴄɪᴀ &7[%page%/%pages%]'
+  fascia-entry: '&8| &7%time%'
+  hover-fascia: '&#FCD05Cꜱᴇʟᴇᴢɪᴏɴᴀ ᴏʀᴀʀɪᴏ %time%'
+  avanti: '&a&lᴀᴠᴀɴᴛɪ ▶'
+  indietro: ◀ &a&lɪɴᴅɪᴇᴛʀᴏ
+  hover-avanti: '&#FCD05Cᴘᴀɢɪɴᴀ ꜱᴜᴄᴄᴇꜱꜱɪᴠᴀ'
+  hover-indietro: '&#FCD05Cᴘᴀɢɪɴᴀ ᴘʀᴇᴄᴇᴅᴇɴᴛᴇ'
+  booked: '%prefix%&aᴀᴘᴘᴜɴᴛᴀᴍᴇɴᴛᴏ ꜰɪꜱꜱᴀᴛᴏ ᴘᴇʀ &#FCD05C%day% &aᴀʟʟᴇ &#FCD05C%time%
+    &aᴄᴏɴ &#FCD05C%reparto%'
+  no-slots: '%prefix%&cQᴜᴇꜱᴛᴏ ᴏʀᴀʀɪᴏ è ɢɪà ᴏᴄᴄᴜᴘᴀᴛᴏ!.'
+  staff-notify: '%prefix%&#FCD05C%player% &7ʜᴀ ꜰɪꜱꜱᴀᴛᴏ ᴜɴ ᴀᴘᴘᴜɴᴛᴀᴍᴇɴᴛᴏ ᴄᴏɴ &f%reparto%
+    &7ᴘᴇʀ &f%day% %time%'
+  cancelled: '%prefix%&cᴀᴘᴘᴜɴᴛᴀᴍᴇɴᴛᴏ ᴀɴɴᴜʟʟᴀᴛᴏ.'
+
+stuck:
+  wait-title: '&a&lᴀᴛᴛᴇɴᴅɪ &7ꜱᴇɴᴢᴀ ᴍᴜᴏᴠᴇʀᴛɪ'
+  wait-subtitle: '&7ᴠᴇʀʀᴀɪ ʀɪᴘᴏʀᴛᴀᴛᴏ ɪɴ ᴜɴ ᴘᴏꜱᴛᴏ ꜱɪᴄᴜʀᴏ ꜰʀᴀ &#FCD05C%seconds% &7ꜱᴇᴄᴏɴᴅɪ.'
+  cancelled-title: '&c&lᴛᴇʟᴇᴛʀᴀꜱᴘᴏʀᴛᴏ ᴀɴɴᴜʟʟᴀᴛᴏ'
+  cancelled-subtitle: '&7ɪʟ ᴛᴇʟᴇᴛʀᴀꜱᴘᴏʀᴛᴏ è ꜱᴛᴀᴛᴏ ᴀɴɴᴜʟʟᴀᴛᴏ ɪɴ Qᴜᴀɴᴛᴏ ᴛɪ ꜱᴇɪ ᴍᴏꜱꜱᴏ.'
+  completed: '%prefix%&aꜱᴇɪ ꜱᴛᴀᴛᴏ ᴛᴇʟᴇᴛʀᴀꜱᴘᴏʀᴛᴀᴛᴏ ɪɴ ᴜɴ ᴘᴏꜱᴛᴏ ꜱɪᴄᴜʀᴏ.'
+  already-active: '%prefix%&cʜᴀɪ ɢɪà ᴜɴ ʀᴇᴄᴜᴘᴇʀᴏ ɪɴ ᴄᴏʀꜱᴏ.'
+
+playtime:
+  header: '&#FCD05C&lᴛᴇᴍᴘᴏ ᴅɪ ɢɪᴏᴄᴏ &7(%player%)'
+  lines:
+    - ''
+    - '&7ᴛᴇᴍᴘᴏ ᴛᴏᴛᴀʟᴇ: &f%total%'
+    - '&7ᴛᴇᴍᴘᴏ ɢɪᴏʀɴᴀʟɪᴇʀᴏ: &f%daily%'
+    - '&7ᴛᴇᴍᴘᴏ ꜱᴇᴛᴛɪᴍᴀɴᴀʟᴇ: &f%weekly%'
+    - '&7ᴛᴇᴍᴘᴏ ᴍᴇɴꜱɪʟᴇ: &f%monthly%'
+    - '&7ꜱᴛᴀᴛᴏ ᴀᴛᴛᴜᴀʟᴇ: %status%'
+  online: '&aᴏɴʟɪɴᴇ'
+  offline: '&cᴏꜰꜰʟɪɴᴇ'
+
+logs:
+  help-header: '&#FCD05C&l⓵ &r&#FCD05C/ʟᴏɢꜱ'
+  help-entry: '&#FCD05C» &r&#FCD05C/ʟᴏɢꜱ %module%'
+  loading:
+    - '&a&lᴄᴀʀɪᴄᴀᴍᴇɴᴛᴏ'
+    - '&7ᴄᴀʀɪᴄᴀᴍᴇɴᴛᴏ ʟᴏɢꜱ ɪɴ ᴄᴏʀꜱᴏ...'
+    - '&8...'
+  header: '&a&lʟᴏɢꜱ &7- &#FCD05C&l%module%'
+  entry: '&8#%id% &7%player% &8- &f%action%'
+  no-logs:
+    - '&c&lɴᴇꜱꜱᴜɴ ʟᴏɢ'
+    - '&7ɴᴇꜱꜱᴜɴ ʟᴏɢ ᴛʀᴏᴠᴀᴛᴏ!'
+
+protection:
+  help:
+    - '&#FCD05C&l⓵ &r&#FCD05C/ᴘʀᴏᴛᴇᴄᴛɪᴏɴ'
+    - ''
+    - '&#FCD05C» &r&#FCD05C/ᴘʀᴏᴛᴇᴄᴛɪᴏɴ ᴛᴏɢɢʟᴇ &7<ᴍᴏɴᴅᴏ> <ʙᴜɪʟᴅ|ɪɴᴛᴇʀᴀᴄᴛ>'
+    - '&#FCD05C» &r&#FCD05C/ᴘʀᴏᴛᴇᴄᴛɪᴏɴ ᴡʜɪᴛᴇʟɪꜱᴛ &7<ᴍᴏɴᴅᴏ> ᴀᴅᴅ <ᴘʟᴀʏᴇʀ>'
+    - '&#FCD05C» &r&#FCD05C/ᴘʀᴏᴛᴇᴄᴛɪᴏɴ ᴡʜɪᴛᴇʟɪꜱᴛ &7<ᴍᴏɴᴅᴏ> ʀᴇᴍᴏᴠᴇ <ᴘʟᴀʏᴇʀ>'
+    - '&#FCD05C» &r&#FCD05C/ᴘʀᴏᴛᴇᴄᴛɪᴏɴ ᴡʜɪᴛᴇʟɪꜱᴛ &7<ᴍᴏɴᴅᴏ> ʟɪꜱᴛ'
+    - '&#FCD05C» &r&#FCD05C/ᴘʀᴏᴛᴇᴄᴛɪᴏɴ ɪɴᴛᴇʀᴀᴄᴛɪᴏɴꜱ &7<ᴍᴏɴᴅᴏ>'
+    - '&#FCD05C» &r&#FCD05C/ᴘʀᴏᴛᴇᴄᴛɪᴏɴ ɪɴꜰᴏ &7<ᴍᴏɴᴅᴏ>'
+  no-build: '&c&lɴᴏɴ ᴘᴜᴏɪ ᴄᴏꜱᴛʀᴜɪʀᴇ Qᴜɪ.'
+  no-interact: '&c&lɴᴏɴ ᴘᴜᴏɪ ɪɴᴛᴇʀᴀɢɪʀᴇ ᴄᴏɴ Qᴜᴇꜱᴛᴏ.'
+  toggled: '%prefix%&a%type% %state% &aᴘᴇʀ ɪʟ ᴍᴏɴᴅᴏ &#FCD05C%world%'
+  whitelist-added: '%prefix%&a%player% &aᴀɢɢɪᴜɴᴛᴏ ᴀʟʟᴀ ᴡʜɪᴛᴇʟɪꜱᴛ ᴅɪ &#FCD05C%world%'
+  whitelist-removed: '%prefix%&a%player% &aʀɪᴍᴏꜱꜱᴏ ᴅᴀʟʟᴀ ᴡʜɪᴛᴇʟɪꜱᴛ ᴅɪ &#FCD05C%world%'
+  whitelist-already: '%prefix%&c%player% &cè ɢɪà ɴᴇʟʟᴀ ᴡʜɪᴛᴇʟɪꜱᴛ.'
+  whitelist-not-found: '%prefix%&c%player% &cɴᴏɴ è ɴᴇʟʟᴀ ᴡʜɪᴛᴇʟɪꜱᴛ.'
+  whitelist-header: '&#FCD05C&lᴡʜɪᴛᴇʟɪꜱᴛ &7- &#FCD05C%world%'
+  whitelist-entry: '&8» &7%player%'
+  whitelist-empty: '&7ɴᴇꜱꜱᴜɴ ᴘʟᴀʏᴇʀ ɪɴ ᴡʜɪᴛᴇʟɪꜱᴛ.'
+  world-not-configured: '%prefix%&cᴍᴏɴᴅᴏ &#FCD05C%world% &cɴᴏɴ ᴄᴏɴꜰɪɢᴜʀᴀᴛᴏ.'
+  info-header: '&#FCD05C&lᴘʀᴏᴛᴇᴄᴛɪᴏɴ ɪɴꜰᴏ &7- &#FCD05C%world%'
+  info-build: '&7ɴᴏ ʙᴜɪʟᴅ: %state%'
+  info-interact: '&7ɴᴏ ɪɴᴛᴇʀᴀᴄᴛ: %state%'
+  info-whitelist: '&7ᴡʜɪᴛᴇʟɪꜱᴛ: &f%count% &7ᴘʟᴀʏᴇʀ'
+  info-interactions: '&7ɪɴᴛᴇʀᴀᴢɪᴏɴɪ ᴘᴇʀᴍᴇꜱꜱᴇ: &f%count%'
+  gui-title: '&8ɪɴᴛᴇʀᴀᴢɪᴏɴɪ - %world%'
+  gui-enabled: '&aᴀʙɪʟɪᴛᴀᴛᴏ'
+  gui-disabled: '&cᴅɪꜱᴀʙɪʟɪᴛᴀᴛᴏ'
+  gui-click-toggle: '&#FCD05Cᴄʟɪᴄᴄᴀ ᴘᴇʀ ᴄᴀᴍʙɪᴀʀᴇ'
+  interaction-added: '%prefix%&a%material% &aᴀɢɢɪᴜɴᴛᴏ ᴀʟʟᴇ ɪɴᴛᴇʀᴀᴢɪᴏɴɪ ᴅɪ &#FCD05C%world%'
+  interaction-removed: '%prefix%&a%material% &aʀɪᴍᴏꜱꜱᴏ ᴅᴀʟʟᴇ ɪɴᴛᴇʀᴀᴢɪᴏɴɪ ᴅɪ &#FCD05C%world%'
+
+staffmode:
+  entered: '%prefix%&aꜱᴛᴀꜰꜰ ᴍᴏᴅᴇ &aᴀᴛᴛɪᴠᴀᴛᴀ. ɪʟ ᴛᴜᴏ ɪɴᴠᴇɴᴛᴀʀɪᴏ è ꜱᴛᴀᴛᴏ ꜱᴀʟᴠᴀᴛᴏ.'
+  exited: '%prefix%&cꜱᴛᴀꜰꜰ ᴍᴏᴅᴇ &cᴅɪꜱᴀᴛᴛɪᴠᴀᴛᴀ. ɪɴᴠᴇɴᴛᴀʀɪᴏ ʀɪᴘʀɪꜱᴛɪɴᴀᴛᴏ.'
+  tp-random-success: '%prefix%&aᴛᴇʟᴇᴛʀᴀꜱᴘᴏʀᴛᴏ ᴄᴀꜱᴜᴀʟᴇ ᴠᴇʀꜱᴏ &#FCD05C%player%&a.'
+  tp-random-no-players: '%prefix%&cɴᴇꜱꜱᴜɴ ɢɪᴏᴄᴀᴛᴏʀᴇ ᴅɪꜱᴘᴏɴɪʙɪʟᴇ ᴘᴇʀ ɪʟ ᴛᴘ.'
+  tp-target-success: '%prefix%&aᴛᴇʟᴇᴛʀᴀꜱᴘᴏʀᴛᴏ ᴠᴇʀꜱᴏ &#FCD05C%player%&a.'
+  invisibility-on: '%prefix%&aɪɴᴠɪꜱɪʙɪʟɪᴛà &aᴀᴛᴛɪᴠᴀᴛᴀ.'
+  invisibility-off: '%prefix%&cɪɴᴠɪꜱɪʙɪʟɪᴛà &cᴅɪꜱᴀᴛᴛɪᴠᴀᴛᴀ.'
+  gui-player-hover:
+    - ''
+    - '&7ᴘᴏꜱɪᴢɪᴏɴᴇ &8» &f%x%, %y%, %z%'
+    - '&7ᴍᴏɴᴅᴏ &8» &f%world%'
+    - '&7ꜱᴀʟᴜᴛᴇ &8» &f%health%/%max_health%'
+    - '&7ꜰᴀᴍᴇ &8» &f%food%'
+    - '&7ᴇxᴘ &8» &f%exp% &7(&fʟᴠʟ %level%&7)'
+    - '&7ᴘɪɴɢ &8» &f%ping% ᴍꜱ'
+    - '&7ᴍᴏᴅᴀʟɪᴛà &8» &f%gamemode%'
+    - '&7ᴜᴜɪᴅ &8» &7%uuid%'
+    - ''
+    - '&aᴄʟɪᴄᴋ ꜱɪɴɪꜱᴛʀᴏ &8» &7ᴛᴇʟᴇᴛʀᴀꜱᴘᴏʀᴛᴏ'
+    - '&cᴄʟɪᴄᴋ ᴅᴇꜱᴛʀᴏ &8» &7ɪꜱᴘᴇᴢɪᴏɴᴀ ɪɴᴠᴇɴᴛᴀʀɪᴏ'
+
+world:
+  entering: '&7ᴛɪ ꜱᴛᴀɪ ᴛᴇʟᴇᴛʀᴀꜱᴘᴏʀᴛᴀɴᴅᴏ ᴀ &#FCD05C%world%&7...'
+  denied: '%prefix%&cɴᴏɴ ʜᴀɪ ɪ ᴘᴇʀᴍᴇꜱꜱɪ ᴘᴇʀ ᴀᴄᴄᴇᴅᴇʀᴇ ᴀ Qᴜᴇꜱᴛᴏ ᴍᴏɴᴅᴏ.'
+
+mondo:
+  created: '%prefix%&aᴍᴏɴᴅᴏ &#FCD05C%world% &aᴄʀᴇᴀᴛᴏ ᴄᴏɴ ꜱᴜᴄᴄᴇꜱꜱᴏ.'
+  deleted: '%prefix%&cᴍᴏɴᴅᴏ &#FCD05C%world% &cᴇʟɪᴍɪɴᴀᴛᴏ.'
+  loaded: '%prefix%&aᴍᴏɴᴅᴏ &#FCD05C%world% &aᴄᴀʀɪᴄᴀᴛᴏ.'
+  list-header: '&#FCD05C&lᴍᴏɴᴅɪ ᴅɪꜱᴘᴏɴɪʙɪʟɪ'
+  list-entry: ' &8» &#FCD05C%world% &7(%type%)'
+
+bots:
+  discord:
+    ticket-title: '🎫 Ticket #%id%'
+    ticket-desc: |-
+      **Autore:** %player%
+      **Categoria:** %category%
+      **Motivo:** %reason%
+    ticket-closed-title: '❌ Ticket #%id% chiuso'
+    ticket-closed-desc: |-
+      **Chiuso da:** %staff%
+      **Motivo:** %reason%
+    supporto-title: 🆘 Supporto richiesto
+    supporto-desc: |-
+      **Player:** %player%
+      **Categoria:** %category%
+    appuntamento-title: 📅 Nuovo appuntamento
+    appuntamento-desc: |-
+      **Player:** %player%
+      **Reparto:** %reparto%
+      **Giorno:** %day%
+      **Orario:** %time%
+    recap-tickets-title: 📋 Lista tickets aperti — %category%
+    recap-tickets-entry: '• Ticket #%id% di %player%'
+    recap-appuntamenti-title: 📅 Appuntamenti — %reparto%
+    recap-appuntamenti-entry: '• #%id% %player% — %day% %time%'
+  telegram:
+    ticket-new: |-
+      🎫 <b>Ticket #%id%</b>
+      👤 <b>Autore:</b> %player%
+      📁 <b>Categoria:</b> %category%
+      📝 <b>Motivo:</b> %reason%
+    ticket-closed: |-
+      ❌ <b>Ticket #%id% chiuso</b>
+      👤 <b>Chiuso da:</b> %staff%
+      📝 <b>Motivo:</b> %reason%
+    supporto-new: |-
+      🆘 <b>Supporto richiesto</b>
+      👤 <b>Player:</b> %player%
+      📁 <b>Categoria:</b> %category%
+    appuntamento-new: |-
+      📅 <b>Nuovo appuntamento</b>
+      👤 <b>Player:</b> %player%
+      📁 <b>Reparto:</b> %reparto%
+      📆 <b>Giorno:</b> %day%
+      ⏰ <b>Orario:</b> %time%
+    recap-tickets-title: |
+      📋 <b>Lista tickets aperti — %category%</b>
+    recap-tickets-entry: |
+      • Ticket #%id% di <i>%player%</i>
+    recap-appuntamenti-title: |
+      📅 <b>Appuntamenti — %reparto%</b>
+    recap-appuntamenti-entry: |
+      • #%id% %player% — %day% %time%
+wipe:
+  help:
+    - ''
+    - '&#FCD05C&l⓵ &r&#FCD05C/ᴡɪᴘᴇ'
+    - ''
+    - '&#FCD05C» &r&#FCD05C/ᴡɪᴘᴇ &7<ᴘʟᴀʏᴇʀ> <ᴛɪᴘᴏ> [ᴄᴏɴꜰɪʀᴍ]'
+    - '&7ᴛɪᴘɪ: &fʀᴜᴏʟɪ, ᴘʀᴏɢʀᴇꜱꜱɪ, ᴘʟᴀʏᴛɪᴍᴇ, ᴀʟʟ'
+    - ''
+  invalid-type: '%prefix%&cᴛɪᴘᴏ ɴᴏɴ ᴠᴀʟɪᴅᴏ. ᴜꜱᴀ: &fʀᴜᴏʟɪ, ᴘʀᴏɢʀᴇꜱꜱɪ, ᴘʟᴀʏᴛɪᴍᴇ, ᴀʟʟ'
+  confirm: '%prefix%&eꜱᴇɪ ꜱɪᴄᴜʀᴏ ᴅɪ ᴠᴏʟᴇʀ ʀᴇꜱᴇᴛᴛᴀʀᴇ &#FCD05C%type% &eᴅɪ &#FCD05C%player%&e?
+    ʀɪᴘᴇᴛɪ ᴄᴏɴ &f/ᴡɪᴘᴇ %player% %type% confirm'
+  playtime-done: '%prefix%&aᴘʟᴀʏᴛɪᴍᴇ ᴅɪ &#FCD05C%player% &aʀᴇꜱᴇᴛᴛᴀᴛᴏ.'
+  progressi-done: '%prefix%&aᴘʀᴏɢʀᴇꜱꜱɪ ᴅɪ &#FCD05C%player% &aʀᴇꜱᴇᴛᴛᴀᴛɪ.'
+  ruoli-done: '%prefix%&aʀᴜᴏʟɪ ᴅɪ &#FCD05C%player% &aʀᴇꜱᴇᴛᴛᴀᴛɪ &7(%count% ʀɪᴍᴏꜱꜱɪ)&a.'
+  completed-all: '%prefix%&aᴡɪᴘᴇ ᴄᴏᴍᴘʟᴇᴛᴀᴛᴏ ᴘᴇʀ &#FCD05C%player%&a.'
+  module-unavailable: '%prefix%&cᴍᴏᴅᴜʟᴏ &#FCD05C%module% &cɴᴏɴ ᴅɪꜱᴘᴏɴɪʙɪʟᴇ.'
+  luckperms-missing: '%prefix%&cʟᴜᴄᴋᴘᴇʀᴍꜱ ɴᴏɴ è ɪɴꜱᴛᴀʟʟᴀᴛᴏ, ɪᴍᴘᴏꜱꜱɪʙɪʟᴇ ʀᴇꜱᴇᴛᴛᴀʀᴇ
+    ʀᴜᴏʟɪ.'
+  error: '%prefix%&cᴇʀʀᴏʀᴇ ᴅᴜʀᴀɴᴛᴇ ɪʟ ᴡɪᴘᴇ &7(%type%)&c. ᴄᴏɴᴛʀᴏʟʟᴀ ᴄᴏɴꜱᴏʟᴇ.'
+
+lobby-mode:
+  status: '%prefix%&fʟᴏʙʙʏ ᴍᴏᴅᴇ: %state%'
+  enabled: '%prefix%&aʟᴏʙʙʏ ᴍᴏᴅᴇ ᴀᴛᴛɪᴠᴀᴛᴀ.'
+  disabled: '%prefix%&cʟᴏʙʙʏ ᴍᴏᴅᴇ ᴅɪꜱᴀᴛᴛɪᴠᴀᴛᴀ.'
+  rp-disabled: '%prefix%&cQᴜᴇꜱᴛᴏ ᴄᴏᴍᴀɴᴅᴏ è ᴅɪꜱᴀʙɪʟɪᴛᴀᴛᴏ ɪɴ ʟᴏʙʙʏ ᴍᴏᴅᴇ.'

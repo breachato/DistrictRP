@@ -4,19 +4,27 @@ plugins {
 
 group = "dev.breach"
 version = "1.0.0"
-description = "CherryCore - Core plugin per CherryUniversity"
+description = "Core ufficiale della DistrictRP"
 
 repositories {
     mavenCentral()
     maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
     maven("https://oss.sonatype.org/content/repositories/snapshots/")
     maven("https://repo.papermc.io/repository/maven-public/")
+    maven("https://jitpack.io")
+    maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
 }
 
 dependencies {
     compileOnly("org.spigotmc:spigot-api:1.20.1-R0.1-SNAPSHOT")
     compileOnly("net.luckperms:api:5.4")
     compileOnly("org.jetbrains:annotations:24.1.0")
+    compileOnly("me.clip:placeholderapi:2.11.6")
+
+    implementation("net.dv8tion:JDA:5.0.0-beta.24") {
+        exclude(module = "opus-java")
+    }
+    implementation("com.github.pengrad:java-telegram-bot-api:7.9.1")
 }
 
 java {
@@ -38,7 +46,7 @@ tasks.processResources {
 }
 
 tasks.jar {
-    archiveBaseName.set("FluentCore")
+    archiveBaseName.set("DistrictRP")
     archiveVersion.set(project.version.toString())
     archiveClassifier.set("")
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE

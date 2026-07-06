@@ -1,1 +1,1 @@
-rootProject.name = "FluentCore"
+rootProject.name = "DistrictRP"

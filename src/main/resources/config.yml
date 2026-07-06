@@ -1,0 +1,224 @@
+prefix: "&#FCD05C&lᴅɪꜱᴛʀɪᴄᴛʀᴘ &8» &r"
+
+general:
+  no-permission: "%prefix%&cɴᴏɴ ʜᴀɪ ɪ ᴘᴇʀᴍᴇꜱꜱɪ."
+  only-player: "%prefix%&cQᴜᴇꜱᴛᴏ ᴄᴏᴍᴀɴᴅᴏ è ʀɪꜱᴇʀᴠᴀᴛᴏ ᴀɪ ɢɪᴏᴄᴀᴛᴏʀɪ."
+  player-not-found: "%prefix%&cɢɪᴏᴄᴀᴛᴏʀᴇ ɴᴏɴ ᴛʀᴏᴠᴀᴛᴏ."
+  invalid-args: "%prefix%&cᴀʀɢᴏᴍᴇɴᴛɪ ɴᴏɴ ᴠᴀʟɪᴅɪ."
+  reloaded: "%prefix%&#FCD05Cᴄᴏɴꜰɪɢᴜʀᴀᴢɪᴏɴᴇ ʀɪᴄᴀʀɪᴄᴀᴛᴀ ᴄᴏɴ ꜱᴜᴄᴄᴇꜱꜱᴏ."
+  cooldown: "%prefix%&cᴅᴇᴠɪ ᴀꜱᴘᴇᴛᴛᴀʀᴇ &#FCD05C%seconds% ꜱᴇᴄᴏɴᴅɪ &cᴘʀɪᴍᴀ ᴅɪ ʀɪᴜꜱᴀʀᴇ Qᴜᴇꜱᴛᴏ ᴄᴏᴍᴀɴᴅᴏ."
+  action-disabled: "%prefix%&cQᴜᴇꜱᴛᴀ ᴀᴢɪᴏɴᴇ è ᴀᴛᴛᴜᴀʟᴍᴇɴᴛᴇ ᴅɪꜱᴀʙɪʟɪᴛᴀᴛᴀ."
+
+join:
+  message: "&8+ %player%"
+
+quit:
+  message: "&8- %player%"
+
+staff-notify:
+  permission: DistrictRP.staff.notify
+
+back:
+  teleported: "%prefix%&#FCD05Cꜱᴇɪ ᴛᴏʀɴᴀᴛᴏ ᴀʟʟᴀ ᴛᴜᴀ ᴘᴏꜱɪᴢɪᴏɴᴇ ᴘʀᴇᴄᴇᴅᴇɴᴛᴇ."
+  no-previous: "%prefix%&cɴᴇꜱꜱᴜɴᴀ ᴘᴏꜱɪᴢɪᴏɴᴇ ᴘʀᴇᴄᴇᴅᴇɴᴛᴇ ᴅɪꜱᴘᴏɴɪʙɪʟᴇ."
+
+fly:
+  enabled: "%prefix%&#FCD05Cᴠᴏʟᴏ ᴀᴛᴛɪᴠᴀᴛᴏ."
+  disabled: "%prefix%&cᴠᴏʟᴏ ᴅɪꜱᴀᴛᴛɪᴠᴀᴛᴏ."
+  enabled-other: "%prefix%&#FCD05Cᴠᴏʟᴏ ᴀᴛᴛɪᴠᴀᴛᴏ ᴘᴇʀ &f%player%&#FCD05C."
+  disabled-other: "%prefix%&cᴠᴏʟᴏ ᴅɪꜱᴀᴛᴛɪᴠᴀᴛᴏ ᴘᴇʀ &f%player%&c."
+
+god:
+  enabled: "%prefix%&#FCD05Cɢᴏᴅ ᴍᴏᴅᴇ ᴀᴛᴛɪᴠᴀᴛᴏ."
+  disabled: "%prefix%&cɢᴏᴅ ᴍᴏᴅᴇ ᴅɪꜱᴀᴛᴛɪᴠᴀᴛᴏ."
+
+speed:
+  set: "%prefix%&#FCD05Cᴠᴇʟᴏᴄɪᴛà ɪᴍᴘᴏꜱᴛᴀᴛᴀ ᴀ &f%speed%&#FCD05C."
+  invalid: "%prefix%&cᴠᴀʟᴏʀᴇ ɴᴏɴ ᴠᴀʟɪᴅᴏ &7(0-10)&c."
+
+msg:
+  format-sent: "&8[&#FCD05Cᴛᴜ &8→ &#FCD05C%target%&8] &7%message%"
+  format-received: "&8[&#FCD05C%sender% &8→ &#FCD05Cᴛᴜ&8] &7%message%"
+  format-social-spy: "&8[&d&lꜱᴘʏ&8] &7%sender% &8→ &7%target%&8: &f%message%"
+  self: "%prefix%&cɴᴏɴ ᴘᴜᴏɪ ᴍᴀɴᴅᴀʀᴇ ᴜɴ ᴍᴇꜱꜱᴀɢɢɪᴏ ᴀ ᴛᴇ ꜱᴛᴇꜱꜱᴏ."
+  no-reply-target: "%prefix%&cɴᴇꜱꜱᴜɴᴏ ᴀ ᴄᴜɪ ʀɪꜱᴘᴏɴᴅᴇʀᴇ."
+  target-offline: "%prefix%&cɪʟ ᴅᴇꜱᴛɪɴᴀᴛᴀʀɪᴏ ɴᴏɴ è ᴏɴʟɪɴᴇ."
+
+gamemode:
+  changed: "%prefix%&#FCD05Cᴍᴏᴅᴀʟɪᴛà ᴅɪ ɢɪᴏᴄᴏ ɪᴍᴘᴏꜱᴛᴀᴛᴀ ᴀ &f%mode%&#FCD05C."
+  changed-other: "%prefix%&#FCD05Cᴍᴏᴅᴀʟɪᴛà ᴅɪ &f%player% &#FCD05Cɪᴍᴘᴏꜱᴛᴀᴛᴀ ᴀ &f%mode%&#FCD05C."
+
+invsee:
+  opened: "%prefix%&#FCD05Cꜱᴛᴀɪ ɪꜱᴘᴇᴢɪᴏɴᴀɴᴅᴏ ʟ'ɪɴᴠᴇɴᴛᴀʀɪᴏ ᴅɪ &f%player%&#FCD05C."
+
+enderchest:
+  opened-self: "%prefix%&#FCD05Cᴀᴘᴇʀᴛᴀ ʟᴀ ᴛᴜᴀ ᴇɴᴅᴇʀ ᴄʜᴇꜱᴛ."
+  opened-other: "%prefix%&#FCD05Cᴀᴘᴇʀᴛᴀ ʟᴀ ᴇɴᴅᴇʀ ᴄʜᴇꜱᴛ ᴅɪ &f%player%&#FCD05C."
+
+clear:
+  self: "%prefix%&#FCD05Cɪɴᴠᴇɴᴛᴀʀɪᴏ ꜱᴠᴜᴏᴛᴀᴛᴏ."
+  other: "%prefix%&#FCD05Cɪɴᴠᴇɴᴛᴀʀɪᴏ ᴅɪ &f%player% &#FCD05Cꜱᴠᴜᴏᴛᴀᴛᴏ."
+
+tphere:
+  success: "%prefix%&#FCD05Cʜᴀɪ ᴛᴇʟᴇᴛʀᴀꜱᴘᴏʀᴛᴀᴛᴏ &f%player% &#FCD05Cᴅᴀ ᴛᴇ."
+
+tpall:
+  success: "%prefix%&#FCD05Cᴛᴜᴛᴛɪ ɪ ɢɪᴏᴄᴀᴛᴏʀɪ ꜱᴏɴᴏ ꜱᴛᴀᴛɪ ᴛᴇʟᴇᴛʀᴀꜱᴘᴏʀᴛᴀᴛɪ ᴅᴀ ᴛᴇ &7(%count%)&#FCD05C."
+
+nick:
+  set: "%prefix%&#FCD05Cɪʟ ᴛᴜᴏ ɴɪᴄᴋ è ꜱᴛᴀᴛᴏ ᴄᴀᴍʙɪᴀᴛᴏ ɪɴ &f%nick%&#FCD05C."
+  reset: "%prefix%&#FCD05Cɪʟ ᴛᴜᴏ ɴɪᴄᴋ è ꜱᴛᴀᴛᴏ ʀᴇꜱᴇᴛᴛᴀᴛᴏ."
+
+profile:
+  default-job: "DISOCCUPATO"
+  min-age: 16
+  max-age: 99
+  max-bio-length: 200
+  help:
+    - ""
+    - "&#FCD05C&lᴘʀᴏꜰɪʟᴏ ʀᴘ &7(ꜱᴛᴀꜰꜰ)"
+    - ""
+    - "&8» &#FCD05C/ᴘʀᴏꜰɪʟᴏ ɴᴏᴍᴇ &7<ᴘʟᴀʏᴇʀ> <ɴᴏᴍᴇ>"
+    - "&8» &#FCD05C/ᴘʀᴏꜰɪʟᴏ ᴄᴏɢɴᴏᴍᴇ &7<ᴘʟᴀʏᴇʀ> <ᴄᴏɢɴᴏᴍᴇ>"
+    - "&8» &#FCD05C/ᴘʀᴏꜰɪʟᴏ ᴇᴛᴀ &7<ᴘʟᴀʏᴇʀ> <ᴇᴛà>"
+    - "&8» &#FCD05C/ᴘʀᴏꜰɪʟᴏ ɴᴀꜱᴄɪᴛᴀ &7<ᴘʟᴀʏᴇʀ> <ɢɢ/ᴍᴍ/ᴀᴀᴀᴀ>"
+    - "&8» &#FCD05C/ᴘʀᴏꜰɪʟᴏ ꜱᴇꜱꜱᴏ &7<ᴘʟᴀʏᴇʀ> <ᴍ|ꜰ|ᴀʟᴛʀᴏ>"
+    - "&8» &#FCD05C/ᴘʀᴏꜰɪʟᴏ ʙɪᴏ &7<ᴘʟᴀʏᴇʀ> <ᴛᴇꜱᴛᴏ>"
+    - "&8» &#FCD05C/ᴘʀᴏꜰɪʟᴏ ɴᴀᴢɪᴏɴᴀʟɪᴛᴀ &7<ᴘʟᴀʏᴇʀ> <ɴᴀᴢɪᴏɴᴇ>"
+    - "&8» &#FCD05C/ᴘʀᴏꜰɪʟᴏ ᴊᴏʙ &7<ᴘʟᴀʏᴇʀ> <ʟᴀᴠᴏʀᴏ>"
+    - "&8» &#FCD05C/ᴘʀᴏꜰɪʟᴏ ᴠᴇᴅɪ &7<ᴘʟᴀʏᴇʀ>"
+    - ""
+  view:
+    - "&8&m                                                                "
+    - "&#FCD05C&lᴘʀᴏꜰɪʟᴏ ᴅɪ &f%player%"
+    - ""
+    - "&7ɴᴏᴍᴇ ɪᴄ &8» &f%rpfullname%"
+    - "&7ᴇᴛà &8» &f%age%"
+    - "&7ᴅᴀᴛᴀ ᴅɪ ɴᴀꜱᴄɪᴛᴀ &8» &f%birthday%"
+    - "&7ꜱᴇꜱꜱᴏ &8» &f%gender%"
+    - "&7ɴᴀᴢɪᴏɴᴀʟɪᴛà &8» &f%nationality%"
+    - "&7ʟᴀᴠᴏʀᴏ &8» &f%job%"
+    - "&7ʙɪᴏ &8» &f%bio%"
+    - "&8&m                                                                "
+  rpname-set: "%prefix%&#FCD05Cɴᴏᴍᴇ ɪᴄ ᴅɪ &f%player% &#FCD05Cɪᴍᴘᴏꜱᴛᴀᴛᴏ ɪɴ &f%name%&#FCD05C."
+  rpsurname-set: "%prefix%&#FCD05Cᴄᴏɢɴᴏᴍᴇ ɪᴄ ᴅɪ &f%player% &#FCD05Cɪᴍᴘᴏꜱᴛᴀᴛᴏ ɪɴ &f%surname%&#FCD05C."
+  age-set: "%prefix%&#FCD05Cᴇᴛà ɪᴄ ᴅɪ &f%player% &#FCD05Cɪᴍᴘᴏꜱᴛᴀᴛᴀ ᴀ &f%age%&#FCD05C."
+  birthday-set: "%prefix%&#FCD05Cᴅᴀᴛᴀ ᴅɪ ɴᴀꜱᴄɪᴛᴀ ᴅɪ &f%player% &#FCD05Cɪᴍᴘᴏꜱᴛᴀᴛᴀ ᴀ &f%date%&#FCD05C."
+  gender-set: "%prefix%&#FCD05Cꜱᴇꜱꜱᴏ ᴅɪ &f%player% &#FCD05Cɪᴍᴘᴏꜱᴛᴀᴛᴏ ᴀ &f%gender%&#FCD05C."
+  bio-set: "%prefix%&#FCD05Cʙɪᴏ ᴅɪ &f%player% &#FCD05Cᴀɢɢɪᴏʀɴᴀᴛᴀ."
+  nationality-set: "%prefix%&#FCD05Cɴᴀᴢɪᴏɴᴀʟɪᴛà ᴅɪ &f%player% &#FCD05Cɪᴍᴘᴏꜱᴛᴀᴛᴀ ᴀ &f%nationality%&#FCD05C."
+  job-set: "%prefix%&#FCD05Cʟᴀᴠᴏʀᴏ ᴅɪ &f%player% &#FCD05Cɪᴍᴘᴏꜱᴛᴀᴛᴏ ᴀ &f%job%&#FCD05C."
+  no-rpname: "%prefix%&cQᴜᴇꜱᴛᴏ ᴘʟᴀʏᴇʀ ɴᴏɴ ʜᴀ ᴀɴᴄᴏʀᴀ ᴜɴ ɴᴏᴍᴇ ɪᴄ."
+  invalid-name: "%prefix%&cɴᴏᴍᴇ ɴᴏɴ ᴠᴀʟɪᴅᴏ. ᴜꜱᴀ ꜱᴏʟᴏ ʟᴇᴛᴛᴇʀᴇ."
+  invalid-age: "%prefix%&cᴇᴛà ɴᴏɴ ᴠᴀʟɪᴅᴀ."
+  age-out-of-range: "%prefix%&cʟ'ᴇᴛà ᴅᴇᴠᴇ ᴇꜱꜱᴇʀᴇ ᴛʀᴀ &#FCD05C%min% &cᴇ &#FCD05C%max%&c."
+  invalid-birthday: "%prefix%&cꜰᴏʀᴍᴀᴛᴏ ᴅᴀᴛᴀ ɴᴏɴ ᴠᴀʟɪᴅᴏ. ᴜꜱᴀ &fɢɢ/ᴍᴍ/ᴀᴀᴀᴀ&c."
+  invalid-gender: "%prefix%&cꜱᴇꜱꜱᴏ ɴᴏɴ ᴠᴀʟɪᴅᴏ. ᴜꜱᴀ &fᴍ&c, &fꜰ &cᴏ &fᴀʟᴛʀᴏ&c."
+  bio-too-long: "%prefix%&cʟᴀ ʙɪᴏ è ᴛʀᴏᴘᴘᴏ ʟᴜɴɢᴀ &7(ᴍᴀx &#FCD05C%max% &7ᴄᴀʀᴀᴛᴛᴇʀɪ)&c."
+  usage-nome: "%prefix%&cᴜꜱᴏ: &f/ᴘʀᴏꜰɪʟᴏ ɴᴏᴍᴇ <ᴘʟᴀʏᴇʀ> <ɴᴏᴍᴇ>"
+  usage-cognome: "%prefix%&cᴜꜱᴏ: &f/ᴘʀᴏꜰɪʟᴏ ᴄᴏɢɴᴏᴍᴇ <ᴘʟᴀʏᴇʀ> <ᴄᴏɢɴᴏᴍᴇ>"
+  usage-eta: "%prefix%&cᴜꜱᴏ: &f/ᴘʀᴏꜰɪʟᴏ ᴇᴛᴀ <ᴘʟᴀʏᴇʀ> <ᴇᴛà>"
+  usage-nascita: "%prefix%&cᴜꜱᴏ: &f/ᴘʀᴏꜰɪʟᴏ ɴᴀꜱᴄɪᴛᴀ <ᴘʟᴀʏᴇʀ> <ɢɢ/ᴍᴍ/ᴀᴀᴀᴀ>"
+  usage-sesso: "%prefix%&cᴜꜱᴏ: &f/ᴘʀᴏꜰɪʟᴏ ꜱᴇꜱꜱᴏ <ᴘʟᴀʏᴇʀ> <ᴍ|ꜰ|ᴀʟᴛʀᴏ>"
+  usage-bio: "%prefix%&cᴜꜱᴏ: &f/ᴘʀᴏꜰɪʟᴏ ʙɪᴏ <ᴘʟᴀʏᴇʀ> <ᴛᴇꜱᴛᴏ>"
+  usage-nazionalita: "%prefix%&cᴜꜱᴏ: &f/ᴘʀᴏꜰɪʟᴏ ɴᴀᴢɪᴏɴᴀʟɪᴛᴀ <ᴘʟᴀʏᴇʀ> <ɴᴀᴢɪᴏɴᴇ>"
+  usage-job: "%prefix%&cᴜꜱᴏ: &f/ᴘʀᴏꜰɪʟᴏ ᴊᴏʙ <ᴘʟᴀʏᴇʀ> <ʟᴀᴠᴏʀᴏ>"
+
+social:
+  ping: "%prefix%&e%player% &7ᴛɪ ʜᴀ ᴍᴇɴᴢɪᴏɴᴀᴛᴏ ɪɴ ᴄʜᴀᴛ."
+
+titles:
+  supporto-start:
+    title: "&#FCD05C&l🎙 ꜱᴜᴘᴘᴏʀᴛᴏ"
+    subtitle: "&7ᴄᴏɴ &#FCD05C%staff% &7è ɪɴɪᴢɪᴀᴛᴏ"
+  supporto-end:
+    title: "&c&l🎙 ꜱᴜᴘᴘᴏʀᴛᴏ"
+    subtitle: "&7ᴛᴇʀᴍɪɴᴀᴛᴏ"
+  spawn:
+    title: "&#FCD05C&lꜱᴘᴀᴡɴ"
+    subtitle: "&7ʙᴇɴᴠᴇɴᴜᴛᴏ ɪɴ ᴄɪᴛᴛà"
+
+world:
+  entering: "&7ᴛɪ ꜱᴛᴀɪ ᴛᴇʟᴇᴛʀᴀꜱᴘᴏʀᴛᴀɴᴅᴏ ᴀ &#FCD05C%world%&7..."
+  denied: "%prefix%&cɴᴏɴ ʜᴀɪ ɪ ᴘᴇʀᴍᴇꜱꜱɪ ᴘᴇʀ ᴀᴄᴄᴇᴅᴇʀᴇ ᴀ Qᴜᴇꜱᴛᴏ ᴍᴏɴᴅᴏ."
+
+mondo:
+  created: "%prefix%&#FCD05Cᴍᴏɴᴅᴏ &f%world% &#FCD05Cᴄʀᴇᴀᴛᴏ ᴄᴏɴ ꜱᴜᴄᴄᴇꜱꜱᴏ."
+  deleted: "%prefix%&cᴍᴏɴᴅᴏ &f%world% &cᴇʟɪᴍɪɴᴀᴛᴏ."
+  loaded: "%prefix%&#FCD05Cᴍᴏɴᴅᴏ &f%world% &#FCD05Cᴄᴀʀɪᴄᴀᴛᴏ."
+  list-header: "&#FCD05C&lᴍᴏɴᴅɪ ᴅɪꜱᴘᴏɴɪʙɪʟɪ"
+  list-entry: " &8» &#FCD05C%world% &7(%type%)"
+
+storage:
+  type: YAML
+
+command-blocker:
+  enabled: true
+  override:
+    - spawn
+    - setspawn
+    - tphere
+    - tpall
+    - fly
+    - god
+    - vanish
+    - msg
+    - reply
+    - r
+  unregister:
+    - help
+    - '?'
+
+chat:
+  proximity:
+    enabled: true
+    radius: 15
+    nobody-in-range-message: false
+  proximity-nobody: "&8&o(ɴᴇꜱꜱᴜɴᴏ ᴘᴜò ꜱᴇɴᴛɪʀᴛɪ Qᴜɪ ᴠɪᴄɪɴᴏ...)"
+  empty-message: "%prefix%&cᴅᴇᴠɪ ꜱᴄʀɪᴠᴇʀᴇ Qᴜᴀʟᴄᴏꜱᴀ ᴘʀɪᴍᴀ ᴅɪ ɪɴᴠɪᴀʀᴇ."
+  message-too-long: "%prefix%&cɪʟ ᴛᴜᴏ ᴍᴇꜱꜱᴀɢɢɪᴏ è ᴛʀᴏᴘᴘᴏ ʟᴜɴɢᴏ."
+  message-blocked: "%prefix%&cɪʟ ᴛᴜᴏ ᴍᴇꜱꜱᴀɢɢɪᴏ ᴄᴏɴᴛɪᴇɴᴇ ᴘᴀʀᴏʟᴇ ɴᴏɴ ᴄᴏɴꜱᴇɴᴛɪᴛᴇ."
+  chat-muted: "%prefix%&cʟᴀ ᴄʜᴀᴛ è ᴀᴛᴛᴜᴀʟᴍᴇɴᴛᴇ ᴍᴜᴛᴀᴛᴀ."
+  hover:
+    enabled: true
+    lines:
+      - ''
+      - '&7Nome: &f%rp_name%'
+      - '&7Cognome: &f%rp_surname%'
+      - '&7Codice Fiscale: &f%player%'
+      - ''
+      - '&#FCD05Cᴄʟɪᴄᴄᴀ ᴘᴇʀ ᴄᴏᴘɪᴀʀᴇ ɪʟ ɴᴏᴍᴇ'
+    lines-no-rp:
+      - ''
+      - '&7Nome: &f%player%'
+      - ''
+      - '&#FCD05Cᴄʟɪᴄᴄᴀ ᴘᴇʀ ᴄᴏᴘɪᴀʀᴇ ɪʟ ɴᴏᴍᴇ'
+  formats:
+    normal: '&7%rp_name% &8» &f%message%'
+    azione:
+      radius: 15
+      format: '&#FCD05Cᴀᴢɪᴏɴᴇ &r&7%rp_name% &8» &e%message%'
+      anonymous: '&#FCD05Cᴀᴢɪᴏɴᴇ &r&7&oAnonimo &8» &e%message%'
+    bisbiglio:
+      radius: 15
+      format: '&3&lʙɪꜱʙɪɢʟɪᴏ &r&7%rp_name% &8» &3%message%'
+      anonymous: '&3&lʙɪꜱʙɪɢʟɪᴏ &r&7&oAnonimo &8» &3%message%'
+    urlo:
+      radius: 25
+      format: '&c&lᴜʀʟᴏ &r&7%rp_name% &8» &c%message%'
+      anonymous: '&c&lᴜʀʟᴏ &7&oAnonimo &8» &c%message%'
+
+clearchat:
+  permission: DistrictRP.clearchat
+  bypass-permission: DistrictRP.clearchat.bypass
+  lines: 2000
+  cleared: "%prefix%&#FCD05Cᴄʜᴀᴛ ᴘᴜʟɪᴛᴀ ᴅᴀ &f%staff%&#FCD05C."
+
+spawn:
+  permission: DistrictRP.spawn
+  set-permission: DistrictRP.setspawn
+  default-world: world
+  set: "%prefix%&#FCD05Cꜱᴘᴀᴡɴ ᴅᴇʟ ᴍᴏɴᴅᴏ &f%world% &#FCD05Cɪᴍᴘᴏꜱᴛᴀᴛᴏ ᴄᴏʀʀᴇᴛᴛᴀᴍᴇɴᴛᴇ."
+  teleported: "%prefix%&#FCD05Cᴛɪ ꜱᴇɪ ᴛᴇʟᴇᴛʀᴀꜱᴘᴏʀᴛᴀᴛᴏ ᴀʟʟᴏ ꜱᴘᴀᴡɴ &7(%world%)"
+  world-not-found: "%prefix%&cɪʟ ᴍᴏɴᴅᴏ &#FCD05C%world% &cɴᴏɴ ᴇꜱɪꜱᴛᴇ."
+  no-spawn-set: "%prefix%&cɴᴇꜱꜱᴜɴᴏ ꜱᴘᴀᴡɴ ᴄᴏɴꜰɪɢᴜʀᴀᴛᴏ ᴘᴇʀ Qᴜᴇꜱᴛᴏ ᴍᴏɴᴅᴏ."
