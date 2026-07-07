@@ -9,12 +9,14 @@ import com.sk89q.worldguard.protection.regions.RegionContainer;
 import dev.breach.DistrictRP.DistrictRP;
 import dev.breach.DistrictRP.commands.roleplay.appuntamenti.AppuntamentoManager;
 import dev.breach.DistrictRP.commands.roleplay.playtime.PlaytimeTracker;
+import dev.breach.DistrictRP.commands.roleplay.plot.PlotSquaredHook;
 import dev.breach.DistrictRP.commands.roleplay.profile.RPProfile;
 import dev.breach.DistrictRP.commands.roleplay.profile.RPProfileManager;
 import dev.breach.DistrictRP.commands.roleplay.protection.ProtectionManager;
 import dev.breach.DistrictRP.commands.roleplay.ticket.Ticket;
 import dev.breach.DistrictRP.commands.roleplay.ticket.TicketManager;
 import dev.breach.DistrictRP.functions.VanishManager;
+import dev.breach.DistrictRP.functions.servermode.ServerMode;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -131,6 +133,35 @@ public class RoleplayPlaceholders extends PlaceholderExpansion {
             case "is_staff": return Boolean.toString(isStaff(player));
             case "effective_symbol": return getEffectiveSymbol(player);
             case "effective_prefix": return getEffectivePrefix(player);
+        }
+
+        switch (key) {
+            case "servermode": {
+                if (plugin.getServerModeManager() == null) return "OFF";
+                return plugin.getServerModeManager().getCurrent().name();
+            }
+            case "servermode_display": {
+                if (plugin.getServerModeManager() == null) return "OFF";
+                return plugin.getServerModeManager().getCurrentDisplay();
+            }
+            case "is_servermode_lobby":
+                return Boolean.toString(isServerMode(ServerMode.LOBBY));
+            case "is_servermode_creative":
+                return Boolean.toString(isServerMode(ServerMode.CREATIVE));
+            case "is_servermode_roleplay":
+                return Boolean.toString(isServerMode(ServerMode.ROLEPLAY));
+            case "is_servermode_off":
+                return Boolean.toString(isServerMode(ServerMode.OFF));
+        }
+
+        switch (key) {
+            case "current_plot": return getCurrentPlot(player);
+            case "current_plot_owner": return getCurrentPlotOwner(player);
+            case "is_plot_owner": return Boolean.toString(isPlotOwner(player));
+            case "is_plot_trusted": return Boolean.toString(isPlotTrusted(player));
+            case "is_in_plot": return Boolean.toString(isInPlot(player));
+            case "is_in_own_plot": return Boolean.toString(isPlotOwner(player));
+            case "owned_plots": return String.valueOf(getOwnedPlotsCount(player));
         }
 
         switch (key) {
@@ -261,6 +292,58 @@ public class RoleplayPlaceholders extends PlaceholderExpansion {
         }
 
         return null;
+    }
+
+    private boolean isServerMode(ServerMode mode) {
+        if (plugin.getServerModeManager() == null) return mode == ServerMode.OFF;
+        return plugin.getServerModeManager().getCurrent() == mode;
+    }
+
+    private PlotSquaredHook getPlotHook() {
+        if (plugin.getRoleplay() == null || plugin.getRoleplay().getPlotAddon() == null) return null;
+        return plugin.getRoleplay().getPlotAddon().getHook();
+    }
+
+    private String getCurrentPlot(OfflinePlayer player) {
+        if (!player.isOnline() || player.getPlayer() == null) return "";
+        PlotSquaredHook h = getPlotHook();
+        if (h == null || !h.isAvailable()) return "";
+        return h.getCurrentPlotId(player.getPlayer());
+    }
+
+    private String getCurrentPlotOwner(OfflinePlayer player) {
+        if (!player.isOnline() || player.getPlayer() == null) return "";
+        PlotSquaredHook h = getPlotHook();
+        if (h == null || !h.isAvailable()) return "";
+        return h.getCurrentPlotOwnerName(player.getPlayer());
+    }
+
+    private boolean isPlotOwner(OfflinePlayer player) {
+        if (!player.isOnline() || player.getPlayer() == null) return false;
+        PlotSquaredHook h = getPlotHook();
+        if (h == null || !h.isAvailable()) return false;
+        return h.isPlotOwner(player.getPlayer());
+    }
+
+    private boolean isPlotTrusted(OfflinePlayer player) {
+        if (!player.isOnline() || player.getPlayer() == null) return false;
+        PlotSquaredHook h = getPlotHook();
+        if (h == null || !h.isAvailable()) return false;
+        return h.isPlotTrusted(player.getPlayer());
+    }
+
+    private boolean isInPlot(OfflinePlayer player) {
+        if (!player.isOnline() || player.getPlayer() == null) return false;
+        PlotSquaredHook h = getPlotHook();
+        if (h == null || !h.isAvailable()) return false;
+        return h.isInPlot(player.getPlayer());
+    }
+
+    private int getOwnedPlotsCount(OfflinePlayer player) {
+        if (!player.isOnline() || player.getPlayer() == null) return 0;
+        PlotSquaredHook h = getPlotHook();
+        if (h == null || !h.isAvailable()) return 0;
+        return h.getOwnedPlotsCount(player.getPlayer());
     }
 
     private String getWorldGuardRegion(OfflinePlayer player) {

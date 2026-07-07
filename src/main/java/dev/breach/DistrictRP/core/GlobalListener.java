@@ -2,6 +2,7 @@ package dev.breach.DistrictRP.core;
 
 import dev.breach.DistrictRP.DistrictRP;
 import dev.breach.DistrictRP.functions.MessageUtils;
+import dev.breach.DistrictRP.functions.servermode.ServerMode;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -45,14 +46,15 @@ public class GlobalListener implements Listener {
         Player player = event.getPlayer();
         event.setJoinMessage(null);
 
-        boolean lobbyMode = plugin.getLobbyModeManager() != null && plugin.getLobbyModeManager().isEnabled();
-
         String joinMsg = MessageUtils.color(plugin.getConfig().getString("join.message", ""));
         if (joinMsg.isEmpty()) return;
-
         String finalMsg = joinMsg.replace("%player%", player.getName());
 
-        if (lobbyMode) {
+        ServerMode current = plugin.getServerModeManager() != null
+                ? plugin.getServerModeManager().getCurrent()
+                : ServerMode.OFF;
+
+        if (current == ServerMode.LOBBY || current == ServerMode.CREATIVE) {
             Bukkit.broadcastMessage(finalMsg);
             return;
         }
@@ -68,14 +70,15 @@ public class GlobalListener implements Listener {
         Player player = event.getPlayer();
         event.setQuitMessage(null);
 
-        boolean lobbyMode = plugin.getLobbyModeManager() != null && plugin.getLobbyModeManager().isEnabled();
-
         String msg = MessageUtils.color(plugin.getConfig().getString("quit.message", ""));
         if (msg.isEmpty()) return;
-
         String finalMsg = msg.replace("%player%", player.getName());
 
-        if (lobbyMode) {
+        ServerMode current = plugin.getServerModeManager() != null
+                ? plugin.getServerModeManager().getCurrent()
+                : ServerMode.OFF;
+
+        if (current == ServerMode.LOBBY || current == ServerMode.CREATIVE) {
             Bukkit.broadcastMessage(finalMsg);
             return;
         }

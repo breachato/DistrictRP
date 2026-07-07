@@ -16,26 +16,26 @@ public class DataManager {
 
     private final DistrictRP plugin;
 
-    private File homesFile, warpsFile, recFile, mondiFile;
-    private FileConfiguration homes, warps, spawn, perms, rec, elevators, mondi;
-    private File staffFile;
-    private FileConfiguration staff;
+    private File homesFile, warpsFile, recFile, mondiFile, staffFile, spawnsFile;
+    private FileConfiguration homes, warps, rec, mondi, staff, spawns;
 
     public DataManager(DistrictRP plugin) {
         this.plugin = plugin;
         plugin.getDataFolder().mkdirs();
 
-        homesFile     = load("homes.yml");
-        warpsFile     = load("warps.yml");
-        recFile       = load("rec.yml");
-        mondiFile     = load("mondi.yml");
-        staffFile = load("staff.yml");
+        homesFile  = load("homes.yml");
+        warpsFile  = load("warps.yml");
+        recFile    = load("rec.yml");
+        mondiFile  = load("mondi.yml");
+        staffFile  = load("staff.yml");
+        spawnsFile = load("spawns.yml");
 
-        staff = YamlConfiguration.loadConfiguration(staffFile);
-        homes     = YamlConfiguration.loadConfiguration(homesFile);
-        warps     = YamlConfiguration.loadConfiguration(warpsFile);
-        rec       = YamlConfiguration.loadConfiguration(recFile);
-        mondi     = YamlConfiguration.loadConfiguration(mondiFile);
+        homes  = YamlConfiguration.loadConfiguration(homesFile);
+        warps  = YamlConfiguration.loadConfiguration(warpsFile);
+        rec    = YamlConfiguration.loadConfiguration(recFile);
+        mondi  = YamlConfiguration.loadConfiguration(mondiFile);
+        staff  = YamlConfiguration.loadConfiguration(staffFile);
+        spawns = YamlConfiguration.loadConfiguration(spawnsFile);
     }
 
     private File load(String name) {
@@ -49,9 +49,10 @@ public class DataManager {
     public void saveAll() {
         save(homes, homesFile);
         save(warps, warpsFile);
-        save(rec,   recFile);
+        save(rec, recFile);
         save(mondi, mondiFile);
         save(staff, staffFile);
+        save(spawns, spawnsFile);
     }
 
     private void save(FileConfiguration c, File f) {
@@ -93,21 +94,54 @@ public class DataManager {
                 (float) sec.getDouble("pitch", 0));
     }
 
-    public FileConfiguration homes()     { return homes; }
-    public FileConfiguration warps()     { return warps; }
-    public FileConfiguration spawn()     { return spawn; }
-    public FileConfiguration rec()       { return rec; }
-    public FileConfiguration mondi()     { return mondi; }
+    public FileConfiguration homes()  { return homes; }
+    public FileConfiguration warps()  { return warps; }
+    public FileConfiguration rec()    { return rec; }
+    public FileConfiguration mondi()  { return mondi; }
+    public FileConfiguration staff()  { return staff; }
+    public FileConfiguration spawns() { return spawns; }
 
-    public void saveHomes()     { save(homes, homesFile); }
-    public void saveWarps()     { save(warps, warpsFile); }
-    public void saveRec()       { save(rec, recFile); }
-    public void saveMondi()     { save(mondi, mondiFile); }
+    public void saveHomes()  { save(homes, homesFile); }
+    public void saveWarps()  { save(warps, warpsFile); }
+    public void saveRec()    { save(rec, recFile); }
+    public void saveMondi()  { save(mondi, mondiFile); }
+    public void saveStaff()  { save(staff, staffFile); }
+    public void saveSpawns() { save(spawns, spawnsFile); }
 
-    public FileConfiguration staff() { return staff; }
-    public void saveStaff() { save(staff, staffFile); }
+    public Location getSpawn(String worldName) {
+        if (worldName == null) return null;
+        ConfigurationSection sec = spawns.getConfigurationSection(worldName.toLowerCase());
+        return sectionToLoc(sec);
+    }
 
-    // === VANISH ===
+    public boolean hasSpawn(String worldName) {
+        if (worldName == null) return false;
+        return spawns.isConfigurationSection(worldName.toLowerCase());
+    }
+
+    public void setSpawn(String worldName, Location loc) {
+        if (worldName == null || loc == null || loc.getWorld() == null) return;
+        String key = worldName.toLowerCase();
+        spawns.set(key + ".world", loc.getWorld().getName());
+        spawns.set(key + ".x", loc.getX());
+        spawns.set(key + ".y", loc.getY());
+        spawns.set(key + ".z", loc.getZ());
+        spawns.set(key + ".yaw", loc.getYaw());
+        spawns.set(key + ".pitch", loc.getPitch());
+        saveSpawns();
+    }
+
+    public void removeSpawn(String worldName) {
+        if (worldName == null) return;
+        spawns.set(worldName.toLowerCase(), null);
+        saveSpawns();
+    }
+
+    public Set<String> listSpawnWorlds() {
+        Set<String> keys = spawns.getKeys(false);
+        return keys == null ? Collections.emptySet() : keys;
+    }
+
     public boolean isVanished(UUID uuid) {
         return staff.getBoolean("vanish." + uuid, false);
     }
@@ -153,7 +187,7 @@ public class DataManager {
         ConfigurationSection s = homes.getConfigurationSection(uuid.toString());
         return s == null ? Collections.emptySet() : s.getKeys(false);
     }
-    
+
     public void setWarp(String name, Location loc, String creator) {
         warps.set(name + ".loc", locToMap(loc));
         warps.set(name + ".creator", creator);

@@ -1,5 +1,6 @@
 plugins {
     java
+    id("com.github.johnrengelman.shadow") version "8.1.1"
 }
 
 group = "dev.breach"
@@ -14,7 +15,6 @@ repositories {
     maven("https://jitpack.io")
     maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
     maven("https://maven.enginehub.org/repo/")
-    maven("https://repo.playpro.com/")
 }
 
 dependencies {
@@ -25,7 +25,6 @@ dependencies {
 
     compileOnly("com.sk89q.worldguard:worldguard-bukkit:7.0.9")
     compileOnly("com.sk89q.worldedit:worldedit-bukkit:7.2.15")
-    compileOnly("net.coreprotect:coreprotect:22.2")
 
     implementation("net.dv8tion:JDA:5.0.0-beta.24") {
         exclude(module = "opus-java")
@@ -52,8 +51,27 @@ tasks.processResources {
 }
 
 tasks.jar {
+    enabled = false
+}
+
+tasks.shadowJar {
     archiveBaseName.set("DistrictRP")
     archiveVersion.set(project.version.toString())
     archiveClassifier.set("")
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+    relocate("net.dv8tion.jda", "dev.breach.DistrictRP.lib.jda")
+    relocate("com.pengrad.telegrambot", "dev.breach.DistrictRP.lib.telegram")
+    relocate("okhttp3", "dev.breach.DistrictRP.lib.okhttp3")
+    relocate("okio", "dev.breach.DistrictRP.lib.okio")
+    relocate("com.google.gson", "dev.breach.DistrictRP.lib.gson")
+
+    minimize {
+        exclude(dependency("net.dv8tion:.*:.*"))
+        exclude(dependency("com.github.pengrad:.*:.*"))
+    }
+}
+
+tasks.build {
+    dependsOn(tasks.shadowJar)
 }

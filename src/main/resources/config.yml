@@ -96,13 +96,6 @@ emoji:
   gui-title: '&#FCD05Cᴇᴍᴏᴊɪ'
   list: {}
 
-# ==========================================================
-#   STAFFLIST
-#   - order = rank mostrati in /sl
-#   - ranks = TUTTI i rank registrati (simboli + permessi LP)
-#     Anche quelli fuori da "order" sono usabili nei placeholder
-#     e vengono registrati come permessi Bukkit/LuckPerms.
-# ==========================================================
 stafflist:
   title: '&#FCD05C&lʟɪꜱᴛᴀ ꜱᴛᴀꜰꜰ ᴏɴʟɪɴᴇ'
   format: ' &8• &r%symbol% &8» &#D7D7D7%players%'
@@ -186,12 +179,6 @@ vip-symbols:
   vipplus: { symbol: '', permission: DistrictRP.vipplus }
   vip:     { symbol: '', permission: DistrictRP.vip }
 
-# ==========================================================
-#   STAFFMODE
-#   Nota: COMPASS sostituita da NETHER_STAR per non interferire
-#   con WorldEdit. L'invisibilità ora attiva/disattiva il VANISH
-#   (staff si vedono comunque tra loro tramite DistrictRP.vanish.see).
-# ==========================================================
 staffmode:
   permission: DistrictRP.staffmode
   tp-random-permission: DistrictRP.staffmode.tprandom
@@ -272,21 +259,6 @@ vanish:
   actionbar-flying: ' &#FCD05Cᴠᴏʟᴏ ᴀᴛᴛɪᴠᴏ'
   actionbar-vanish-fly: ' &#FCD05Cᴠᴀɴɪꜱʜ, &#FCD05Cᴠᴏʟᴏ ᴀᴛᴛɪᴠɪ'
 
-lobby-mode:
-  enabled: true
-  format: '%rank%&f%player%%vip% &8» &7%message%'
-  hover-lines:
-    - ''
-    - '&7Nome: &f%player%'
-    - ''
-    - '&#FCD05Cᴄʟɪᴄᴄᴀ ᴘᴇʀ ᴄᴏᴘɪᴀʀᴇ ɪʟ ɴᴏᴍᴇ'
-
-# ==========================================================
-#   PROTECTION (interno, custom)
-#   NB: viene mantenuto per no-build/no-interact/whitelist.
-#   CoreProtect (se presente) logga in parallelo tutte le
-#   azioni per rollback/audit. Il modulo interno resta.
-# ==========================================================
 protection:
   admin-permission: DistrictRP.protection.admin
   permission-bypass: DistrictRP.protection.bypass
@@ -308,9 +280,6 @@ coreprotect:
   log-vanish: true
   log-teleports: true
 
-# ==========================================================
-#   TICKET
-# ==========================================================
 ticket:
   gui-title: '&#FCD05Cꜱᴇʟᴇᴢɪᴏɴᴀ ᴄᴀᴛᴇɢᴏʀɪᴀ'
   staff-permission: DistrictRP.ticket.staff
@@ -444,13 +413,10 @@ playtime:
 logs:
   per-page: 8
 
-# ==========================================================
-#   BOTS
-# ==========================================================
 bots:
   discord:
     enabled: true
-    token: 'se vabbe credici'
+    token: 'certamente'
     guild-id: '1522671317722337420'
     server-name: DistrictRP
     supporto:
@@ -478,7 +444,7 @@ bots:
       recap-channel: '1523728165703258384'
   telegram:
     enabled: true
-    bot-token: 'sisi contaci'
+    bot-token: 'sisi ovvio'
     server-name: DistrictRP
     tickets:
       chat-id-by-category:
@@ -519,3 +485,102 @@ warp:
   sound-teleport: ENTITY_ENDERMAN_TELEPORT
   show-title: true
   data: {}
+
+server-mode:
+  current: OFF
+  broadcast-change: true
+  show-title-on-join: true
+  bypass-permission: DistrictRP.servermode.bypass
+  admin-permission: DistrictRP.servermode.admin
+
+  modes:
+    LOBBY:
+      display: '&#FCD05C&lʟᴏʙʙʏ'
+      auto-teleport-world: lobby
+      force-gamemode: ADVENTURE
+      allow-fly: false
+      chat-format: '%rank%&f%player%%vip% &8» &7%message%'
+      disabled-commands:
+        - msg
+        - reply
+        - r
+        - tphere
+        - tpall
+        - warp
+        - setwarp
+        - delwarp
+        - azione
+        - bisbiglio
+        - urlo
+        - ticket
+        - aiuto
+        - supporto
+        - appuntamento
+        - appuntamenti
+        - profilo
+        - profile
+        - back
+      allowed-commands: []
+
+    CREATIVE:
+      display: '&b&lᴄʀᴇᴀᴛɪᴠᴇ'
+      auto-teleport-world: plots
+      force-gamemode: SURVIVAL
+      allow-fly: false
+      chat-format: '&b[CREATIVE] &f%player% &8» &f%message%'
+      disabled-commands:
+        - azione
+        - bisbiglio
+        - urlo
+        - warp
+        - ticket
+        - aiuto
+        - supporto
+        - appuntamento
+        - appuntamenti
+      allowed-commands: []
+
+    ROLEPLAY:
+      display: '&#FCD05C&lʀᴏʟᴇᴘʟᴀʏ'
+      auto-teleport-world: roleplay
+      force-gamemode: SURVIVAL
+      allow-fly: false
+      chat-format: null
+      disabled-commands:
+        - gmc
+        - gma
+        - gmsp
+        - spawn
+        - warp
+        - setwarp
+        - delwarp
+      allowed-commands: []
+
+    OFF:
+      display: '&8&lᴏꜰꜰ'
+      auto-teleport-world: null
+      force-gamemode: null
+      allow-fly: null
+      chat-format: null
+      disabled-commands: []
+      allowed-commands: []
+
+plot:
+  enabled: true
+  plot-world-name: plots
+  auto-gamemode:
+    enabled: true
+    only-in-mode: CREATIVE
+    inside-plot-owner: CREATIVE
+    inside-plot-trusted: CREATIVE
+    inside-plot-visitor: SURVIVAL
+    outside-plot: SURVIVAL
+  auto-fly:
+    inside-plot-owner: true
+    inside-plot-trusted: true
+    inside-plot-visitor: false
+    outside-plot: false
+  permissions:
+    use: DistrictRP.plot.use
+    admin: DistrictRP.plot.admin
+    unlimited: DistrictRP.plot.unlimited

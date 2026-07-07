@@ -5,6 +5,8 @@ import dev.breach.DistrictRP.commands.staff.*;
 import dev.breach.DistrictRP.commands.utils.*;
 import dev.breach.DistrictRP.core.*;
 import dev.breach.DistrictRP.functions.*;
+import dev.breach.DistrictRP.functions.servermode.ServerModeListener;
+import dev.breach.DistrictRP.functions.servermode.ServerModeManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.CommandExecutor;
@@ -42,8 +44,8 @@ public class DistrictRP extends JavaPlugin {
     private CommandBlocker commandBlocker;
     private StaffModeManager staffModeManager;
     private StaffModeGUI staffModeGUI;
-    private LobbyModeManager lobbyModeManager;
     private CoreProtectHook coreProtectHook;
+    private ServerModeManager serverModeManager;
 
     private RoleplayModule roleplayModule;
 
@@ -119,8 +121,8 @@ public class DistrictRP extends JavaPlugin {
         getLogger().info("[INIT] StaffModeGUI...");
         this.staffModeGUI = safeInit("StaffModeGUI", () -> new StaffModeGUI(this));
 
-        getLogger().info("[INIT] LobbyModeManager...");
-        this.lobbyModeManager = safeInit("LobbyModeManager", () -> new LobbyModeManager(this));
+        getLogger().info("[INIT] ServerModeManager...");
+        this.serverModeManager = safeInit("ServerModeManager", () -> new ServerModeManager(this));
 
         getLogger().info("[INIT] DistrictTabManager...");
         this.tabManager = safeInit("DistrictTabManager", () -> new DistrictTabManager(this));
@@ -134,6 +136,7 @@ public class DistrictRP extends JavaPlugin {
         getLogger().info("[LISTENER] Registrazione listener...");
         safeRegisterListener("GlobalListener", () -> new GlobalListener(this));
         safeRegisterListener("StaffModeListener", () -> new StaffModeListener(this, staffModeManager, staffModeGUI));
+        safeRegisterListener("ServerModeListener", () -> new ServerModeListener(this, serverModeManager));
 
         getLogger().info("[COMMANDS] Registrazione comandi...");
         try {
@@ -305,7 +308,7 @@ public class DistrictRP extends JavaPlugin {
     public VanishManager getVanishManager() { return vanishManager; }
     public StaffModeManager getStaffModeManager() { return staffModeManager; }
     public StaffModeGUI getStaffModeGUI() { return staffModeGUI; }
-    public LobbyModeManager getLobbyModeManager() { return lobbyModeManager; }
+    public ServerModeManager getServerModeManager() { return serverModeManager; }
     public DistrictTabManager getTabManager() { return tabManager; }
     public WorldDownloader getWorldDownloader() { return worldDownloader; }
     public CoreProtectHook getCoreProtectHook() { return coreProtectHook; }

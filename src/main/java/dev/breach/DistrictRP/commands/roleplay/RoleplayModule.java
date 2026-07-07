@@ -14,6 +14,7 @@ import dev.breach.DistrictRP.commands.roleplay.logs.LogsAPI;
 import dev.breach.DistrictRP.commands.roleplay.logs.LogsCommand;
 import dev.breach.DistrictRP.commands.roleplay.playtime.PlaytimeCommand;
 import dev.breach.DistrictRP.commands.roleplay.playtime.PlaytimeTracker;
+import dev.breach.DistrictRP.commands.roleplay.plot.PlotAddon;
 import dev.breach.DistrictRP.commands.roleplay.profile.JobService;
 import dev.breach.DistrictRP.commands.roleplay.profile.ProfileCommand;
 import dev.breach.DistrictRP.commands.roleplay.profile.RPProfileManager;
@@ -21,7 +22,7 @@ import dev.breach.DistrictRP.commands.roleplay.protection.ProtectionCommand;
 import dev.breach.DistrictRP.commands.roleplay.protection.ProtectionInteractionsGUI;
 import dev.breach.DistrictRP.commands.roleplay.protection.ProtectionListener;
 import dev.breach.DistrictRP.commands.roleplay.protection.ProtectionManager;
-import dev.breach.DistrictRP.commands.roleplay.stafflist.StaffListCommand;
+import dev.breach.DistrictRP.commands.roleplay.chat.StaffListCommand;
 import dev.breach.DistrictRP.commands.roleplay.stuck.StuckCommand;
 import dev.breach.DistrictRP.commands.roleplay.supporto.SupportoCommand;
 import dev.breach.DistrictRP.commands.roleplay.supporto.SupportoListener;
@@ -32,16 +33,9 @@ import dev.breach.DistrictRP.commands.roleplay.ticket.TicketQuickRepliesGUI;
 import dev.breach.DistrictRP.commands.roleplay.vanish.VanishTabHandler;
 import dev.breach.DistrictRP.commands.roleplay.warp.WarpCommand;
 import dev.breach.DistrictRP.commands.roleplay.warp.WarpManager;
+import dev.breach.DistrictRP.functions.servermode.ServerModeChatListener;
 import org.bukkit.Bukkit;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandMap;
-import org.bukkit.command.PluginCommand;
-
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.Map;
+import org.bukkit.command.TabCompleter;
 
 public class RoleplayModule {
 
@@ -61,6 +55,7 @@ public class RoleplayModule {
     private ProtectionManager protectionManager;
     private VanishTabHandler vanishTabHandler;
     private WarpManager warpManager;
+    private PlotAddon plotAddon;
     private dev.breach.DistrictRP.commands.ChatGate.ChatGate chatGate;
 
     public RoleplayModule(DistrictRP plugin) {
@@ -96,6 +91,11 @@ public class RoleplayModule {
         plugin.getCommand("chatsym").setExecutor(new ChatSymCommand(plugin, chatSymManager));
         Bukkit.getPluginManager().registerEvents(new ChatSymListener(plugin, chatSymManager), plugin);
 
+        if (plugin.getServerModeManager() != null) {
+            Bukkit.getPluginManager().registerEvents(
+                    new ServerModeChatListener(plugin, plugin.getServerModeManager()), plugin);
+        }
+
         ProfileCommand profileCmd = new ProfileCommand(plugin, profileManager);
         if (plugin.getCommand("profilo") != null) {
             plugin.getCommand("profilo").setExecutor(profileCmd);
@@ -110,8 +110,10 @@ public class RoleplayModule {
         Bukkit.getPluginManager().registerEvents(emojiGUI, plugin);
 
         StaffListCommand slExecutor = new StaffListCommand(plugin);
-        plugin.getCommand("stafflist").setExecutor(slExecutor);
-        forceRegisterCommand("stafflist", slExecutor, "sl");
+        if (plugin.getCommand("stafflist") != null) {
+            plugin.getCommand("stafflist").setExecutor(slExecutor);
+            plugin.getCommand("stafflist").setTabCompleter((TabCompleter) slExecutor);
+        }
 
         ticketGui = new TicketCategoryGUI(plugin, ticketManager);
         Bukkit.getPluginManager().registerEvents(ticketGui, plugin);
@@ -163,53 +165,14 @@ public class RoleplayModule {
             plugin.getCommand("delwarp").setTabCompleter(delwarpExec);
         }
 
+        plotAddon = new PlotAddon(plugin, plugin.getServerModeManager());
+        plotAddon.enable();
+
         vanishTabHandler = new VanishTabHandler(plugin);
         Bukkit.getPluginManager().registerEvents(vanishTabHandler, plugin);
         vanishTabHandler.start();
 
         plugin.getLogger().info("RoleplayModule abilitato.");
-    }
-
-    private void forceRegisterCommand(String name, org.bukkit.command.CommandExecutor executor, String... aliases) {
-        try {
-            Field f = Bukkit.getServer().getClass().getDeclaredField("commandMap");
-            f.setAccessible(true);
-            CommandMap commandMap = (CommandMap) f.get(Bukkit.getServer());
-
-            Field knownCmdsField = null;
-            try {
-                knownCmdsField = commandMap.getClass().getDeclaredField("knownCommands");
-            } catch (NoSuchFieldException nsf) {
-                for (Field fld : commandMap.getClass().getSuperclass().getDeclaredFields()) {
-                    if (java.util.Map.class.isAssignableFrom(fld.getType())) {
-                        knownCmdsField = fld;
-                        break;
-                    }
-                }
-            }
-            if (knownCmdsField != null) {
-                knownCmdsField.setAccessible(true);
-                @SuppressWarnings("unchecked")
-                Map<String, Command> knownCmds = (Map<String, Command>) knownCmdsField.get(commandMap);
-                knownCmds.remove(name.toLowerCase());
-                for (String a : aliases) knownCmds.remove(a.toLowerCase());
-                for (Iterator<Map.Entry<String, Command>> it = knownCmds.entrySet().iterator(); it.hasNext();) {
-                    Map.Entry<String, Command> e = it.next();
-                    String key = e.getKey().toLowerCase();
-                    if (key.endsWith(":" + name.toLowerCase())) it.remove();
-                    for (String a : aliases) if (key.endsWith(":" + a.toLowerCase())) it.remove();
-                }
-            }
-
-            Constructor<PluginCommand> ctor = PluginCommand.class.getDeclaredConstructor(String.class, org.bukkit.plugin.Plugin.class);
-            ctor.setAccessible(true);
-            PluginCommand pc = ctor.newInstance(name, plugin);
-            pc.setExecutor(executor);
-            pc.setAliases(Arrays.asList(aliases));
-            commandMap.register("districtrp", pc);
-        } catch (Throwable t) {
-            plugin.getLogger().warning("[Roleplay] Impossibile forzare registrazione /" + name + ": " + t.getMessage());
-        }
     }
 
     public void disable() {
@@ -221,6 +184,7 @@ public class RoleplayModule {
         if (appuntamentoManager != null) appuntamentoManager.saveAll();
         if (chatSymManager != null) chatSymManager.save();
         if (warpManager != null) warpManager.saveAll();
+        if (plotAddon != null) plotAddon.disable();
         if (chatGate != null) chatGate.disable();
     }
 
@@ -239,4 +203,5 @@ public class RoleplayModule {
     public BotManager getBotManager() { return botManager; }
     public VanishTabHandler getVanishTabHandler() { return vanishTabHandler; }
     public WarpManager getWarpManager() { return warpManager; }
+    public PlotAddon getPlotAddon() { return plotAddon; }
 }

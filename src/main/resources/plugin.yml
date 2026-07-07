@@ -113,6 +113,11 @@ commands:
   stafflist:
     usage: /stafflist
     aliases: [sl]
+  plot:
+    description: Gestione plot (creative mode)
+    usage: /plot <sub>
+    aliases: [ p, plots ]
+    permission: DistrictRP.plot.use
   ticket:
     usage: /ticket <sub>
     aliases: [aiuto]
@@ -174,6 +179,12 @@ commands:
 
 permissions:
   DistrictRP.profile.admin:
+    default: op
+  DistrictRP.plot.use:
+    default: true
+  DistrictRP.plot.admin:
+    default: op
+  DistrictRP.plot.unlimited:
     default: op
   DistrictRP.stuck.admin:
     default: op
@@ -249,6 +260,8 @@ permissions:
       DistrictRP.clearchat.bypass: true
       DistrictRP.warp.manage: true
       DistrictRP.warp.bypass: true
+      DistrictRP.plot.admin: true
+      DistrictRP.plot.unlimited: true
   DistrictRP.vanish:
     default: op
   DistrictRP.vanish.see:

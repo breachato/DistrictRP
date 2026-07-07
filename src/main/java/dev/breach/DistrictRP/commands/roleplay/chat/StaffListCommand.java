@@ -1,4 +1,4 @@
-package dev.breach.DistrictRP.commands.roleplay.stafflist;
+package dev.breach.DistrictRP.commands.roleplay.chat;
 
 import dev.breach.DistrictRP.DistrictRP;
 import dev.breach.DistrictRP.functions.MessageUtils;
@@ -20,6 +20,10 @@ public class StaffListCommand implements CommandExecutor {
 
     public StaffListCommand(DistrictRP plugin) {
         this.plugin = plugin;
+    }
+
+    public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+        return java.util.Collections.emptyList();
     }
 
     @Override
