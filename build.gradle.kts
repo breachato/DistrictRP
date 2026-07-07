@@ -6,8 +6,8 @@ plugins {
 }
 
 group = "dev.breach"
-version = "1.0.0"
-description = "Core ufficiale della DistrictRP"
+version = "2.1.8"
+description = "The proprietary roleplay framework that powers the District Network server."
 
 repositories {
     mavenCentral()
