@@ -116,57 +116,57 @@ stafflist:
     - builder
     - texturemaker
     - staff
-ranks:
-  abbigliamento: { symbol: '', permission: DistrictRP.rank.abbigliamento }
-  admin:         { symbol: '', permission: DistrictRP.rank.admin }
-  banca:         { symbol: '', permission: DistrictRP.rank.banca }
-  blacklist:     { symbol: '', permission: DistrictRP.rank.blacklist }
-  builder:       { symbol: '', permission: DistrictRP.rank.builder }
-  burgy:         { symbol: '', permission: DistrictRP.rank.burgy }
-  casino:        { symbol: '', permission: DistrictRP.rank.casino }
-  cinema:        { symbol: '', permission: DistrictRP.rank.cinema }
-  concessionaria:{ symbol: '', permission: DistrictRP.rank.concessionaria }
-  crime:         { symbol: '', permission: DistrictRP.rank.crime }
-  developer:     { symbol: '', permission: DistrictRP.rank.developer }
-  discoteca:     { symbol: '', permission: DistrictRP.rank.discoteca }
-  district:      { symbol: '', permission: DistrictRP.rank.district }
-  edicola:       { symbol: '', permission: DistrictRP.rank.edicola }
-  electronics:   { symbol: '', permission: DistrictRP.rank.electronics }
-  esta_the:      { symbol: '', permission: DistrictRP.rank.esta_the }
-  estate:        { symbol: '', permission: DistrictRP.rank.estate }
-  fdo:           { symbol: '', permission: DistrictRP.rank.fdo }
-  fdo_2:         { symbol: '', permission: DistrictRP.rank.fdo_2 }
-  finanza:       { symbol: '', permission: DistrictRP.rank.finanza }
-  fondatore:     { symbol: '', permission: DistrictRP.rank.fondatore }
-  gestore:       { symbol: '', permission: DistrictRP.rank.gestore }
-  gioielleria:   { symbol: '', permission: DistrictRP.rank.gioielleria }
-  helper:        { symbol: '', permission: DistrictRP.rank.helper }
-  immobiliare:   { symbol: '', permission: DistrictRP.rank.immobiliare }
-  magazzino:     { symbol: '', permission: DistrictRP.rank.magazzino }
-  magistratura:  { symbol: '', permission: DistrictRP.rank.magistratura }
-  market:        { symbol: '', permission: DistrictRP.rank.market }
-  mod:           { symbol: '', permission: DistrictRP.rank.mod }
-  oracolo:       { symbol: '', permission: DistrictRP.rank.oracolo }
-  ottica:        { symbol: '', permission: DistrictRP.rank.ottica }
-  pasticceria:   { symbol: '', permission: DistrictRP.rank.pasticceria }
-  polizia:       { symbol: '', permission: DistrictRP.rank.polizia }
-  ricercato:     { symbol: '', permission: DistrictRP.rank.ricercato }
-  scuola:        { symbol: '', permission: DistrictRP.rank.scuola }
-  security:      { symbol: '', permission: DistrictRP.rank.security }
-  senato:        { symbol: '', permission: DistrictRP.rank.senato }
-  sospetto:      { symbol: '', permission: DistrictRP.rank.sospetto }
-  srmod:         { symbol: '', permission: DistrictRP.rank.srmod }
-  staff:         { symbol: '', permission: DistrictRP.rank.staff }
-  staffer:       { symbol: '', permission: DistrictRP.rank.staffer }
-  taxi:          { symbol: '', permission: DistrictRP.rank.taxi }
-  texturemaker:  { symbol: '', permission: DistrictRP.rank.texturemaker }
-  the:           { symbol: '', permission: DistrictRP.rank.the }
-  traslochi:     { symbol: '', permission: DistrictRP.rank.traslochi }
-  tutor:         { symbol: '', permission: DistrictRP.rank.tutor }
-  utente:        { symbol: '', permission: DistrictRP.rank.utente }
-  vesuvio:       { symbol: '', permission: DistrictRP.rank.vesuvio }
-  vulcano:       { symbol: '', permission: DistrictRP.rank.vulcano }
-  wanted:        { symbol: '', permission: DistrictRP.rank.wanted }
+  ranks:
+    abbigliamento: { symbol: '', permission: DistrictRP.rank.abbigliamento }
+    admin: { symbol: '', permission: DistrictRP.rank.admin }
+    banca: { symbol: '', permission: DistrictRP.rank.banca }
+    blacklist: { symbol: '', permission: DistrictRP.rank.blacklist }
+    builder: { symbol: '', permission: DistrictRP.rank.builder }
+    burgy: { symbol: '', permission: DistrictRP.rank.burgy }
+    casino: { symbol: '', permission: DistrictRP.rank.casino }
+    cinema: { symbol: '', permission: DistrictRP.rank.cinema }
+    concessionaria: { symbol: '', permission: DistrictRP.rank.concessionaria }
+    crime: { symbol: '', permission: DistrictRP.rank.crime }
+    developer: { symbol: '', permission: DistrictRP.rank.developer }
+    discoteca: { symbol: '', permission: DistrictRP.rank.discoteca }
+    district: { symbol: '', permission: DistrictRP.rank.district }
+    edicola: { symbol: '', permission: DistrictRP.rank.edicola }
+    electronics: { symbol: '', permission: DistrictRP.rank.electronics }
+    esta_the: { symbol: '', permission: DistrictRP.rank.esta_the }
+    estate: { symbol: '', permission: DistrictRP.rank.estate }
+    fdo: { symbol: '', permission: DistrictRP.rank.fdo }
+    fdo_2: { symbol: '', permission: DistrictRP.rank.fdo_2 }
+    finanza: { symbol: '', permission: DistrictRP.rank.finanza }
+    fondatore: { symbol: '', permission: DistrictRP.rank.fondatore }
+    gestore: { symbol: '', permission: DistrictRP.rank.gestore }
+    gioielleria: { symbol: '', permission: DistrictRP.rank.gioielleria }
+    helper: { symbol: '', permission: DistrictRP.rank.helper }
+    immobiliare: { symbol: '', permission: DistrictRP.rank.immobiliare }
+    magazzino: { symbol: '', permission: DistrictRP.rank.magazzino }
+    magistratura: { symbol: '', permission: DistrictRP.rank.magistratura }
+    market: { symbol: '', permission: DistrictRP.rank.market }
+    mod: { symbol: '', permission: DistrictRP.rank.mod }
+    oracolo: { symbol: '', permission: DistrictRP.rank.oracolo }
+    ottica: { symbol: '', permission: DistrictRP.rank.ottica }
+    pasticceria: { symbol: '', permission: DistrictRP.rank.pasticceria }
+    polizia: { symbol: '', permission: DistrictRP.rank.polizia }
+    ricercato: { symbol: '', permission: DistrictRP.rank.ricercato }
+    scuola: { symbol: '', permission: DistrictRP.rank.scuola }
+    security: { symbol: '', permission: DistrictRP.rank.security }
+    senato: { symbol: '', permission: DistrictRP.rank.senato }
+    sospetto: { symbol: '', permission: DistrictRP.rank.sospetto }
+    srmod: { symbol: '', permission: DistrictRP.rank.srmod }
+    staff: { symbol: '', permission: DistrictRP.rank.staff }
+    staffer: { symbol: '', permission: DistrictRP.rank.staffer }
+    taxi: { symbol: '', permission: DistrictRP.rank.taxi }
+    texturemaker: { symbol: '', permission: DistrictRP.rank.texturemaker }
+    the: { symbol: '', permission: DistrictRP.rank.the }
+    traslochi: { symbol: '', permission: DistrictRP.rank.traslochi }
+    tutor: { symbol: '', permission: DistrictRP.rank.tutor }
+    utente: { symbol: '', permission: DistrictRP.rank.utente }
+    vesuvio: { symbol: '', permission: DistrictRP.rank.vesuvio }
+    vulcano: { symbol: '', permission: DistrictRP.rank.vulcano }
+    wanted: { symbol: '', permission: DistrictRP.rank.wanted }
 
 vip-symbols:
   order:
@@ -174,10 +174,10 @@ vip-symbols:
     - mvp
     - vipplus
     - vip
-  mvpplus: { symbol: '', permission: DistrictRP.mvpplus }
-  mvp:     { symbol: '', permission: DistrictRP.mvp }
-  vipplus: { symbol: '', permission: DistrictRP.vipplus }
-  vip:     { symbol: '', permission: DistrictRP.vip }
+  mvpplus: { symbol: '', permission: DistrictRP.mvpplus }
+  mvp: { symbol: '', permission: DistrictRP.mvp }
+  vipplus: { symbol: '', permission: DistrictRP.vipplus }
+  vip: { symbol: '', permission: DistrictRP.vip }
 
 staffmode:
   permission: DistrictRP.staffmode

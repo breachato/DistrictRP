@@ -6,24 +6,22 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-public class StaffListCommand implements CommandExecutor {
+public class StaffListCommand implements CommandExecutor, TabCompleter {
 
     private final DistrictRP plugin;
 
     public StaffListCommand(DistrictRP plugin) {
         this.plugin = plugin;
-    }
-
-    public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
-        return java.util.Collections.emptyList();
     }
 
     @Override
@@ -81,5 +79,10 @@ public class StaffListCommand implements CommandExecutor {
             if (!perm.isEmpty() && player.hasPermission(perm)) return rank;
         }
         return null;
+    }
+
+    @Override
+    public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+        return Collections.emptyList();
     }
 }
