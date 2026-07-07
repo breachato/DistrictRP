@@ -18,7 +18,7 @@ This project is proprietary and **All Rights Reserved**.
 
 You are **not** permitted to:
 
-* use this software on any Minecraft server;
+* use this software anywhere;
 * copy, modify, or redistribute the source code;
 * create derivative works;
 * sell or commercially exploit any part of this project.
