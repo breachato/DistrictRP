@@ -7,7 +7,6 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -56,12 +55,9 @@ public class StaffModeManager {
         p.getInventory().setArmorContents(null);
         p.setGameMode(GameMode.CREATIVE);
 
-        for (PotionEffect e : p.getActivePotionEffects()) {
-            p.removePotionEffect(e.getType());
-        }
+        for (PotionEffect e : p.getActivePotionEffects()) p.removePotionEffect(e.getType());
 
         inStaffMode.add(uuid);
-
         StaffModeItems.giveItems(plugin, p);
 
         if (plugin.getConfig().getBoolean("staffmode.auto-vanish", true)
@@ -84,6 +80,8 @@ public class StaffModeManager {
         }
 
         MessageUtils.sendMsg(p, "staffmode.entered");
+        if (plugin.getCoreProtectHook() != null)
+            plugin.getCoreProtectHook().logCustomAction(p, "staffmode enter");
     }
 
     public void exit(Player p) {
@@ -93,29 +91,15 @@ public class StaffModeManager {
         p.getInventory().clear();
         p.getInventory().setArmorContents(null);
 
-        if (savedInventory.containsKey(uuid)) {
-            p.getInventory().setContents(savedInventory.remove(uuid));
-        }
-        if (savedArmor.containsKey(uuid)) {
-            p.getInventory().setArmorContents(savedArmor.remove(uuid));
-        }
-        if (savedGameMode.containsKey(uuid)) {
-            p.setGameMode(savedGameMode.remove(uuid));
-        }
+        if (savedInventory.containsKey(uuid)) p.getInventory().setContents(savedInventory.remove(uuid));
+        if (savedArmor.containsKey(uuid)) p.getInventory().setArmorContents(savedArmor.remove(uuid));
+        if (savedGameMode.containsKey(uuid)) p.setGameMode(savedGameMode.remove(uuid));
         if (savedEffects.containsKey(uuid)) {
-            for (PotionEffect e : p.getActivePotionEffects()) {
-                p.removePotionEffect(e.getType());
-            }
-            for (PotionEffect e : savedEffects.remove(uuid)) {
-                p.addPotionEffect(e);
-            }
+            for (PotionEffect e : p.getActivePotionEffects()) p.removePotionEffect(e.getType());
+            for (PotionEffect e : savedEffects.remove(uuid)) p.addPotionEffect(e);
         }
-        if (savedAllowFlight.containsKey(uuid)) {
-            p.setAllowFlight(savedAllowFlight.remove(uuid));
-        }
-        if (savedFlying.containsKey(uuid)) {
-            p.setFlying(savedFlying.remove(uuid));
-        }
+        if (savedAllowFlight.containsKey(uuid)) p.setAllowFlight(savedAllowFlight.remove(uuid));
+        if (savedFlying.containsKey(uuid)) p.setFlying(savedFlying.remove(uuid));
 
         if (plugin.getConfig().getBoolean("staffmode.restore-location-on-exit", false)) {
             Location loc = savedLocation.get(uuid);
@@ -123,10 +107,7 @@ public class StaffModeManager {
         }
         savedLocation.remove(uuid);
 
-        if (invisibilityToggled.remove(uuid)) {
-            p.removePotionEffect(PotionEffectType.INVISIBILITY);
-        }
-
+        invisibilityToggled.remove(uuid);
         inStaffMode.remove(uuid);
 
         if (plugin.getVanishManager() != null && plugin.getVanishManager().isVanished(p)) {
@@ -136,6 +117,8 @@ public class StaffModeManager {
         if (plugin.godMode != null) plugin.godMode.remove(uuid);
 
         MessageUtils.sendMsg(p, "staffmode.exited");
+        if (plugin.getCoreProtectHook() != null)
+            plugin.getCoreProtectHook().logCustomAction(p, "staffmode exit");
     }
 
     public void toggle(Player p) {
@@ -147,13 +130,17 @@ public class StaffModeManager {
         UUID uuid = p.getUniqueId();
         if (invisibilityToggled.contains(uuid)) {
             invisibilityToggled.remove(uuid);
-            p.removePotionEffect(PotionEffectType.INVISIBILITY);
+            if (plugin.getVanishManager() != null && plugin.getVanishManager().isVanished(p)) {
+                if (!plugin.getConfig().getBoolean("staffmode.auto-vanish", true)) {
+                    plugin.getVanishManager().disable(p);
+                }
+            }
             MessageUtils.sendMsg(p, "staffmode.invisibility-off");
         } else {
             invisibilityToggled.add(uuid);
-            p.addPotionEffect(new PotionEffect(
-                    PotionEffectType.INVISIBILITY,
-                    Integer.MAX_VALUE, 0, false, false, false));
+            if (plugin.getVanishManager() != null && !plugin.getVanishManager().isVanished(p)) {
+                plugin.getVanishManager().enable(p);
+            }
             MessageUtils.sendMsg(p, "staffmode.invisibility-on");
         }
     }

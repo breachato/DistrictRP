@@ -30,6 +30,8 @@ import dev.breach.DistrictRP.commands.roleplay.ticket.TicketCommand;
 import dev.breach.DistrictRP.commands.roleplay.ticket.TicketManager;
 import dev.breach.DistrictRP.commands.roleplay.ticket.TicketQuickRepliesGUI;
 import dev.breach.DistrictRP.commands.roleplay.vanish.VanishTabHandler;
+import dev.breach.DistrictRP.commands.roleplay.warp.WarpCommand;
+import dev.breach.DistrictRP.commands.roleplay.warp.WarpManager;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandMap;
@@ -37,6 +39,9 @@ import org.bukkit.command.PluginCommand;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.Map;
 
 public class RoleplayModule {
 
@@ -55,6 +60,7 @@ public class RoleplayModule {
     private BotManager botManager;
     private ProtectionManager protectionManager;
     private VanishTabHandler vanishTabHandler;
+    private WarpManager warpManager;
     private dev.breach.DistrictRP.commands.ChatGate.ChatGate chatGate;
 
     public RoleplayModule(DistrictRP plugin) {
@@ -70,6 +76,7 @@ public class RoleplayModule {
         chatSymManager = new ChatSymManager(plugin);
         emojiManager = new EmojiManager(plugin);
         logsAPI = new LogsAPI(plugin);
+        warpManager = new WarpManager(plugin);
 
         chatGate = new dev.breach.DistrictRP.commands.ChatGate.ChatGate(plugin);
         chatGate.enable();
@@ -140,6 +147,22 @@ public class RoleplayModule {
         Bukkit.getPluginManager().registerEvents(new ProtectionListener(plugin, protectionManager), plugin);
         Bukkit.getPluginManager().registerEvents(protGui, plugin);
 
+        WarpCommand warpExec = new WarpCommand(plugin, warpManager, WarpCommand.Mode.WARP);
+        WarpCommand setwarpExec = new WarpCommand(plugin, warpManager, WarpCommand.Mode.SETWARP);
+        WarpCommand delwarpExec = new WarpCommand(plugin, warpManager, WarpCommand.Mode.DELWARP);
+        if (plugin.getCommand("warp") != null) {
+            plugin.getCommand("warp").setExecutor(warpExec);
+            plugin.getCommand("warp").setTabCompleter(warpExec);
+        }
+        if (plugin.getCommand("setwarp") != null) {
+            plugin.getCommand("setwarp").setExecutor(setwarpExec);
+            plugin.getCommand("setwarp").setTabCompleter(setwarpExec);
+        }
+        if (plugin.getCommand("delwarp") != null) {
+            plugin.getCommand("delwarp").setExecutor(delwarpExec);
+            plugin.getCommand("delwarp").setTabCompleter(delwarpExec);
+        }
+
         vanishTabHandler = new VanishTabHandler(plugin);
         Bukkit.getPluginManager().registerEvents(vanishTabHandler, plugin);
         vanishTabHandler.start();
@@ -153,11 +176,11 @@ public class RoleplayModule {
             f.setAccessible(true);
             CommandMap commandMap = (CommandMap) f.get(Bukkit.getServer());
 
-            java.lang.reflect.Field knownCmdsField = null;
+            Field knownCmdsField = null;
             try {
                 knownCmdsField = commandMap.getClass().getDeclaredField("knownCommands");
             } catch (NoSuchFieldException nsf) {
-                for (java.lang.reflect.Field fld : commandMap.getClass().getSuperclass().getDeclaredFields()) {
+                for (Field fld : commandMap.getClass().getSuperclass().getDeclaredFields()) {
                     if (java.util.Map.class.isAssignableFrom(fld.getType())) {
                         knownCmdsField = fld;
                         break;
@@ -167,11 +190,11 @@ public class RoleplayModule {
             if (knownCmdsField != null) {
                 knownCmdsField.setAccessible(true);
                 @SuppressWarnings("unchecked")
-                java.util.Map<String, Command> knownCmds = (java.util.Map<String, Command>) knownCmdsField.get(commandMap);
+                Map<String, Command> knownCmds = (Map<String, Command>) knownCmdsField.get(commandMap);
                 knownCmds.remove(name.toLowerCase());
                 for (String a : aliases) knownCmds.remove(a.toLowerCase());
-                for (java.util.Iterator<java.util.Map.Entry<String, Command>> it = knownCmds.entrySet().iterator(); it.hasNext();) {
-                    java.util.Map.Entry<String, Command> e = it.next();
+                for (Iterator<Map.Entry<String, Command>> it = knownCmds.entrySet().iterator(); it.hasNext();) {
+                    Map.Entry<String, Command> e = it.next();
                     String key = e.getKey().toLowerCase();
                     if (key.endsWith(":" + name.toLowerCase())) it.remove();
                     for (String a : aliases) if (key.endsWith(":" + a.toLowerCase())) it.remove();
@@ -182,7 +205,7 @@ public class RoleplayModule {
             ctor.setAccessible(true);
             PluginCommand pc = ctor.newInstance(name, plugin);
             pc.setExecutor(executor);
-            pc.setAliases(java.util.Arrays.asList(aliases));
+            pc.setAliases(Arrays.asList(aliases));
             commandMap.register("districtrp", pc);
         } catch (Throwable t) {
             plugin.getLogger().warning("[Roleplay] Impossibile forzare registrazione /" + name + ": " + t.getMessage());
@@ -197,6 +220,7 @@ public class RoleplayModule {
         if (ticketManager != null) ticketManager.saveAll();
         if (appuntamentoManager != null) appuntamentoManager.saveAll();
         if (chatSymManager != null) chatSymManager.save();
+        if (warpManager != null) warpManager.saveAll();
         if (chatGate != null) chatGate.disable();
     }
 
@@ -214,4 +238,5 @@ public class RoleplayModule {
     public LogsAPI getLogsAPI() { return logsAPI; }
     public BotManager getBotManager() { return botManager; }
     public VanishTabHandler getVanishTabHandler() { return vanishTabHandler; }
+    public WarpManager getWarpManager() { return warpManager; }
 }

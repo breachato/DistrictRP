@@ -8,9 +8,11 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -99,9 +101,10 @@ public class StaffModeGUI implements Listener {
         viewer.openInventory(inv);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onClick(InventoryClickEvent event) {
         if (!(event.getWhoClicked() instanceof Player viewer)) return;
+
         String tPl = MessageUtils.color(plugin.getConfig().getString(
                 "staffmode.gui.player-list-title", "&8Lista Giocatori"));
         String tSt = MessageUtils.color(plugin.getConfig().getString(
@@ -110,6 +113,7 @@ public class StaffModeGUI implements Listener {
         if (!viewTitle.equals(tPl) && !viewTitle.equals(tSt)) return;
 
         event.setCancelled(true);
+
         ItemStack clicked = event.getCurrentItem();
         if (clicked == null || !clicked.hasItemMeta()) return;
         ItemMeta meta = clicked.getItemMeta();
@@ -130,6 +134,18 @@ public class StaffModeGUI implements Listener {
             if (!viewer.hasPermission(perm)) { MessageUtils.sendMsg(viewer, "general.no-permission"); return; }
             viewer.closeInventory();
             viewer.openInventory(target.getInventory());
+        }
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onDrag(InventoryDragEvent event) {
+        String tPl = MessageUtils.color(plugin.getConfig().getString(
+                "staffmode.gui.player-list-title", "&8Lista Giocatori"));
+        String tSt = MessageUtils.color(plugin.getConfig().getString(
+                "staffmode.gui.staff-list-title", "&8Lista Staff"));
+        String viewTitle = event.getView().getTitle();
+        if (viewTitle.equals(tPl) || viewTitle.equals(tSt)) {
+            event.setCancelled(true);
         }
     }
 }

@@ -3,7 +3,7 @@ version: 1.0.0
 main: dev.breach.DistrictRP.DistrictRP
 api-version: '1.20'
 author: visualizzazione
-description: Core Plugin by visualizzazione, full staff system, world management, elevators and some other utilities.
+description: Core Plugin by visualizzazione
 load: POSTWORLD
 softdepend:
   - LuckPerms
@@ -11,307 +11,214 @@ softdepend:
   - SkinsRestorer
   - Multiverse-Core
   - PlaceholderAPI
+  - CoreProtect
+  - WorldGuard
+  - WorldEdit
 
 commands:
   districtrp:
-    description: Apre il pannello DistrictRP
     usage: /cc [sub-comando]
-    aliases:
-      - cc
+    aliases: [cc]
     permission: DistrictRP.use
-    permission-message: §c✗ Non hai accesso a DistrictRP.
-
   spawn:
-    description: Teleport allo spawn
     usage: /spawn [world]
     permission: DistrictRP.spawn
   setspawn:
-    description: Imposta lo spawn del mondo
     usage: /setspawn [world]
     permission: DistrictRP.setspawn
-
   back:
-    description: Torna alla posizione precedente
     usage: /back
     permission: DistrictRP.back
-
   fly:
-    description: Attiva volo
     usage: /fly [player]
     permission: DistrictRP.fly
   god:
-    description: Godmode
     usage: /god [player]
     permission: DistrictRP.god
   speed:
-    description: Velocita
     usage: /speed <0-10> [player]
     permission: DistrictRP.speed
-
   gms:
-    description: Survival
     usage: /gms [player]
     permission: DistrictRP.gamemode
   gmc:
-    description: Creative
     usage: /gmc [player]
     permission: DistrictRP.gamemode
   gma:
-    description: Adventure
     usage: /gma [player]
     permission: DistrictRP.gamemode
   gmsp:
-    description: Spectator
     usage: /gmsp [player]
     permission: DistrictRP.gamemode
-
   msg:
-    description: Messaggio privato
     usage: /msg <player> <messaggio>
     permission: DistrictRP.msg
   reply:
-    description: Rispondi
     usage: /reply <messaggio>
-    aliases:
-      - r
+    aliases: [r]
     permission: DistrictRP.msg
-
   nick:
-    description: Imposta nick
     usage: /nick <nick> [player]
     permission: DistrictRP.nick
-
   invsee:
-    description: Apri inventario
     usage: /invsee <player>
     permission: DistrictRP.invsee
   enderchest:
-    description: Apri enderchest
     usage: /enderchest [player]
-    aliases:
-      - ec
+    aliases: [ec]
     permission: DistrictRP.enderchest
   clear:
-    description: Svuota inventario
     usage: /clear [player]
     permission: DistrictRP.clear
-
   tphere:
-    description: Teleporta giocatore da te
     usage: /tphere <player>
     permission: DistrictRP.tphere
   tpall:
-    description: Teleporta tutti
     usage: /tpall
     permission: DistrictRP.tpall
-
   clearchat:
-    description: Pulisci chat
     usage: /clearchat
-    aliases:
-      - chatclear
+    aliases: [chatclear]
     permission: DistrictRP.clearchat
-
   build:
-    description: Mondo build
     usage: /build
-    aliases:
-      - assets
+    aliases: [assets]
     permission: DistrictRP.buildworld
   inizia:
-    description: Vai alla citta
     usage: /inizia
-
   mondo:
-    description: Gestione mondi (Multiverse)
-    usage: /mondo <aggiungi|rimuovi|visita|lista|whitelist|blacklist>
-    aliases:
-      - mondi
+    usage: /mondo <sub>
+    aliases: [mondi]
     permission: DistrictRP.mondo
-
   vanish:
-    description: Diventa invisibile ai giocatori non-staff
     usage: /vanish [player]
-    aliases:
-      - v
+    aliases: [v]
     permission: DistrictRP.vanish
   staffmode:
-    description: Attiva/disattiva la modalita staff completa
     usage: /staffmode
-    aliases:
-      - sm
-      - staff
+    aliases: [sm, staff]
     permission: DistrictRP.staffmode
-
   azione:
-    description: Chat azione (raggio 10)
     usage: /azione <testo>
-    aliases:
-      - a
+    aliases: [a]
   bisbiglio:
-    description: Chat bisbiglio (raggio 2)
     usage: /bisbiglio <testo>
   urlo:
-    description: Chat urlo (raggio 20)
     usage: /urlo <testo>
-
   chatsym:
-    description: Gestione simboli chat
-    usage: /chatsym <aggiungi|rimuovi> <args>
+    usage: /chatsym <sub>
     permission: DistrictRP.staffchatsym
-
   emoji:
-    description: Apri menu emoji
     usage: /emoji
-
   stafflist:
-    description: Lista staff online
     usage: /stafflist
-    aliases:
-      - sl
-
+    aliases: [sl]
   ticket:
-    description: Sistema tickets
-    usage: /ticket <crea|chiudi|info|commenta|lista|claim|riapri>
-    aliases:
-      - aiuto
-
+    usage: /ticket <sub>
+    aliases: [aiuto]
   supporto:
-    description: Richiedi supporto rapido
     usage: /supporto
-
   appuntamento:
-    description: Fissa un appuntamento
     usage: /appuntamento
-    aliases:
-      - appuntamenti
-
+    aliases: [appuntamenti]
   stuck:
-    description: Teletrasporto di emergenza
     usage: /stuck
-    aliases:
-      - bloccato
-
+    aliases: [bloccato]
   playtime:
-    description: Mostra tempo di gioco
     usage: /playtime [player]
-    aliases:
-      - info
-
+    aliases: [info]
   logs:
-    description: Visualizza logs modulari
     usage: /logs <modulo> [player] [pagina]
     permission: DistrictRP.logs
-
   protection:
-    description: Gestione protezione mondi
     usage: /protection
-    aliases:
-      - prot
+    aliases: [prot]
     permission: DistrictRP.protection.admin
-
-  appuntamento_select_reparto:
-    description: (internal) Callback GUI appuntamenti
-    usage: /appuntamento_select_reparto <reparto>
-  appuntamento_select_giorno:
-    description: (internal) Callback GUI appuntamenti
-    usage: /appuntamento_select_giorno <giorno>
-  appuntamento_fascia_page:
-    description: (internal) Callback GUI appuntamenti
-    usage: /appuntamento_fascia_page <page>
-  appuntamento_select_orario:
-    description: (internal) Callback GUI appuntamenti
-    usage: /appuntamento_select_orario <orario>
-  ticket_quickreplies:
-    description: (internal) Callback GUI risposte rapide ticket
-    usage: /ticket_quickreplies <id>
-  ticket_cancel_comment:
-    description: (internal) Callback cancellazione commento ticket
-    usage: /ticket_cancel_comment <ticketId> <commentIdx>
-  supporto_continua:
-    description: (internal) Callback continua supporto
-    usage: /supporto_continua
+  warp:
+    usage: /warp <nome>
+    permission: DistrictRP.warp.use
+  setwarp:
+    usage: /setwarp <nome> [permesso]
+    permission: DistrictRP.warp.manage
+  delwarp:
+    usage: /delwarp <nome>
+    permission: DistrictRP.warp.manage
   chat:
-    aliases: [ c ]
-    description: Usa le chat configurate con ChatGate
+    aliases: [c]
     usage: /chat <nome> [messaggio]
-
   chatgate:
-    description: Comando principale gestione ChatGate
-    usage: /chatgate [reload|create|delete|help]
+    usage: /chatgate [sub]
     permission: chatgate.use
-    aliases:
-      - cg
-
+    aliases: [cg]
   wipe:
-    description: Resetta dati di un player (ruoli, progressi, playtime, all)
-    usage: /wipe <player> <ruoli|progressi|playtime|all> [confirm]
+    usage: /wipe <player> <tipo> [confirm]
     permission: DistrictRP.wipe
-
   profilo:
-    description: Gestione profilo RP (staff only)
     usage: /profilo <sub> <player> [valore]
-    aliases:
-      - profile
+    aliases: [profile]
     permission: DistrictRP.profile.admin
-
+  appuntamento_select_reparto:
+    usage: /appuntamento_select_reparto
+  appuntamento_select_giorno:
+    usage: /appuntamento_select_giorno
+  appuntamento_fascia_page:
+    usage: /appuntamento_fascia_page
+  appuntamento_select_orario:
+    usage: /appuntamento_select_orario
+  ticket_quickreplies:
+    usage: /ticket_quickreplies
+  ticket_cancel_comment:
+    usage: /ticket_cancel_comment
+  supporto_continua:
+    usage: /supporto_continua
 
 permissions:
-
   DistrictRP.profile.admin:
-    description: Gestione profili RP
     default: op
   DistrictRP.stuck.admin:
-    description: Gestione punti sicuri per /stuck
     default: op
   DistrictRP.vip:
-    description: Rank VIP
     default: false
   DistrictRP.vipplus:
-    description: Rank VIP+
     default: false
   DistrictRP.mvp:
-    description: Rank MVP
     default: false
   DistrictRP.mvpplus:
-    description: Rank MVP+
     default: false
-
   DistrictRP.wipe:
-    description: Usa /wipe per resettare dati player
     default: op
-
+  DistrictRP.warp.use:
+    default: true
+  DistrictRP.warp.manage:
+    default: op
+  DistrictRP.warp.bypass:
+    default: op
   chatgate.use:
-    description: Uso base chatgate
     default: op
   chatgate.reload:
-    description: Ricarica config chatgate
     default: op
   chatgate.create:
-    description: Crea nuove chat
     default: op
   chatgate.delete:
-    description: Elimina chat esistenti
     default: op
   chatgate.antispam.bypass:
-    description: Bypass antispam chatgate
     default: op
-
   DistrictRP.*:
-    description: Tutti i permessi DistrictRP
     default: op
     children:
       DistrictRP.staff: true
       DistrictRP.admin: true
-
   DistrictRP.staff:
-    description: Permessi generici staff
     default: op
     children:
       DistrictRP.vanish: true
       DistrictRP.vanish.see: true
       DistrictRP.vanish.others: true
       DistrictRP.staffmode: true
+      DistrictRP.staffmode.tprandom: true
+      DistrictRP.staffmode.invsee: true
+      DistrictRP.staffmode.tptarget: true
+      DistrictRP.staff.notify: true
       DistrictRP.use: true
       DistrictRP.fly: true
       DistrictRP.fly.others: true
@@ -328,9 +235,7 @@ permissions:
       DistrictRP.clearchat: true
       DistrictRP.ticket.staff: true
       DistrictRP.staffchatsym: true
-
   DistrictRP.admin:
-    description: Permessi admin
     default: op
     children:
       DistrictRP.back: true
@@ -342,175 +247,127 @@ permissions:
       DistrictRP.protection.admin: true
       DistrictRP.protection.bypass: true
       DistrictRP.clearchat.bypass: true
-
+      DistrictRP.warp.manage: true
+      DistrictRP.warp.bypass: true
   DistrictRP.vanish:
-    description: Usa /vanish
     default: op
   DistrictRP.vanish.see:
-    description: Vedi player in vanish
     default: op
   DistrictRP.vanish.others:
-    description: Metti in vanish altri player
     default: op
   DistrictRP.staffmode:
-    description: Attiva/disattiva staffmode
+    default: op
+  DistrictRP.staffmode.tprandom:
+    default: op
+  DistrictRP.staffmode.invsee:
+    default: op
+  DistrictRP.staffmode.tptarget:
+    default: op
+  DistrictRP.staff.notify:
     default: op
   DistrictRP.use:
-    description: Usa pannello DistrictRP
     default: op
   DistrictRP.spawn:
-    description: Usa /spawn
     default: true
   DistrictRP.setspawn:
-    description: Usa /setspawn
     default: op
   DistrictRP.back:
-    description: Usa /back
     default: op
   DistrictRP.fly:
-    description: Usa /fly
     default: op
   DistrictRP.fly.others:
-    description: Usa /fly su altri
     default: op
   DistrictRP.god:
-    description: Usa /god
     default: op
   DistrictRP.god.others:
-    description: Usa /god su altri
     default: op
   DistrictRP.speed:
-    description: Usa /speed
     default: op
   DistrictRP.speed.others:
-    description: Usa /speed su altri
     default: op
   DistrictRP.gamemode:
-    description: Usa gamemode
     default: op
   DistrictRP.msg:
-    description: Usa /msg
     default: true
   DistrictRP.nick:
-    description: Usa /nick
     default: op
   DistrictRP.invsee:
-    description: Usa /invsee
     default: op
   DistrictRP.enderchest:
-    description: Usa /enderchest
     default: true
   DistrictRP.enderchest.others:
-    description: Usa /enderchest su altri
     default: op
   DistrictRP.clear:
-    description: Usa /clear
     default: op
   DistrictRP.clear.others:
-    description: Usa /clear su altri
     default: op
   DistrictRP.tphere:
-    description: Usa /tphere
     default: op
   DistrictRP.tpall:
-    description: Usa /tpall
     default: op
   DistrictRP.clearchat:
-    description: Usa /clearchat
     default: op
   DistrictRP.clearchat.bypass:
-    description: Bypass del clearchat
     default: op
   DistrictRP.buildworld:
-    description: Accesso al mondo build
     default: op
   DistrictRP.mondo:
-    description: Usa /mondo
     default: op
   DistrictRP.mondo.bypass:
-    description: Bypass restrizioni mondi
     default: op
   DistrictRP.staffchatsym:
-    description: Usa simboli chat staff
     default: op
   DistrictRP.emojiaccess:
-    description: Accesso emoji in chat
     default: true
   DistrictRP.logs:
-    description: Visualizza logs
     default: op
   DistrictRP.ticket.staff:
-    description: Gestione staff tickets
     default: op
   DistrictRP.reparto.generale:
-    description: Notifiche reparto generale
     default: op
   DistrictRP.reparto.tecnico:
-    description: Notifiche reparto tecnico
     default: op
   DistrictRP.reparto.edilizia:
-    description: Notifiche reparto edilizia
     default: op
   DistrictRP.reparto.aziende:
-    description: Notifiche reparto aziende
     default: op
   DistrictRP.reparto.fdo:
-    description: Notifiche reparto FDO
     default: op
   DistrictRP.reparto.criminalita:
-    description: Notifiche reparto criminalita
     default: op
   DistrictRP.reparto.economia:
-    description: Notifiche reparto economia
     default: op
   DistrictRP.appuntamenti.aziende:
-    description: Notifiche appuntamenti aziende
     default: op
   DistrictRP.appuntamenti.criminalita:
-    description: Notifiche appuntamenti criminalita
     default: op
   DistrictRP.appuntamenti.economia:
-    description: Notifiche appuntamenti economia
     default: op
   DistrictRP.appuntamenti.marketing:
-    description: Notifiche appuntamenti marketing
     default: op
   DistrictRP.appuntamenti.eventi:
-    description: Notifiche appuntamenti eventi
     default: op
   DistrictRP.protection.admin:
-    description: Admin protection
     default: op
   DistrictRP.protection.bypass:
-    description: Bypass protection
     default: op
   DistrictRP.rank.fondatore:
-    description: Rank Fondatore
     default: false
   DistrictRP.rank.admin:
-    description: Rank Admin
     default: false
   DistrictRP.rank.srmod:
-    description: Rank Sr. Mod
     default: false
   DistrictRP.rank.mod:
-    description: Rank Mod
     default: false
   DistrictRP.rank.helper:
-    description: Rank Helper
     default: false
   DistrictRP.rank.tutor:
-    description: Rank Tutor
     default: false
   DistrictRP.rank.developer:
-    description: Rank Developer
     default: false
   DistrictRP.rank.builder:
-    description: Rank Builder
     default: false
   DistrictRP.rank.texturemaker:
-    description: Rank Texture Maker
     default: false
   DistrictRP.rank.staff:
-    description: Rank Staff generico
     default: false

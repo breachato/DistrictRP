@@ -8,7 +8,11 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 public class DistrictTabManager implements TabCompleter {
@@ -34,17 +38,8 @@ public class DistrictTabManager implements TabCompleter {
             "azione", "bisbiglio", "urlo"
     );
 
-    private static final List<String> EL_SUBS = Arrays.asList(
-            "gui", "get", "give", "setname", "resetname", "setgroup",
-            "setcooldown", "link", "unlink", "info", "list", "reload", "deleteall"
-    );
-
-    private static final List<String> EL_TYPES = Arrays.asList(
-            "classic", "express", "vip", "freight", "glass"
-    );
-
     private static final List<String> PERMS_SUBS = Arrays.asList("list", "add", "remove");
-    private static final List<String> SPEED_NUMS = Arrays.asList("0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10");
+    private static final List<String> SPEED_NUMS = Arrays.asList("0","1","2","3","4","5","6","7","8","9","10");
 
     private static final List<String> TICKET_SUBS = Arrays.asList(
             "crea", "claim", "unclaim", "chiudi", "info",
@@ -52,10 +47,26 @@ public class DistrictTabManager implements TabCompleter {
     );
 
     private static final List<String> CHATSYM_SUBS = Arrays.asList("aggiungi", "rimuovi");
-    private static final List<String> LOGS_SUBS = Arrays.asList("chat", "comandi", "morti", "bank", "police", "crime", "hit", "job", "smanetta", "borghese", "blitz");
+    private static final List<String> LOGS_SUBS = Arrays.asList("chat","comandi","morti","bank","police","crime","hit","job","smanetta","borghese","blitz");
     private static final List<String> PROTECTION_SUBS = Arrays.asList("toggle", "whitelist", "interactions", "info");
     private static final List<String> PROTECTION_TOGGLE = Arrays.asList("build", "interact");
     private static final List<String> PROTECTION_WL = Arrays.asList("add", "remove", "list");
+
+    private static final List<String> MONDO_SUBS = Arrays.asList(
+            "aggiungi", "crea", "add",
+            "rimuovi", "elimina", "remove",
+            "visita", "tp",
+            "lista", "list",
+            "whitelist", "blacklist"
+    );
+    private static final List<String> MONDO_WL_ACTIONS = Arrays.asList(
+            "aggiungi", "rimuovi", "lista", "add", "remove", "list"
+    );
+
+    private static final List<String> WIPE_TYPES = Arrays.asList("ruoli", "progressi", "playtime", "all");
+    private static final List<String> PROFILO_SUBS = Arrays.asList(
+            "nome","cognome","eta","nascita","sesso","bio","nazionalita","job","vedi"
+    );
 
     public DistrictTabManager(DistrictRP plugin) {
         this.plugin = plugin;
@@ -68,82 +79,41 @@ public class DistrictTabManager implements TabCompleter {
         String cmd = command.getName().toLowerCase();
 
         switch (cmd) {
-            case "districtrp":
-                return handleDistrictRP(sender, args);
-            case "elevator":
-                return handleElevator(sender, args);
-            case "perms":
-                return handlePerms(sender, args);
+            case "districtrp": return handleDistrictRP(sender, args);
+            case "perms":      return handlePerms(sender, args);
             case "home":
-            case "delhome":
-                return handleHomes(sender, args);
+            case "delhome":    return handleHomes(sender, args);
             case "warp":
-            case "delwarp":
-                return handleWarps(sender, args);
-            case "speed":
-                return handleSpeed(sender, args);
+            case "delwarp":    return handleWarps(sender, args);
+            case "speed":      return handleSpeed(sender, args);
             case "mondo":
-            case "mondi":
-                return handleMondo(sender, args);
+            case "mondi":      return handleMondo(sender, args);
             case "ticket":
-            case "aiuto":
-                return handleTicket(sender, args);
-            case "chatsym":
-                return handleChatSym(sender, args);
-            case "logs":
-                return handleLogs(sender, args);
+            case "aiuto":      return handleTicket(sender, args);
+            case "chatsym":    return handleChatSym(sender, args);
+            case "logs":       return handleLogs(sender, args);
             case "protection":
-            case "prot":
-                return handleProtection(sender, args);
+            case "prot":       return handleProtection(sender, args);
+            case "wipe":       return handleWipe(sender, args);
+            case "profilo":
+            case "profile":    return handleProfilo(sender, args);
             case "playtime":
             case "info":
                 if (args.length == 1) return filterPlayers(args[0]);
                 return empty();
-            case "fly":
-            case "god":
-            case "gms":
-            case "gmc":
-            case "gma":
-            case "gmsp":
-            case "tphere":
-            case "invsee":
-            case "clear":
-            case "tpall":
-            case "enderchest":
-            case "msg":
+            case "fly": case "god": case "gms": case "gmc": case "gma": case "gmsp":
+            case "tphere": case "invsee": case "clear": case "tpall": case "enderchest": case "msg":
                 if (args.length == 1) return filterPlayers(args[0]);
                 return empty();
             case "nick":
                 if (args.length == 2) return filterPlayers(args[1]);
                 return empty();
-            case "vanish":
-            case "v":
+            case "vanish": case "v":
                 if (args.length == 1 && sender.hasPermission("DistrictRP.vanish.others"))
                     return filterPlayers(args[0]);
                 return empty();
-            case "staffmode":
-            case "sm":
-            case "staff":
-                return empty();
-            case "spawn":
+            case "spawn": case "setspawn":
                 if (args.length == 1) return filterWorlds(args[0]);
-                return empty();
-            case "setspawn":
-                if (args.length == 1) return filterWorlds(args[0]);
-                return empty();
-            case "azione":
-            case "bisbiglio":
-            case "urlo":
-            case "supporto":
-            case "appuntamento":
-            case "appuntamenti":
-            case "stuck":
-            case "bloccato":
-            case "stafflist":
-            case "sl":
-            case "emoji":
-            case "clearchat":
-            case "chatclear":
                 return empty();
             default:
                 return empty();
@@ -151,43 +121,24 @@ public class DistrictTabManager implements TabCompleter {
     }
 
     private List<String> handleDistrictRP(CommandSender sender, String[] args) {
-        if (args.length == 1) {
-            return filter(CC_SUBS, args[0]);
-        }
+        if (args.length == 1) return filter(CC_SUBS, args[0]);
         if (args.length >= 2) {
             String sub = args[0].toLowerCase();
-            if (Arrays.asList("fly", "god", "tphere", "invsee", "enderchest", "clear",
-                    "gms", "gmc", "gma", "gmsp", "msg", "nick", "playtime").contains(sub)) {
+            if (Arrays.asList("fly","god","tphere","invsee","enderchest","clear",
+                    "gms","gmc","gma","gmsp","msg","nick","playtime").contains(sub)) {
                 if (args.length == 2) return filterPlayers(args[1]);
             }
             if (sub.equals("speed")) {
                 if (args.length == 2) return filter(SPEED_NUMS, args[1]);
                 if (args.length == 3) return filterPlayers(args[2]);
             }
-            if (sub.equals("home") || sub.equals("delhome")) {
-                if (args.length == 2 && sender instanceof Player p) {
-                    return filter(new ArrayList<>(plugin.getDataManager().listHomes(p.getUniqueId())), args[1]);
-                }
-            }
-            if (sub.equals("warp") || sub.equals("delwarp")) {
-                if (args.length == 2) {
-                    return filter(new ArrayList<>(plugin.getDataManager().listWarps()), args[1]);
-                }
-            }
+            if (sub.equals("mondo")) return handleMondo(sender, shiftArgs(args));
+            if (sub.equals("ticket")) return handleTicket(sender, shiftArgs(args));
+            if (sub.equals("chatsym")) return handleChatSym(sender, shiftArgs(args));
+            if (sub.equals("logs")) return handleLogs(sender, shiftArgs(args));
+            if (sub.equals("protection")) return handleProtection(sender, shiftArgs(args));
             if (sub.equals("spawn") || sub.equals("setspawn")) {
                 if (args.length == 2) return filterWorlds(args[1]);
-            }
-            if (sub.equals("ticket")) {
-                return handleTicket(sender, shiftArgs(args));
-            }
-            if (sub.equals("chatsym")) {
-                return handleChatSym(sender, shiftArgs(args));
-            }
-            if (sub.equals("logs")) {
-                return handleLogs(sender, shiftArgs(args));
-            }
-            if (sub.equals("protection")) {
-                return handleProtection(sender, shiftArgs(args));
             }
         }
         return empty();
@@ -195,26 +146,12 @@ public class DistrictTabManager implements TabCompleter {
 
     private List<String> handleTicket(CommandSender sender, String[] args) {
         if (args.length == 1) return filter(TICKET_SUBS, args[0]);
-        if (args.length == 2) {
-            String sub = args[0].toLowerCase();
-            if (sub.equals("lista")) return filterPlayers(args[1]);
-            if (sub.equals("categoria")) return empty();
-        }
+        if (args.length == 2 && args[0].equalsIgnoreCase("lista")) return filterPlayers(args[1]);
         if (args.length == 3 && args[0].equalsIgnoreCase("categoria")) {
             if (plugin.getRoleplay() != null && plugin.getRoleplay().getTicketManager() != null) {
                 List<String> cats = new ArrayList<>();
                 plugin.getRoleplay().getTicketManager().getCategories().forEach(c -> cats.add(c.getId()));
                 return filter(cats, args[2]);
-            }
-        }
-        if (args.length == 3 && args[0].equalsIgnoreCase("lista")) {
-            return filter(Arrays.asList("1", "2", "3", "4", "5"), args[2]);
-        }
-        if (args.length == 4 && args[0].equalsIgnoreCase("lista")) {
-            if (plugin.getRoleplay() != null && plugin.getRoleplay().getTicketManager() != null) {
-                List<String> cats = new ArrayList<>();
-                plugin.getRoleplay().getTicketManager().getCategories().forEach(c -> cats.add(c.getId()));
-                return filter(cats, args[3]);
             }
         }
         return empty();
@@ -240,7 +177,7 @@ public class DistrictTabManager implements TabCompleter {
             return filter(LOGS_SUBS, args[0]);
         }
         if (args.length == 2) return filterPlayers(args[1]);
-        if (args.length == 3) return filter(Arrays.asList("1", "2", "3", "4", "5"), args[2]);
+        if (args.length == 3) return filter(Arrays.asList("1","2","3","4","5"), args[2]);
         return empty();
     }
 
@@ -252,29 +189,9 @@ public class DistrictTabManager implements TabCompleter {
             if (sub.equals("toggle")) return filter(PROTECTION_TOGGLE, args[2]);
             if (sub.equals("whitelist")) return filter(PROTECTION_WL, args[2]);
         }
-        if (args.length == 4) {
-            String sub = args[0].toLowerCase();
-            if (sub.equals("whitelist")) {
-                String action = args[2].toLowerCase();
-                if (action.equals("add") || action.equals("remove")) return filterPlayers(args[3]);
-            }
-        }
-        return empty();
-    }
-
-    private List<String> handleElevator(CommandSender sender, String[] args) {
-        if (args.length == 1) return filter(EL_SUBS, args[0]);
-        if (args.length == 2) {
-            String sub = args[0].toLowerCase();
-            switch (sub) {
-                case "get": return filter(EL_TYPES, args[1]);
-                case "give": return filterPlayers(args[1]);
-                case "setcooldown": return filter(SPEED_NUMS, args[1]);
-                default: return empty();
-            }
-        }
-        if (args.length == 3 && args[0].equalsIgnoreCase("give")) {
-            return filter(EL_TYPES, args[2]);
+        if (args.length == 4 && args[0].equalsIgnoreCase("whitelist")) {
+            String action = args[2].toLowerCase();
+            if (action.equals("add") || action.equals("remove")) return filterPlayers(args[3]);
         }
         return empty();
     }
@@ -283,9 +200,7 @@ public class DistrictTabManager implements TabCompleter {
         if (args.length == 1) return filter(PERMS_SUBS, args[0]);
         if (args.length == 2) {
             String sub = args[0].toLowerCase();
-            if (sub.equals("add") || sub.equals("remove")) {
-                return filterPlayers(args[1]);
-            }
+            if (sub.equals("add") || sub.equals("remove")) return filterPlayers(args[1]);
         }
         return empty();
     }
@@ -311,44 +226,61 @@ public class DistrictTabManager implements TabCompleter {
     }
 
     private List<String> handleMondo(CommandSender sender, String[] args) {
-        List<String> SUBS = Arrays.asList(
-                "aggiungi", "rimuovi", "visita", "lista", "whitelist", "blacklist");
-        List<String> WL_ACTIONS = Arrays.asList("aggiungi", "rimuovi", "lista");
-
-        if (args.length == 1) return filter(SUBS, args[0]);
+        if (args.length == 1) return filter(MONDO_SUBS, args[0]);
 
         String sub = args[0].toLowerCase();
 
         if (args.length == 2) {
             switch (sub) {
-                case "rimuovi":
-                case "visita":
-                    if (plugin.getMultiverse() != null && plugin.getMultiverse().isReady())
-                        return filter(plugin.getMultiverse().listWorlds(), args[1]);
-                    return filterWorlds(args[1]);
-                case "whitelist":
-                case "blacklist":
-                    return filter(WL_ACTIONS, args[1]);
-                case "aggiungi":
+                case "rimuovi": case "elimina": case "remove":
+                case "visita":  case "tp":
+                    return filter(getAvailableWorlds(), args[1]);
+                case "whitelist": case "blacklist":
+                    return filter(MONDO_WL_ACTIONS, args[1]);
+                case "aggiungi": case "crea": case "add":
+                case "lista":    case "list":
                     return empty();
             }
         }
         if (args.length == 3) {
             if (sub.equals("whitelist") || sub.equals("blacklist")) {
-                if (plugin.getMultiverse() != null && plugin.getMultiverse().isReady())
-                    return filter(plugin.getMultiverse().listWorlds(), args[2]);
-                return filterWorlds(args[2]);
+                return filter(getAvailableWorlds(), args[2]);
             }
         }
         if (args.length == 4) {
             if (sub.equals("whitelist") || sub.equals("blacklist")) {
                 String action = args[1].toLowerCase();
-                if (action.equals("aggiungi") || action.equals("rimuovi")) {
+                if (action.equals("aggiungi") || action.equals("rimuovi")
+                        || action.equals("add") || action.equals("remove")) {
                     return filterPlayers(args[3]);
                 }
             }
         }
         return empty();
+    }
+
+    private List<String> handleWipe(CommandSender sender, String[] args) {
+        if (args.length == 1) return filterPlayers(args[0]);
+        if (args.length == 2) return filter(WIPE_TYPES, args[1]);
+        if (args.length == 3) return filter(Collections.singletonList("confirm"), args[2]);
+        return empty();
+    }
+
+    private List<String> handleProfilo(CommandSender sender, String[] args) {
+        if (args.length == 1) return filter(PROFILO_SUBS, args[0]);
+        if (args.length == 2) return filterPlayers(args[1]);
+        return empty();
+    }
+
+    private List<String> getAvailableWorlds() {
+        List<String> list = new ArrayList<>();
+        if (plugin.getMultiverse() != null && plugin.getMultiverse().isReady()) {
+            try { list.addAll(plugin.getMultiverse().listWorlds()); } catch (Throwable ignored) {}
+        }
+        if (list.isEmpty()) {
+            for (var w : Bukkit.getWorlds()) list.add(w.getName());
+        }
+        return list;
     }
 
     private List<String> filter(List<String> options, String prefix) {
@@ -383,7 +315,5 @@ public class DistrictTabManager implements TabCompleter {
         return Arrays.copyOfRange(args, 1, args.length);
     }
 
-    private List<String> empty() {
-        return Collections.emptyList();
-    }
+    private List<String> empty() { return Collections.emptyList(); }
 }

@@ -16,8 +16,8 @@ import java.util.UUID;
 
 public class VanishManager {
 
-    public static final String VANISH_SUFFIX = ChatColor.translateAlternateColorCodes('&', " &7[ &cVANISH &7]");
     public static final String SEE_PERMISSION = "DistrictRP.vanish.see";
+    public static final String VANISH_SUFFIX = ChatColor.translateAlternateColorCodes('&', " &fᴠᴀɴɪꜱʜ");
 
     private final DistrictRP plugin;
     private final Set<UUID> vanished = new HashSet<>();
@@ -25,98 +25,88 @@ public class VanishManager {
 
     public VanishManager(DistrictRP plugin) {
         this.plugin = plugin;
-
         for (String s : plugin.getDataManager().getAllVanished()) {
-            try {
-                vanished.add(UUID.fromString(s));
-            } catch (Exception ignored) {}
+            try { vanished.add(UUID.fromString(s)); } catch (Exception ignored) {}
         }
-
         startEquipmentHideTask();
+    }
+
+    public static String getVanishSuffix() {
+        try {
+            String raw = DistrictRP.get().getConfig().getString("vanish.tab-suffix", " &fᴠᴀɴɪꜱʜ");
+            return ChatColor.translateAlternateColorCodes('&', raw);
+        } catch (Throwable t) {
+            return VANISH_SUFFIX;
+        }
     }
 
     private void startEquipmentHideTask() {
         equipmentHideTask = Bukkit.getScheduler().runTaskTimer(plugin, () -> {
             for (UUID uuid : vanished) {
-                Player vanishedPlayer = Bukkit.getPlayer(uuid);
-                if (vanishedPlayer == null) continue;
-                hideEquipmentFromNonStaff(vanishedPlayer);
+                Player vp = Bukkit.getPlayer(uuid);
+                if (vp == null) continue;
+                hideEquipmentFromNonStaff(vp);
             }
         }, 20L, 20L);
     }
 
-    private void hideEquipmentFromNonStaff(Player vanishedPlayer) {
+    private void hideEquipmentFromNonStaff(Player vp) {
         ItemStack air = new ItemStack(org.bukkit.Material.AIR);
         for (Player viewer : Bukkit.getOnlinePlayers()) {
-            if (viewer.equals(vanishedPlayer)) continue;
+            if (viewer.equals(vp)) continue;
             if (viewer.hasPermission(SEE_PERMISSION)) continue;
             try {
-                viewer.sendEquipmentChange(vanishedPlayer, EquipmentSlot.HAND, air);
-                viewer.sendEquipmentChange(vanishedPlayer, EquipmentSlot.OFF_HAND, air);
-                viewer.sendEquipmentChange(vanishedPlayer, EquipmentSlot.HEAD, air);
-                viewer.sendEquipmentChange(vanishedPlayer, EquipmentSlot.CHEST, air);
-                viewer.sendEquipmentChange(vanishedPlayer, EquipmentSlot.LEGS, air);
-                viewer.sendEquipmentChange(vanishedPlayer, EquipmentSlot.FEET, air);
+                viewer.sendEquipmentChange(vp, EquipmentSlot.HAND, air);
+                viewer.sendEquipmentChange(vp, EquipmentSlot.OFF_HAND, air);
+                viewer.sendEquipmentChange(vp, EquipmentSlot.HEAD, air);
+                viewer.sendEquipmentChange(vp, EquipmentSlot.CHEST, air);
+                viewer.sendEquipmentChange(vp, EquipmentSlot.LEGS, air);
+                viewer.sendEquipmentChange(vp, EquipmentSlot.FEET, air);
             } catch (Throwable ignored) {}
         }
     }
 
-    private void restoreEquipmentForAll(Player vanishedPlayer) {
+    private void restoreEquipmentForAll(Player vp) {
         for (Player viewer : Bukkit.getOnlinePlayers()) {
-            if (viewer.equals(vanishedPlayer)) continue;
+            if (viewer.equals(vp)) continue;
             try {
-                viewer.sendEquipmentChange(vanishedPlayer, EquipmentSlot.HAND,
-                        vanishedPlayer.getInventory().getItemInMainHand());
-                viewer.sendEquipmentChange(vanishedPlayer, EquipmentSlot.OFF_HAND,
-                        vanishedPlayer.getInventory().getItemInOffHand());
-                viewer.sendEquipmentChange(vanishedPlayer, EquipmentSlot.HEAD,
-                        vanishedPlayer.getInventory().getHelmet() != null
-                                ? vanishedPlayer.getInventory().getHelmet()
-                                : new ItemStack(org.bukkit.Material.AIR));
-                viewer.sendEquipmentChange(vanishedPlayer, EquipmentSlot.CHEST,
-                        vanishedPlayer.getInventory().getChestplate() != null
-                                ? vanishedPlayer.getInventory().getChestplate()
-                                : new ItemStack(org.bukkit.Material.AIR));
-                viewer.sendEquipmentChange(vanishedPlayer, EquipmentSlot.LEGS,
-                        vanishedPlayer.getInventory().getLeggings() != null
-                                ? vanishedPlayer.getInventory().getLeggings()
-                                : new ItemStack(org.bukkit.Material.AIR));
-                viewer.sendEquipmentChange(vanishedPlayer, EquipmentSlot.FEET,
-                        vanishedPlayer.getInventory().getBoots() != null
-                                ? vanishedPlayer.getInventory().getBoots()
-                                : new ItemStack(org.bukkit.Material.AIR));
+                viewer.sendEquipmentChange(vp, EquipmentSlot.HAND, vp.getInventory().getItemInMainHand());
+                viewer.sendEquipmentChange(vp, EquipmentSlot.OFF_HAND, vp.getInventory().getItemInOffHand());
+                viewer.sendEquipmentChange(vp, EquipmentSlot.HEAD, safe(vp.getInventory().getHelmet()));
+                viewer.sendEquipmentChange(vp, EquipmentSlot.CHEST, safe(vp.getInventory().getChestplate()));
+                viewer.sendEquipmentChange(vp, EquipmentSlot.LEGS, safe(vp.getInventory().getLeggings()));
+                viewer.sendEquipmentChange(vp, EquipmentSlot.FEET, safe(vp.getInventory().getBoots()));
             } catch (Throwable ignored) {}
         }
     }
 
-    public boolean isVanished(Player p) {
-        return vanished.contains(p.getUniqueId());
+    private ItemStack safe(ItemStack it) {
+        return it != null ? it : new ItemStack(org.bukkit.Material.AIR);
     }
 
-    public boolean isVanished(UUID uuid) {
-        return vanished.contains(uuid);
-    }
+    public boolean isVanished(Player p) { return vanished.contains(p.getUniqueId()); }
+    public boolean isVanished(UUID uuid) { return vanished.contains(uuid); }
 
     public void enable(Player p) {
         vanished.add(p.getUniqueId());
         plugin.getDataManager().setVanished(p.getUniqueId(), true);
-
         applyVanish(p);
         refreshTabSuffix(p);
         hideEquipmentFromNonStaff(p);
-
         MessageUtils.sendPrefixed(p, "&7Sei ora in &fVanish&#FCD05C.");
+        if (plugin.getCoreProtectHook() != null)
+            plugin.getCoreProtectHook().logCustomAction(p, "vanish enable");
     }
 
     public void disable(Player p) {
         vanished.remove(p.getUniqueId());
         plugin.getDataManager().setVanished(p.getUniqueId(), false);
-
         removeVanish(p);
         refreshTabSuffix(p);
         restoreEquipmentForAll(p);
-
         MessageUtils.sendPrefixed(p, "&7Non sei più in &fVanish&c.");
+        if (plugin.getCoreProtectHook() != null)
+            plugin.getCoreProtectHook().logCustomAction(p, "vanish disable");
     }
 
     public void toggle(Player p) {
@@ -127,19 +117,11 @@ public class VanishManager {
     public void applyVanish(Player p) {
         for (Player other : Bukkit.getOnlinePlayers()) {
             if (other.equals(p)) continue;
-
-            if (other.hasPermission(SEE_PERMISSION)) {
-                other.showPlayer(plugin, p);
-            } else {
-                other.hidePlayer(plugin, p);
-            }
+            if (other.hasPermission(SEE_PERMISSION)) other.showPlayer(plugin, p);
+            else other.hidePlayer(plugin, p);
         }
-
-        p.addPotionEffect(new PotionEffect(
-                PotionEffectType.NIGHT_VISION,
-                Integer.MAX_VALUE, 0, false, false, false
-        ));
-
+        p.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION,
+                Integer.MAX_VALUE, 0, false, false, false));
         p.setAllowFlight(true);
         p.setFlying(true);
         p.setCollidable(false);
@@ -150,7 +132,6 @@ public class VanishManager {
             if (other.equals(p)) continue;
             other.showPlayer(plugin, p);
         }
-
         p.removePotionEffect(PotionEffectType.NIGHT_VISION);
         p.setCollidable(true);
     }
@@ -163,9 +144,8 @@ public class VanishManager {
 
     public void refreshAllTabSuffixes() {
         if (plugin.getRoleplay() != null && plugin.getRoleplay().getVanishTabHandler() != null) {
-            for (Player p : Bukkit.getOnlinePlayers()) {
+            for (Player p : Bukkit.getOnlinePlayers())
                 plugin.getRoleplay().getVanishTabHandler().refreshTarget(p);
-            }
         }
     }
 
@@ -173,28 +153,19 @@ public class VanishManager {
         if (!joiner.hasPermission(SEE_PERMISSION)) {
             for (UUID uuid : vanished) {
                 Player v = Bukkit.getPlayer(uuid);
-                if (v != null && !v.equals(joiner)) {
-                    joiner.hidePlayer(plugin, v);
-                }
+                if (v != null && !v.equals(joiner)) joiner.hidePlayer(plugin, v);
             }
         } else {
             for (UUID uuid : vanished) {
                 Player v = Bukkit.getPlayer(uuid);
-                if (v != null) {
-                    joiner.showPlayer(plugin, v);
-                }
+                if (v != null) joiner.showPlayer(plugin, v);
             }
         }
-
         refreshAllTabSuffixes();
     }
 
-    public void cleanupTeam(Player p) {
-    }
-
-    public Set<UUID> getVanished() {
-        return new HashSet<>(vanished);
-    }
+    public void cleanupTeam(Player p) {}
+    public Set<UUID> getVanished() { return new HashSet<>(vanished); }
 
     public void shutdown() {
         if (equipmentHideTask != null) equipmentHideTask.cancel();

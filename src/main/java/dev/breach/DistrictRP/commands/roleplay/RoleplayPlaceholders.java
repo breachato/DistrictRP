@@ -1,5 +1,11 @@
 package dev.breach.DistrictRP.commands.roleplay;
 
+import com.sk89q.worldedit.bukkit.BukkitAdapter;
+import com.sk89q.worldguard.WorldGuard;
+import com.sk89q.worldguard.protection.ApplicableRegionSet;
+import com.sk89q.worldguard.protection.managers.RegionManager;
+import com.sk89q.worldguard.protection.regions.ProtectedRegion;
+import com.sk89q.worldguard.protection.regions.RegionContainer;
 import dev.breach.DistrictRP.DistrictRP;
 import dev.breach.DistrictRP.commands.roleplay.appuntamenti.AppuntamentoManager;
 import dev.breach.DistrictRP.commands.roleplay.playtime.PlaytimeTracker;
@@ -32,6 +38,8 @@ public class RoleplayPlaceholders extends PlaceholderExpansion {
     private final SimpleDateFormat sdfTime = new SimpleDateFormat("HH:mm");
     private final SimpleDateFormat sdfFull = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
+    private final boolean worldGuardAvailable;
+
     public RoleplayPlaceholders(DistrictRP plugin,
                                 RPProfileManager profiles,
                                 PlaytimeTracker playtime,
@@ -40,6 +48,7 @@ public class RoleplayPlaceholders extends PlaceholderExpansion {
         this.profiles = profiles;
         this.playtime = playtime;
         this.tickets = tickets;
+        this.worldGuardAvailable = Bukkit.getPluginManager().getPlugin("WorldGuard") != null;
     }
 
     @Override public @NotNull String getIdentifier() { return "districtrp"; }
@@ -89,9 +98,6 @@ public class RoleplayPlaceholders extends PlaceholderExpansion {
             case "address": return p.getLastKnownAddress();
             case "vehicle": return p.getVehicle();
             case "vehicle_plate": return p.getVehiclePlate();
-        }
-
-        switch (key) {
             case "azienda": return p.getAzienda() == null ? "" : p.getAzienda();
             case "azienda_ruolo": return p.getAziendaRuolo() == null ? "" : p.getAziendaRuolo();
             case "has_azienda": return Boolean.toString(p.hasAzienda());
@@ -112,14 +118,16 @@ public class RoleplayPlaceholders extends PlaceholderExpansion {
         }
 
         switch (key) {
-            case "rank": return getRank(player);
-            case "rank_symbol": return getRankSymbol(player);
+            case "rank": return getRankFromOrder(player);
+            case "rank_symbol": return getRankSymbolFromOrder(player);
+            case "rank_any": return getRankAny(player);
+            case "rank_symbol_any": return getRankSymbolAny(player);
             case "rank_symbol_or_none": {
-                String s = getRankSymbol(player);
+                String s = getRankSymbolAny(player);
                 return s.isEmpty() ? "&7[UTENTE]" : s;
             }
-            case "staff_rank": return getRank(player);
-            case "staff_symbol": return getRankSymbol(player);
+            case "staff_rank": return getRankFromOrder(player);
+            case "staff_symbol": return getRankSymbolFromOrder(player);
             case "is_staff": return Boolean.toString(isStaff(player));
             case "effective_symbol": return getEffectiveSymbol(player);
             case "effective_prefix": return getEffectivePrefix(player);
@@ -145,25 +153,25 @@ public class RoleplayPlaceholders extends PlaceholderExpansion {
             case "vanish_status": return Boolean.toString(isVanished(player));
             case "vanish_suffix": return getVanishSuffix(player);
             case "vanish_count": return String.valueOf(countVanished());
-        }
-
-        switch (key) {
             case "staffmode_status": return Boolean.toString(isInStaffMode(player));
             case "staffmode_suffix": return isInStaffMode(player) ? " §7[ §5STAFFMODE §7]" : "";
             case "staffmode_count": return String.valueOf(countStaffMode());
-        }
-
-        switch (key) {
             case "stuck_active": return Boolean.toString(isStuckActive(player));
             case "stuck_seconds": return String.valueOf(getStuckSeconds(player));
         }
 
         switch (key) {
-            case "current_world": return player.isOnline() && player.getPlayer() != null ? player.getPlayer().getWorld().getName() : "";
+            case "current_world": return player.isOnline() && player.getPlayer() != null
+                    ? player.getPlayer().getWorld().getName() : "";
             case "current_world_protected": return Boolean.toString(isCurrentWorldProtected(player));
             case "current_world_no_build": return Boolean.toString(isCurrentWorldNoBuild(player));
             case "current_world_no_interact": return Boolean.toString(isCurrentWorldNoInteract(player));
             case "current_world_whitelisted": return Boolean.toString(isCurrentWorldWhitelisted(player));
+            case "region": return getWorldGuardRegion(player);
+            case "region_or_none": {
+                String r = getWorldGuardRegion(player);
+                return r.isEmpty() ? "wilderness" : r;
+            }
         }
 
         if (player.isOnline()) {
@@ -195,10 +203,9 @@ public class RoleplayPlaceholders extends PlaceholderExpansion {
         switch (key) {
             case "deaths": return String.valueOf(p.getDeaths());
             case "kills": return String.valueOf(p.getKills());
-            case "kd_ratio": {
+            case "kd_ratio":
                 if (p.getDeaths() == 0) return String.valueOf(p.getKills());
                 return String.format("%.2f", (double) p.getKills() / p.getDeaths());
-            }
             case "first_join": return sdfFull.format(new Date(p.getFirstJoin()));
             case "first_join_date": return sdfDate.format(new Date(p.getFirstJoin()));
             case "last_join": return sdfFull.format(new Date(p.getLastJoin()));
@@ -213,6 +220,14 @@ public class RoleplayPlaceholders extends PlaceholderExpansion {
         if (key.startsWith("has_permesso_")) {
             String perm = key.substring("has_permesso_".length());
             return Boolean.toString(p.hasPermesso(perm));
+        }
+        if (key.startsWith("has_rank_")) {
+            String rank = key.substring("has_rank_".length());
+            return Boolean.toString(hasRank(player, rank));
+        }
+        if (key.startsWith("symbol_")) {
+            String rank = key.substring("symbol_".length());
+            return getSymbolFor(rank);
         }
 
         switch (key) {
@@ -248,43 +263,83 @@ public class RoleplayPlaceholders extends PlaceholderExpansion {
         return null;
     }
 
-    private double getTps() {
+    private String getWorldGuardRegion(OfflinePlayer player) {
+        if (!worldGuardAvailable) return "";
+        if (!player.isOnline() || player.getPlayer() == null) return "";
         try {
-            Object server = Bukkit.getServer().getClass().getMethod("getServer").invoke(Bukkit.getServer());
-            double[] tps = (double[]) server.getClass().getField("recentTps").get(server);
-            return tps[0];
+            Player pl = player.getPlayer();
+            RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
+            RegionManager regions = container.get(BukkitAdapter.adapt(pl.getWorld()));
+            if (regions == null) return "";
+            ApplicableRegionSet set = regions.getApplicableRegions(
+                    BukkitAdapter.adapt(pl.getLocation()).toVector().toBlockPoint());
+            if (set.size() == 0) return "";
+            ProtectedRegion highest = null;
+            for (ProtectedRegion r : set) {
+                if (highest == null || r.getPriority() > highest.getPriority()) highest = r;
+            }
+            return highest != null ? highest.getId() : "";
         } catch (Throwable t) {
-            return 20.0;
+            return "";
         }
     }
 
-    private String getRank(OfflinePlayer player) {
+    private String getRankFromOrder(OfflinePlayer player) {
         if (!player.isOnline() || player.getPlayer() == null) return "";
         FileConfiguration cfg = plugin.getConfig();
         ConfigurationSection ranks = cfg.getConfigurationSection("stafflist.ranks");
         if (ranks == null) return "";
         for (String order : cfg.getStringList("stafflist.order")) {
-            ConfigurationSection r = ranks.getConfigurationSection(order);
-            if (r == null) continue;
-            String perm = r.getString("permission", "");
+            String perm = ranks.getString(order + ".permission", "");
             if (!perm.isEmpty() && player.getPlayer().hasPermission(perm)) return order;
         }
         return "";
     }
 
-    private String getRankSymbol(OfflinePlayer player) {
-        String rank = getRank(player);
+    private String getRankSymbolFromOrder(OfflinePlayer player) {
+        String rank = getRankFromOrder(player);
         if (rank.isEmpty()) return "";
         return plugin.getConfig().getString("stafflist.ranks." + rank + ".symbol", "");
     }
 
+    private String getRankAny(OfflinePlayer player) {
+        if (!player.isOnline() || player.getPlayer() == null) return "";
+        FileConfiguration cfg = plugin.getConfig();
+        ConfigurationSection ranks = cfg.getConfigurationSection("stafflist.ranks");
+        if (ranks == null) return "";
+        for (String order : cfg.getStringList("stafflist.order")) {
+            String perm = ranks.getString(order + ".permission", "");
+            if (!perm.isEmpty() && player.getPlayer().hasPermission(perm)) return order;
+        }
+        for (String rk : ranks.getKeys(false)) {
+            String perm = ranks.getString(rk + ".permission", "");
+            if (!perm.isEmpty() && player.getPlayer().hasPermission(perm)) return rk;
+        }
+        return "";
+    }
+
+    private String getRankSymbolAny(OfflinePlayer player) {
+        String rank = getRankAny(player);
+        if (rank.isEmpty()) return "";
+        return plugin.getConfig().getString("stafflist.ranks." + rank + ".symbol", "");
+    }
+
+    private String getSymbolFor(String rank) {
+        return plugin.getConfig().getString("stafflist.ranks." + rank + ".symbol", "");
+    }
+
+    private boolean hasRank(OfflinePlayer player, String rank) {
+        if (!player.isOnline() || player.getPlayer() == null) return false;
+        String perm = plugin.getConfig().getString("stafflist.ranks." + rank + ".permission", "");
+        return !perm.isEmpty() && player.getPlayer().hasPermission(perm);
+    }
+
     private boolean isStaff(OfflinePlayer player) {
-        return !getRank(player).isEmpty();
+        return !getRankFromOrder(player).isEmpty();
     }
 
     private String getEffectiveSymbol(OfflinePlayer player) {
-        if (isStaff(player)) return getRankSymbol(player);
-        return "";
+        return getRankSymbolAny(player);
     }
 
     private String getEffectivePrefix(OfflinePlayer player) {
@@ -300,33 +355,26 @@ public class RoleplayPlaceholders extends PlaceholderExpansion {
 
     private String getVanishSuffix(OfflinePlayer player) {
         if (!isVanished(player)) return "";
-        return VanishManager.VANISH_SUFFIX;
+        return VanishManager.getVanishSuffix();
     }
 
     private boolean isInStaffMode(OfflinePlayer player) {
         try {
             if (plugin.getStaffModeManager() == null) return false;
             return plugin.getStaffModeManager().isInStaffMode(player.getUniqueId());
-        } catch (Throwable t) {
-            return false;
-        }
+        } catch (Throwable t) { return false; }
     }
 
     private boolean isStuckActive(OfflinePlayer player) {
-        try {
-            return plugin.stuckActive.containsKey(player.getUniqueId());
-        } catch (Throwable t) {
-            return false;
-        }
+        try { return plugin.stuckActive.containsKey(player.getUniqueId()); }
+        catch (Throwable t) { return false; }
     }
 
     private int getStuckSeconds(OfflinePlayer player) {
         try {
             Integer s = plugin.stuckActive.get(player.getUniqueId());
             return s != null ? s : 0;
-        } catch (Throwable t) {
-            return 0;
-        }
+        } catch (Throwable t) { return 0; }
     }
 
     private int countAppuntamenti(OfflinePlayer player) {
@@ -334,67 +382,46 @@ public class RoleplayPlaceholders extends PlaceholderExpansion {
             AppuntamentoManager am = plugin.getRoleplay().getAppuntamentoManager();
             if (am == null) return 0;
             int count = 0;
-            for (var a : am.getAll()) {
-                if (a.getPlayer().equals(player.getUniqueId())) count++;
-            }
+            for (var a : am.getAll()) if (a.getPlayer().equals(player.getUniqueId())) count++;
             return count;
-        } catch (Throwable t) {
-            return 0;
-        }
+        } catch (Throwable t) { return 0; }
     }
 
     private String getNextAppuntamento(OfflinePlayer player) {
         try {
             AppuntamentoManager am = plugin.getRoleplay().getAppuntamentoManager();
             if (am == null) return "";
-            for (var a : am.getAll()) {
-                if (a.getPlayer().equals(player.getUniqueId())) {
-                    return a.getGiorno() + " " + a.getOrario() + " (" + a.getReparto() + ")";
-                }
-            }
+            for (var a : am.getAll()) if (a.getPlayer().equals(player.getUniqueId()))
+                return a.getGiorno() + " " + a.getOrario() + " (" + a.getReparto() + ")";
             return "";
-        } catch (Throwable t) {
-            return "";
-        }
+        } catch (Throwable t) { return ""; }
     }
 
     private String getNextAppuntamentoDay(OfflinePlayer player) {
         try {
             AppuntamentoManager am = plugin.getRoleplay().getAppuntamentoManager();
             if (am == null) return "";
-            for (var a : am.getAll()) {
-                if (a.getPlayer().equals(player.getUniqueId())) return a.getGiorno();
-            }
+            for (var a : am.getAll()) if (a.getPlayer().equals(player.getUniqueId())) return a.getGiorno();
             return "";
-        } catch (Throwable t) {
-            return "";
-        }
+        } catch (Throwable t) { return ""; }
     }
 
     private String getNextAppuntamentoTime(OfflinePlayer player) {
         try {
             AppuntamentoManager am = plugin.getRoleplay().getAppuntamentoManager();
             if (am == null) return "";
-            for (var a : am.getAll()) {
-                if (a.getPlayer().equals(player.getUniqueId())) return a.getOrario();
-            }
+            for (var a : am.getAll()) if (a.getPlayer().equals(player.getUniqueId())) return a.getOrario();
             return "";
-        } catch (Throwable t) {
-            return "";
-        }
+        } catch (Throwable t) { return ""; }
     }
 
     private String getNextAppuntamentoReparto(OfflinePlayer player) {
         try {
             AppuntamentoManager am = plugin.getRoleplay().getAppuntamentoManager();
             if (am == null) return "";
-            for (var a : am.getAll()) {
-                if (a.getPlayer().equals(player.getUniqueId())) return a.getReparto();
-            }
+            for (var a : am.getAll()) if (a.getPlayer().equals(player.getUniqueId())) return a.getReparto();
             return "";
-        } catch (Throwable t) {
-            return "";
-        }
+        } catch (Throwable t) { return ""; }
     }
 
     private boolean isCurrentWorldProtected(OfflinePlayer player) {
@@ -404,9 +431,7 @@ public class RoleplayPlaceholders extends PlaceholderExpansion {
             if (pm == null) return false;
             String w = player.getPlayer().getWorld().getName();
             return pm.isNoBuild(w) || pm.isNoInteract(w);
-        } catch (Throwable t) {
-            return false;
-        }
+        } catch (Throwable t) { return false; }
     }
 
     private boolean isCurrentWorldNoBuild(OfflinePlayer player) {
@@ -415,9 +440,7 @@ public class RoleplayPlaceholders extends PlaceholderExpansion {
             ProtectionManager pm = plugin.getRoleplay().getProtectionManager();
             if (pm == null) return false;
             return pm.isNoBuild(player.getPlayer().getWorld().getName());
-        } catch (Throwable t) {
-            return false;
-        }
+        } catch (Throwable t) { return false; }
     }
 
     private boolean isCurrentWorldNoInteract(OfflinePlayer player) {
@@ -426,9 +449,7 @@ public class RoleplayPlaceholders extends PlaceholderExpansion {
             ProtectionManager pm = plugin.getRoleplay().getProtectionManager();
             if (pm == null) return false;
             return pm.isNoInteract(player.getPlayer().getWorld().getName());
-        } catch (Throwable t) {
-            return false;
-        }
+        } catch (Throwable t) { return false; }
     }
 
     private boolean isCurrentWorldWhitelisted(OfflinePlayer player) {
@@ -437,9 +458,7 @@ public class RoleplayPlaceholders extends PlaceholderExpansion {
             ProtectionManager pm = plugin.getRoleplay().getProtectionManager();
             if (pm == null) return false;
             return pm.isWhitelisted(player.getPlayer().getWorld().getName(), player.getPlayer());
-        } catch (Throwable t) {
-            return false;
-        }
+        } catch (Throwable t) { return false; }
     }
 
     private int countTotalTickets(OfflinePlayer player) {
@@ -467,9 +486,7 @@ public class RoleplayPlaceholders extends PlaceholderExpansion {
         try {
             if (plugin.getStaffModeManager() == null) return 0;
             return plugin.getStaffModeManager().getAllInStaffMode().size();
-        } catch (Throwable t) {
-            return 0;
-        }
+        } catch (Throwable t) { return 0; }
     }
 
     private int countStaffOnline() {
@@ -480,10 +497,7 @@ public class RoleplayPlaceholders extends PlaceholderExpansion {
         for (Player pl : Bukkit.getOnlinePlayers()) {
             for (String r : cfg.getStringList("stafflist.order")) {
                 String perm = ranks.getString(r + ".permission", "");
-                if (!perm.isEmpty() && pl.hasPermission(perm)) {
-                    c++;
-                    break;
-                }
+                if (!perm.isEmpty() && pl.hasPermission(perm)) { c++; break; }
             }
         }
         return c;
@@ -491,5 +505,13 @@ public class RoleplayPlaceholders extends PlaceholderExpansion {
 
     private int countNonStaffOnline() {
         return Bukkit.getOnlinePlayers().size() - countStaffOnline();
+    }
+
+    private double getTps() {
+        try {
+            Object server = Bukkit.getServer().getClass().getMethod("getServer").invoke(Bukkit.getServer());
+            double[] tps = (double[]) server.getClass().getField("recentTps").get(server);
+            return tps[0];
+        } catch (Throwable t) { return 20.0; }
     }
 }

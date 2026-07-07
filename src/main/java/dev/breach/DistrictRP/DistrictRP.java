@@ -9,7 +9,10 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.TabCompleter;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.event.Listener;
+import org.bukkit.permissions.Permission;
+import org.bukkit.permissions.PermissionDefault;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -40,6 +43,7 @@ public class DistrictRP extends JavaPlugin {
     private StaffModeManager staffModeManager;
     private StaffModeGUI staffModeGUI;
     private LobbyModeManager lobbyModeManager;
+    private CoreProtectHook coreProtectHook;
 
     private RoleplayModule roleplayModule;
 
@@ -59,7 +63,6 @@ public class DistrictRP extends JavaPlugin {
             reloadConfig();
         } catch (Throwable t) {
             getLogger().warning("Errore saveDefaultConfig: " + t.getMessage());
-            getLogger().warning("Provo a rigenerare il config corrotto...");
             try {
                 File cfgFile = new File(getDataFolder(), "config.yml");
                 if (cfgFile.exists()) {
@@ -81,6 +84,8 @@ public class DistrictRP extends JavaPlugin {
         } catch (Throwable t) {
             getLogger().warning("Errore load messages.yml: " + t.getMessage());
         }
+
+        registerRankPermissions();
 
         this.commandBlocker = safeInit("CommandBlocker", () -> new CommandBlocker(this));
 
@@ -123,6 +128,9 @@ public class DistrictRP extends JavaPlugin {
         getLogger().info("[INIT] WorldDownloader...");
         this.worldDownloader = safeInit("WorldDownloader", () -> new WorldDownloader(this));
 
+        getLogger().info("[INIT] CoreProtectHook...");
+        this.coreProtectHook = safeInit("CoreProtectHook", () -> new CoreProtectHook(this));
+
         getLogger().info("[LISTENER] Registrazione listener...");
         safeRegisterListener("GlobalListener", () -> new GlobalListener(this));
         safeRegisterListener("StaffModeListener", () -> new StaffModeListener(this, staffModeManager, staffModeGUI));
@@ -149,31 +157,64 @@ public class DistrictRP extends JavaPlugin {
         getLogger().info("");
     }
 
+    private void registerRankPermissions() {
+        try {
+            int count = 0;
+            ConfigurationSection ranks = getConfig().getConfigurationSection("stafflist.ranks");
+            if (ranks != null) {
+                for (String key : ranks.getKeys(false)) {
+                    String perm = ranks.getString(key + ".permission");
+                    if (perm != null && !perm.isEmpty()
+                            && Bukkit.getPluginManager().getPermission(perm) == null) {
+                        Bukkit.getPluginManager().addPermission(
+                                new Permission(perm, "DistrictRP rank " + key, PermissionDefault.FALSE));
+                        count++;
+                    }
+                }
+            }
+            ConfigurationSection vip = getConfig().getConfigurationSection("vip-symbols");
+            if (vip != null) {
+                for (String key : vip.getKeys(false)) {
+                    if (key.equalsIgnoreCase("order")) continue;
+                    String perm = vip.getString(key + ".permission");
+                    if (perm != null && !perm.isEmpty()
+                            && Bukkit.getPluginManager().getPermission(perm) == null) {
+                        Bukkit.getPluginManager().addPermission(
+                                new Permission(perm, "DistrictRP vip " + key, PermissionDefault.FALSE));
+                        count++;
+                    }
+                }
+            }
+            String staffNotify = getConfig().getString("staff-notify.permission", "DistrictRP.staff.notify");
+            if (staffNotify != null && Bukkit.getPluginManager().getPermission(staffNotify) == null) {
+                Bukkit.getPluginManager().addPermission(
+                        new Permission(staffNotify, "DistrictRP staff notify", PermissionDefault.OP));
+                count++;
+            }
+            getLogger().info("[Perms] Registrati " + count + " permessi rank/vip in Bukkit PermissionManager.");
+        } catch (Throwable t) {
+            getLogger().warning("[Perms] Errore registrazione permessi: " + t.getMessage());
+        }
+    }
+
     @Override
     public void onDisable() {
         if (roleplayModule != null) {
-            try {
-                roleplayModule.disable();
-            } catch (Throwable t) {
-                getLogger().warning("Errore disable RoleplayModule: " + t.getMessage());
-            }
+            try { roleplayModule.disable(); }
+            catch (Throwable t) { getLogger().warning("Errore disable RoleplayModule: " + t.getMessage()); }
         }
+        if (vanishManager != null) vanishManager.shutdown();
         getLogger().info("[DistrictRP] Plugin disabilitato. (Tag: " + BUILD_TAG + ")");
     }
 
     @FunctionalInterface
-    private interface ThrowingSupplier<T> {
-        T get() throws Throwable;
-    }
+    private interface ThrowingSupplier<T> { T get() throws Throwable; }
 
     private <T> T safeInit(String name, ThrowingSupplier<T> s) {
         try {
             T result = s.get();
-            if (result != null) {
-                getLogger().info("  [OK] " + name + " caricato");
-            } else {
-                getLogger().warning("  [!!] " + name + " restituito null");
-            }
+            if (result != null) getLogger().info("  [OK] " + name + " caricato");
+            else getLogger().warning("  [!!] " + name + " restituito null");
             return result;
         } catch (Throwable t) {
             getLogger().log(Level.SEVERE, "  [ERR] Errore init " + name + ": " + t.getMessage(), t);
@@ -202,6 +243,8 @@ public class DistrictRP extends JavaPlugin {
             getCommand(name).setExecutor(executor);
             if (executor instanceof TabCompleter tc) {
                 getCommand(name).setTabCompleter(tc);
+            } else if (tabManager != null) {
+                getCommand(name).setTabCompleter(tabManager);
             }
         } else {
             getLogger().warning("  [!!] Comando /" + name + " non trovato nel plugin.yml!");
@@ -256,21 +299,15 @@ public class DistrictRP extends JavaPlugin {
     public static DistrictRP get() { return instance; }
 
     public DataManager getDataManager() { return dataManager; }
-
     public WorldManager getWorldManager() { return worldManager; }
     public WorldManager getMultiverseManager() { return worldManager; }
     public WorldManager getMultiverse() { return worldManager; }
-
     public VanishManager getVanishManager() { return vanishManager; }
-
     public StaffModeManager getStaffModeManager() { return staffModeManager; }
     public StaffModeGUI getStaffModeGUI() { return staffModeGUI; }
-
     public LobbyModeManager getLobbyModeManager() { return lobbyModeManager; }
-
     public DistrictTabManager getTabManager() { return tabManager; }
-
     public WorldDownloader getWorldDownloader() { return worldDownloader; }
-
+    public CoreProtectHook getCoreProtectHook() { return coreProtectHook; }
     public RoleplayModule getRoleplay() { return roleplayModule; }
 }

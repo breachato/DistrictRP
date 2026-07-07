@@ -61,14 +61,14 @@ public class ProtectionCommand implements CommandExecutor, TabCompleter {
             case "build" -> {
                 boolean current = manager.isNoBuild(world);
                 manager.setNoBuild(world, !current);
-                String state = !current ? "&cATTIVO" : "&aDISATTIVO";
+                String state = !current ? "attivo" : "disattivato";
                 MessageUtils.sendMsg(sender, "protection.toggled",
                         "type", "No-Build", "state", state, "world", world);
             }
             case "interact" -> {
                 boolean current = manager.isNoInteract(world);
                 manager.setNoInteract(world, !current);
-                String state = !current ? "&cATTIVO" : "&aDISATTIVO";
+                String state = !current ? "attivo" : "disattivato";
                 MessageUtils.sendMsg(sender, "protection.toggled",
                         "type", "No-Interact", "state", state, "world", world);
             }

@@ -26,7 +26,7 @@ public class StaffListCommand implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         List<String> order = plugin.getConfig().getStringList("stafflist.order");
         ConfigurationSection ranks = plugin.getConfig().getConfigurationSection("stafflist.ranks");
-        if (ranks == null) {
+        if (ranks == null || order.isEmpty()) {
             MessageUtils.sendMsg(sender, "stafflist.empty");
             return true;
         }
@@ -37,10 +37,8 @@ public class StaffListCommand implements CommandExecutor {
         for (Player online : Bukkit.getOnlinePlayers()) {
             if (plugin.getVanishManager() != null
                     && plugin.getVanishManager().isVanished(online.getUniqueId())) continue;
-            String rank = resolveRank(online, order, ranks);
-            if (rank != null) {
-                grouped.get(rank).add(online.getName());
-            }
+            String rank = resolveRankFromOrder(online, order, ranks);
+            if (rank != null) grouped.get(rank).add(online.getName());
         }
 
         boolean any = grouped.values().stream().anyMatch(l -> !l.isEmpty());
@@ -49,9 +47,12 @@ public class StaffListCommand implements CommandExecutor {
             return true;
         }
 
-        String title = plugin.getConfig().getString("stafflist.title", "&#FCD05CLISTA &a&lSTAFF ONLINE");
-        String format = plugin.getConfig().getString("stafflist.format", " &8[%symbol%&8] &8» &7%players%");
+        String title = plugin.getConfig().getString("stafflist.title", "&#FCD05C&lLISTA STAFF ONLINE");
+        String format = plugin.getConfig().getString("stafflist.format", " &8• &r%symbol% &8» &7%players%");
+        String header = MessageUtils.get("stafflist.header");
+        String footer = MessageUtils.get("stafflist.footer");
 
+        if (header != null && !header.isEmpty()) sender.sendMessage(MessageUtils.color(header));
         sender.sendMessage(MessageUtils.color(title));
         sender.sendMessage("");
 
@@ -65,15 +66,15 @@ public class StaffListCommand implements CommandExecutor {
                     .replace("%players%", String.join(", ", players));
             sender.sendMessage(MessageUtils.color(line));
         }
+
+        if (footer != null && !footer.isEmpty()) sender.sendMessage(MessageUtils.color(footer));
         return true;
     }
 
-    private String resolveRank(Player player, List<String> order, ConfigurationSection ranks) {
+    private String resolveRankFromOrder(Player player, List<String> order, ConfigurationSection ranks) {
         for (String rank : order) {
             String perm = ranks.getString(rank + ".permission", "");
-            if (!perm.isEmpty() && player.hasPermission(perm)) {
-                return rank;
-            }
+            if (!perm.isEmpty() && player.hasPermission(perm)) return rank;
         }
         return null;
     }

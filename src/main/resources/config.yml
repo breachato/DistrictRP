@@ -1,156 +1,16 @@
-prefix: "&#FCD05C&lᴅɪꜱᴛʀɪᴄᴛʀᴘ &8» &r"
+prefix: '&#FCD05C&lᴅɪꜱᴛʀɪᴄᴛʀᴘ &8» &r'
 
-general:
-  no-permission: "%prefix%&cɴᴏɴ ʜᴀɪ ɪ ᴘᴇʀᴍᴇꜱꜱɪ."
-  only-player: "%prefix%&cQᴜᴇꜱᴛᴏ ᴄᴏᴍᴀɴᴅᴏ è ʀɪꜱᴇʀᴠᴀᴛᴏ ᴀɪ ɢɪᴏᴄᴀᴛᴏʀɪ."
-  player-not-found: "%prefix%&cɢɪᴏᴄᴀᴛᴏʀᴇ ɴᴏɴ ᴛʀᴏᴠᴀᴛᴏ."
-  invalid-args: "%prefix%&cᴀʀɢᴏᴍᴇɴᴛɪ ɴᴏɴ ᴠᴀʟɪᴅɪ."
-  reloaded: "%prefix%&#FCD05Cᴄᴏɴꜰɪɢᴜʀᴀᴢɪᴏɴᴇ ʀɪᴄᴀʀɪᴄᴀᴛᴀ ᴄᴏɴ ꜱᴜᴄᴄᴇꜱꜱᴏ."
-  cooldown: "%prefix%&cᴅᴇᴠɪ ᴀꜱᴘᴇᴛᴛᴀʀᴇ &#FCD05C%seconds% ꜱᴇᴄᴏɴᴅɪ &cᴘʀɪᴍᴀ ᴅɪ ʀɪᴜꜱᴀʀᴇ Qᴜᴇꜱᴛᴏ ᴄᴏᴍᴀɴᴅᴏ."
-  action-disabled: "%prefix%&cQᴜᴇꜱᴛᴀ ᴀᴢɪᴏɴᴇ è ᴀᴛᴛᴜᴀʟᴍᴇɴᴛᴇ ᴅɪꜱᴀʙɪʟɪᴛᴀᴛᴀ."
-
-join:
-  message: "&8+ %player%"
-
-quit:
-  message: "&8- %player%"
+storage:
+  type: YAML
 
 staff-notify:
   permission: DistrictRP.staff.notify
 
-back:
-  teleported: "%prefix%&#FCD05Cꜱᴇɪ ᴛᴏʀɴᴀᴛᴏ ᴀʟʟᴀ ᴛᴜᴀ ᴘᴏꜱɪᴢɪᴏɴᴇ ᴘʀᴇᴄᴇᴅᴇɴᴛᴇ."
-  no-previous: "%prefix%&cɴᴇꜱꜱᴜɴᴀ ᴘᴏꜱɪᴢɪᴏɴᴇ ᴘʀᴇᴄᴇᴅᴇɴᴛᴇ ᴅɪꜱᴘᴏɴɪʙɪʟᴇ."
+join:
+  message: '&8+ %player%'
 
-fly:
-  enabled: "%prefix%&#FCD05Cᴠᴏʟᴏ ᴀᴛᴛɪᴠᴀᴛᴏ."
-  disabled: "%prefix%&cᴠᴏʟᴏ ᴅɪꜱᴀᴛᴛɪᴠᴀᴛᴏ."
-  enabled-other: "%prefix%&#FCD05Cᴠᴏʟᴏ ᴀᴛᴛɪᴠᴀᴛᴏ ᴘᴇʀ &f%player%&#FCD05C."
-  disabled-other: "%prefix%&cᴠᴏʟᴏ ᴅɪꜱᴀᴛᴛɪᴠᴀᴛᴏ ᴘᴇʀ &f%player%&c."
-
-god:
-  enabled: "%prefix%&#FCD05Cɢᴏᴅ ᴍᴏᴅᴇ ᴀᴛᴛɪᴠᴀᴛᴏ."
-  disabled: "%prefix%&cɢᴏᴅ ᴍᴏᴅᴇ ᴅɪꜱᴀᴛᴛɪᴠᴀᴛᴏ."
-
-speed:
-  set: "%prefix%&#FCD05Cᴠᴇʟᴏᴄɪᴛà ɪᴍᴘᴏꜱᴛᴀᴛᴀ ᴀ &f%speed%&#FCD05C."
-  invalid: "%prefix%&cᴠᴀʟᴏʀᴇ ɴᴏɴ ᴠᴀʟɪᴅᴏ &7(0-10)&c."
-
-msg:
-  format-sent: "&8[&#FCD05Cᴛᴜ &8→ &#FCD05C%target%&8] &7%message%"
-  format-received: "&8[&#FCD05C%sender% &8→ &#FCD05Cᴛᴜ&8] &7%message%"
-  format-social-spy: "&8[&d&lꜱᴘʏ&8] &7%sender% &8→ &7%target%&8: &f%message%"
-  self: "%prefix%&cɴᴏɴ ᴘᴜᴏɪ ᴍᴀɴᴅᴀʀᴇ ᴜɴ ᴍᴇꜱꜱᴀɢɢɪᴏ ᴀ ᴛᴇ ꜱᴛᴇꜱꜱᴏ."
-  no-reply-target: "%prefix%&cɴᴇꜱꜱᴜɴᴏ ᴀ ᴄᴜɪ ʀɪꜱᴘᴏɴᴅᴇʀᴇ."
-  target-offline: "%prefix%&cɪʟ ᴅᴇꜱᴛɪɴᴀᴛᴀʀɪᴏ ɴᴏɴ è ᴏɴʟɪɴᴇ."
-
-gamemode:
-  changed: "%prefix%&#FCD05Cᴍᴏᴅᴀʟɪᴛà ᴅɪ ɢɪᴏᴄᴏ ɪᴍᴘᴏꜱᴛᴀᴛᴀ ᴀ &f%mode%&#FCD05C."
-  changed-other: "%prefix%&#FCD05Cᴍᴏᴅᴀʟɪᴛà ᴅɪ &f%player% &#FCD05Cɪᴍᴘᴏꜱᴛᴀᴛᴀ ᴀ &f%mode%&#FCD05C."
-
-invsee:
-  opened: "%prefix%&#FCD05Cꜱᴛᴀɪ ɪꜱᴘᴇᴢɪᴏɴᴀɴᴅᴏ ʟ'ɪɴᴠᴇɴᴛᴀʀɪᴏ ᴅɪ &f%player%&#FCD05C."
-
-enderchest:
-  opened-self: "%prefix%&#FCD05Cᴀᴘᴇʀᴛᴀ ʟᴀ ᴛᴜᴀ ᴇɴᴅᴇʀ ᴄʜᴇꜱᴛ."
-  opened-other: "%prefix%&#FCD05Cᴀᴘᴇʀᴛᴀ ʟᴀ ᴇɴᴅᴇʀ ᴄʜᴇꜱᴛ ᴅɪ &f%player%&#FCD05C."
-
-clear:
-  self: "%prefix%&#FCD05Cɪɴᴠᴇɴᴛᴀʀɪᴏ ꜱᴠᴜᴏᴛᴀᴛᴏ."
-  other: "%prefix%&#FCD05Cɪɴᴠᴇɴᴛᴀʀɪᴏ ᴅɪ &f%player% &#FCD05Cꜱᴠᴜᴏᴛᴀᴛᴏ."
-
-tphere:
-  success: "%prefix%&#FCD05Cʜᴀɪ ᴛᴇʟᴇᴛʀᴀꜱᴘᴏʀᴛᴀᴛᴏ &f%player% &#FCD05Cᴅᴀ ᴛᴇ."
-
-tpall:
-  success: "%prefix%&#FCD05Cᴛᴜᴛᴛɪ ɪ ɢɪᴏᴄᴀᴛᴏʀɪ ꜱᴏɴᴏ ꜱᴛᴀᴛɪ ᴛᴇʟᴇᴛʀᴀꜱᴘᴏʀᴛᴀᴛɪ ᴅᴀ ᴛᴇ &7(%count%)&#FCD05C."
-
-nick:
-  set: "%prefix%&#FCD05Cɪʟ ᴛᴜᴏ ɴɪᴄᴋ è ꜱᴛᴀᴛᴏ ᴄᴀᴍʙɪᴀᴛᴏ ɪɴ &f%nick%&#FCD05C."
-  reset: "%prefix%&#FCD05Cɪʟ ᴛᴜᴏ ɴɪᴄᴋ è ꜱᴛᴀᴛᴏ ʀᴇꜱᴇᴛᴛᴀᴛᴏ."
-
-profile:
-  default-job: "DISOCCUPATO"
-  min-age: 16
-  max-age: 99
-  max-bio-length: 200
-  help:
-    - ""
-    - "&#FCD05C&lᴘʀᴏꜰɪʟᴏ ʀᴘ &7(ꜱᴛᴀꜰꜰ)"
-    - ""
-    - "&8» &#FCD05C/ᴘʀᴏꜰɪʟᴏ ɴᴏᴍᴇ &7<ᴘʟᴀʏᴇʀ> <ɴᴏᴍᴇ>"
-    - "&8» &#FCD05C/ᴘʀᴏꜰɪʟᴏ ᴄᴏɢɴᴏᴍᴇ &7<ᴘʟᴀʏᴇʀ> <ᴄᴏɢɴᴏᴍᴇ>"
-    - "&8» &#FCD05C/ᴘʀᴏꜰɪʟᴏ ᴇᴛᴀ &7<ᴘʟᴀʏᴇʀ> <ᴇᴛà>"
-    - "&8» &#FCD05C/ᴘʀᴏꜰɪʟᴏ ɴᴀꜱᴄɪᴛᴀ &7<ᴘʟᴀʏᴇʀ> <ɢɢ/ᴍᴍ/ᴀᴀᴀᴀ>"
-    - "&8» &#FCD05C/ᴘʀᴏꜰɪʟᴏ ꜱᴇꜱꜱᴏ &7<ᴘʟᴀʏᴇʀ> <ᴍ|ꜰ|ᴀʟᴛʀᴏ>"
-    - "&8» &#FCD05C/ᴘʀᴏꜰɪʟᴏ ʙɪᴏ &7<ᴘʟᴀʏᴇʀ> <ᴛᴇꜱᴛᴏ>"
-    - "&8» &#FCD05C/ᴘʀᴏꜰɪʟᴏ ɴᴀᴢɪᴏɴᴀʟɪᴛᴀ &7<ᴘʟᴀʏᴇʀ> <ɴᴀᴢɪᴏɴᴇ>"
-    - "&8» &#FCD05C/ᴘʀᴏꜰɪʟᴏ ᴊᴏʙ &7<ᴘʟᴀʏᴇʀ> <ʟᴀᴠᴏʀᴏ>"
-    - "&8» &#FCD05C/ᴘʀᴏꜰɪʟᴏ ᴠᴇᴅɪ &7<ᴘʟᴀʏᴇʀ>"
-    - ""
-  view:
-    - "&8&m                                                                "
-    - "&#FCD05C&lᴘʀᴏꜰɪʟᴏ ᴅɪ &f%player%"
-    - ""
-    - "&7ɴᴏᴍᴇ ɪᴄ &8» &f%rpfullname%"
-    - "&7ᴇᴛà &8» &f%age%"
-    - "&7ᴅᴀᴛᴀ ᴅɪ ɴᴀꜱᴄɪᴛᴀ &8» &f%birthday%"
-    - "&7ꜱᴇꜱꜱᴏ &8» &f%gender%"
-    - "&7ɴᴀᴢɪᴏɴᴀʟɪᴛà &8» &f%nationality%"
-    - "&7ʟᴀᴠᴏʀᴏ &8» &f%job%"
-    - "&7ʙɪᴏ &8» &f%bio%"
-    - "&8&m                                                                "
-  rpname-set: "%prefix%&#FCD05Cɴᴏᴍᴇ ɪᴄ ᴅɪ &f%player% &#FCD05Cɪᴍᴘᴏꜱᴛᴀᴛᴏ ɪɴ &f%name%&#FCD05C."
-  rpsurname-set: "%prefix%&#FCD05Cᴄᴏɢɴᴏᴍᴇ ɪᴄ ᴅɪ &f%player% &#FCD05Cɪᴍᴘᴏꜱᴛᴀᴛᴏ ɪɴ &f%surname%&#FCD05C."
-  age-set: "%prefix%&#FCD05Cᴇᴛà ɪᴄ ᴅɪ &f%player% &#FCD05Cɪᴍᴘᴏꜱᴛᴀᴛᴀ ᴀ &f%age%&#FCD05C."
-  birthday-set: "%prefix%&#FCD05Cᴅᴀᴛᴀ ᴅɪ ɴᴀꜱᴄɪᴛᴀ ᴅɪ &f%player% &#FCD05Cɪᴍᴘᴏꜱᴛᴀᴛᴀ ᴀ &f%date%&#FCD05C."
-  gender-set: "%prefix%&#FCD05Cꜱᴇꜱꜱᴏ ᴅɪ &f%player% &#FCD05Cɪᴍᴘᴏꜱᴛᴀᴛᴏ ᴀ &f%gender%&#FCD05C."
-  bio-set: "%prefix%&#FCD05Cʙɪᴏ ᴅɪ &f%player% &#FCD05Cᴀɢɢɪᴏʀɴᴀᴛᴀ."
-  nationality-set: "%prefix%&#FCD05Cɴᴀᴢɪᴏɴᴀʟɪᴛà ᴅɪ &f%player% &#FCD05Cɪᴍᴘᴏꜱᴛᴀᴛᴀ ᴀ &f%nationality%&#FCD05C."
-  job-set: "%prefix%&#FCD05Cʟᴀᴠᴏʀᴏ ᴅɪ &f%player% &#FCD05Cɪᴍᴘᴏꜱᴛᴀᴛᴏ ᴀ &f%job%&#FCD05C."
-  no-rpname: "%prefix%&cQᴜᴇꜱᴛᴏ ᴘʟᴀʏᴇʀ ɴᴏɴ ʜᴀ ᴀɴᴄᴏʀᴀ ᴜɴ ɴᴏᴍᴇ ɪᴄ."
-  invalid-name: "%prefix%&cɴᴏᴍᴇ ɴᴏɴ ᴠᴀʟɪᴅᴏ. ᴜꜱᴀ ꜱᴏʟᴏ ʟᴇᴛᴛᴇʀᴇ."
-  invalid-age: "%prefix%&cᴇᴛà ɴᴏɴ ᴠᴀʟɪᴅᴀ."
-  age-out-of-range: "%prefix%&cʟ'ᴇᴛà ᴅᴇᴠᴇ ᴇꜱꜱᴇʀᴇ ᴛʀᴀ &#FCD05C%min% &cᴇ &#FCD05C%max%&c."
-  invalid-birthday: "%prefix%&cꜰᴏʀᴍᴀᴛᴏ ᴅᴀᴛᴀ ɴᴏɴ ᴠᴀʟɪᴅᴏ. ᴜꜱᴀ &fɢɢ/ᴍᴍ/ᴀᴀᴀᴀ&c."
-  invalid-gender: "%prefix%&cꜱᴇꜱꜱᴏ ɴᴏɴ ᴠᴀʟɪᴅᴏ. ᴜꜱᴀ &fᴍ&c, &fꜰ &cᴏ &fᴀʟᴛʀᴏ&c."
-  bio-too-long: "%prefix%&cʟᴀ ʙɪᴏ è ᴛʀᴏᴘᴘᴏ ʟᴜɴɢᴀ &7(ᴍᴀx &#FCD05C%max% &7ᴄᴀʀᴀᴛᴛᴇʀɪ)&c."
-  usage-nome: "%prefix%&cᴜꜱᴏ: &f/ᴘʀᴏꜰɪʟᴏ ɴᴏᴍᴇ <ᴘʟᴀʏᴇʀ> <ɴᴏᴍᴇ>"
-  usage-cognome: "%prefix%&cᴜꜱᴏ: &f/ᴘʀᴏꜰɪʟᴏ ᴄᴏɢɴᴏᴍᴇ <ᴘʟᴀʏᴇʀ> <ᴄᴏɢɴᴏᴍᴇ>"
-  usage-eta: "%prefix%&cᴜꜱᴏ: &f/ᴘʀᴏꜰɪʟᴏ ᴇᴛᴀ <ᴘʟᴀʏᴇʀ> <ᴇᴛà>"
-  usage-nascita: "%prefix%&cᴜꜱᴏ: &f/ᴘʀᴏꜰɪʟᴏ ɴᴀꜱᴄɪᴛᴀ <ᴘʟᴀʏᴇʀ> <ɢɢ/ᴍᴍ/ᴀᴀᴀᴀ>"
-  usage-sesso: "%prefix%&cᴜꜱᴏ: &f/ᴘʀᴏꜰɪʟᴏ ꜱᴇꜱꜱᴏ <ᴘʟᴀʏᴇʀ> <ᴍ|ꜰ|ᴀʟᴛʀᴏ>"
-  usage-bio: "%prefix%&cᴜꜱᴏ: &f/ᴘʀᴏꜰɪʟᴏ ʙɪᴏ <ᴘʟᴀʏᴇʀ> <ᴛᴇꜱᴛᴏ>"
-  usage-nazionalita: "%prefix%&cᴜꜱᴏ: &f/ᴘʀᴏꜰɪʟᴏ ɴᴀᴢɪᴏɴᴀʟɪᴛᴀ <ᴘʟᴀʏᴇʀ> <ɴᴀᴢɪᴏɴᴇ>"
-  usage-job: "%prefix%&cᴜꜱᴏ: &f/ᴘʀᴏꜰɪʟᴏ ᴊᴏʙ <ᴘʟᴀʏᴇʀ> <ʟᴀᴠᴏʀᴏ>"
-
-social:
-  ping: "%prefix%&e%player% &7ᴛɪ ʜᴀ ᴍᴇɴᴢɪᴏɴᴀᴛᴏ ɪɴ ᴄʜᴀᴛ."
-
-titles:
-  supporto-start:
-    title: "&#FCD05C&l🎙 ꜱᴜᴘᴘᴏʀᴛᴏ"
-    subtitle: "&7ᴄᴏɴ &#FCD05C%staff% &7è ɪɴɪᴢɪᴀᴛᴏ"
-  supporto-end:
-    title: "&c&l🎙 ꜱᴜᴘᴘᴏʀᴛᴏ"
-    subtitle: "&7ᴛᴇʀᴍɪɴᴀᴛᴏ"
-  spawn:
-    title: "&#FCD05C&lꜱᴘᴀᴡɴ"
-    subtitle: "&7ʙᴇɴᴠᴇɴᴜᴛᴏ ɪɴ ᴄɪᴛᴛà"
-
-world:
-  entering: "&7ᴛɪ ꜱᴛᴀɪ ᴛᴇʟᴇᴛʀᴀꜱᴘᴏʀᴛᴀɴᴅᴏ ᴀ &#FCD05C%world%&7..."
-  denied: "%prefix%&cɴᴏɴ ʜᴀɪ ɪ ᴘᴇʀᴍᴇꜱꜱɪ ᴘᴇʀ ᴀᴄᴄᴇᴅᴇʀᴇ ᴀ Qᴜᴇꜱᴛᴏ ᴍᴏɴᴅᴏ."
-
-mondo:
-  created: "%prefix%&#FCD05Cᴍᴏɴᴅᴏ &f%world% &#FCD05Cᴄʀᴇᴀᴛᴏ ᴄᴏɴ ꜱᴜᴄᴄᴇꜱꜱᴏ."
-  deleted: "%prefix%&cᴍᴏɴᴅᴏ &f%world% &cᴇʟɪᴍɪɴᴀᴛᴏ."
-  loaded: "%prefix%&#FCD05Cᴍᴏɴᴅᴏ &f%world% &#FCD05Cᴄᴀʀɪᴄᴀᴛᴏ."
-  list-header: "&#FCD05C&lᴍᴏɴᴅɪ ᴅɪꜱᴘᴏɴɪʙɪʟɪ"
-  list-entry: " &8» &#FCD05C%world% &7(%type%)"
-
-storage:
-  type: YAML
+quit:
+  message: '&8- %player%'
 
 command-blocker:
   enabled: true
@@ -174,11 +34,6 @@ chat:
     enabled: true
     radius: 15
     nobody-in-range-message: false
-  proximity-nobody: "&8&o(ɴᴇꜱꜱᴜɴᴏ ᴘᴜò ꜱᴇɴᴛɪʀᴛɪ Qᴜɪ ᴠɪᴄɪɴᴏ...)"
-  empty-message: "%prefix%&cᴅᴇᴠɪ ꜱᴄʀɪᴠᴇʀᴇ Qᴜᴀʟᴄᴏꜱᴀ ᴘʀɪᴍᴀ ᴅɪ ɪɴᴠɪᴀʀᴇ."
-  message-too-long: "%prefix%&cɪʟ ᴛᴜᴏ ᴍᴇꜱꜱᴀɢɢɪᴏ è ᴛʀᴏᴘᴘᴏ ʟᴜɴɢᴏ."
-  message-blocked: "%prefix%&cɪʟ ᴛᴜᴏ ᴍᴇꜱꜱᴀɢɢɪᴏ ᴄᴏɴᴛɪᴇɴᴇ ᴘᴀʀᴏʟᴇ ɴᴏɴ ᴄᴏɴꜱᴇɴᴛɪᴛᴇ."
-  chat-muted: "%prefix%&cʟᴀ ᴄʜᴀᴛ è ᴀᴛᴛᴜᴀʟᴍᴇɴᴛᴇ ᴍᴜᴛᴀᴛᴀ."
   hover:
     enabled: true
     lines:
@@ -212,13 +67,455 @@ clearchat:
   permission: DistrictRP.clearchat
   bypass-permission: DistrictRP.clearchat.bypass
   lines: 2000
-  cleared: "%prefix%&#FCD05Cᴄʜᴀᴛ ᴘᴜʟɪᴛᴀ ᴅᴀ &f%staff%&#FCD05C."
 
 spawn:
   permission: DistrictRP.spawn
   set-permission: DistrictRP.setspawn
   default-world: world
-  set: "%prefix%&#FCD05Cꜱᴘᴀᴡɴ ᴅᴇʟ ᴍᴏɴᴅᴏ &f%world% &#FCD05Cɪᴍᴘᴏꜱᴛᴀᴛᴏ ᴄᴏʀʀᴇᴛᴛᴀᴍᴇɴᴛᴇ."
-  teleported: "%prefix%&#FCD05Cᴛɪ ꜱᴇɪ ᴛᴇʟᴇᴛʀᴀꜱᴘᴏʀᴛᴀᴛᴏ ᴀʟʟᴏ ꜱᴘᴀᴡɴ &7(%world%)"
-  world-not-found: "%prefix%&cɪʟ ᴍᴏɴᴅᴏ &#FCD05C%world% &cɴᴏɴ ᴇꜱɪꜱᴛᴇ."
-  no-spawn-set: "%prefix%&cɴᴇꜱꜱᴜɴᴏ ꜱᴘᴀᴡɴ ᴄᴏɴꜰɪɢᴜʀᴀᴛᴏ ᴘᴇʀ Qᴜᴇꜱᴛᴏ ᴍᴏɴᴅᴏ."
+
+profile:
+  min-age: 16
+  max-age: 99
+  max-bio-length: 200
+  default-job: DISOCCUPATO
+
+chatsym:
+  permission: DistrictRP.staffchatsym
+  default:
+    - symbol: '!'
+      command: staffchat
+    - symbol: '.'
+      command: modchat
+    - symbol: '?'
+      command: builderchat
+    - symbol: '@'
+      command: adminchat
+
+emoji:
+  permission: DistrictRP.emojiaccess
+  gui-title: '&#FCD05Cᴇᴍᴏᴊɪ'
+  list: {}
+
+# ==========================================================
+#   STAFFLIST
+#   - order = rank mostrati in /sl
+#   - ranks = TUTTI i rank registrati (simboli + permessi LP)
+#     Anche quelli fuori da "order" sono usabili nei placeholder
+#     e vengono registrati come permessi Bukkit/LuckPerms.
+# ==========================================================
+stafflist:
+  title: '&#FCD05C&lʟɪꜱᴛᴀ ꜱᴛᴀꜰꜰ ᴏɴʟɪɴᴇ'
+  format: ' &8• &r%symbol% &8» &#D7D7D7%players%'
+  force-staff-symbol-worlds:
+    - lobby
+    - spawn
+    - creative
+    - roleplay
+    - world
+  order:
+    - fondatore
+    - admin
+    - srmod
+    - mod
+    - helper
+    - tutor
+    - developer
+    - builder
+    - texturemaker
+    - staff
+  ranks:
+    abbigliamento: { symbol: '', permission: DistrictRP.rank.abbigliamento }
+    admin:         { symbol: '', permission: DistrictRP.rank.admin }
+    banca:         { symbol: '', permission: DistrictRP.rank.banca }
+    blacklist:     { symbol: '', permission: DistrictRP.rank.blacklist }
+    builder:       { symbol: '', permission: DistrictRP.rank.builder }
+    burgy:         { symbol: '', permission: DistrictRP.rank.burgy }
+    casino:        { symbol: '', permission: DistrictRP.rank.casino }
+    cinema:        { symbol: '', permission: DistrictRP.rank.cinema }
+    concessionaria:{ symbol: '', permission: DistrictRP.rank.concessionaria }
+    crime:         { symbol: '', permission: DistrictRP.rank.crime }
+    developer:     { symbol: '', permission: DistrictRP.rank.developer }
+    discoteca:     { symbol: '', permission: DistrictRP.rank.discoteca }
+    district:      { symbol: '', permission: DistrictRP.rank.district }
+    edicola:       { symbol: '', permission: DistrictRP.rank.edicola }
+    electronics:   { symbol: '', permission: DistrictRP.rank.electronics }
+    esta_the:      { symbol: '', permission: DistrictRP.rank.esta_the }
+    estate:        { symbol: '', permission: DistrictRP.rank.estate }
+    fdo:           { symbol: '', permission: DistrictRP.rank.fdo }
+    fdo_2:         { symbol: '', permission: DistrictRP.rank.fdo_2 }
+    finanza:       { symbol: '', permission: DistrictRP.rank.finanza }
+    fondatore:     { symbol: '', permission: DistrictRP.rank.fondatore }
+    gestore:       { symbol: '', permission: DistrictRP.rank.gestore }
+    gioielleria:   { symbol: '', permission: DistrictRP.rank.gioielleria }
+    helper:        { symbol: '', permission: DistrictRP.rank.helper }
+    immobiliare:   { symbol: '', permission: DistrictRP.rank.immobiliare }
+    magazzino:     { symbol: '', permission: DistrictRP.rank.magazzino }
+    magistratura:  { symbol: '', permission: DistrictRP.rank.magistratura }
+    market:        { symbol: '', permission: DistrictRP.rank.market }
+    mod:           { symbol: '', permission: DistrictRP.rank.mod }
+    oracolo:       { symbol: '', permission: DistrictRP.rank.oracolo }
+    ottica:        { symbol: '', permission: DistrictRP.rank.ottica }
+    pasticceria:   { symbol: '', permission: DistrictRP.rank.pasticceria }
+    polizia:       { symbol: '', permission: DistrictRP.rank.polizia }
+    ricercato:     { symbol: '', permission: DistrictRP.rank.ricercato }
+    scuola:        { symbol: '', permission: DistrictRP.rank.scuola }
+    security:      { symbol: '', permission: DistrictRP.rank.security }
+    senato:        { symbol: '', permission: DistrictRP.rank.senato }
+    sospetto:      { symbol: '', permission: DistrictRP.rank.sospetto }
+    srmod:         { symbol: '', permission: DistrictRP.rank.srmod }
+    staff:         { symbol: '', permission: DistrictRP.rank.staff }
+    staffer:       { symbol: '', permission: DistrictRP.rank.staffer }
+    taxi:          { symbol: '', permission: DistrictRP.rank.taxi }
+    texturemaker:  { symbol: '', permission: DistrictRP.rank.texturemaker }
+    the:           { symbol: '', permission: DistrictRP.rank.the }
+    traslochi:     { symbol: '', permission: DistrictRP.rank.traslochi }
+    tutor:         { symbol: '', permission: DistrictRP.rank.tutor }
+    utente:        { symbol: '', permission: DistrictRP.rank.utente }
+    vesuvio:       { symbol: '', permission: DistrictRP.rank.vesuvio }
+    vulcano:       { symbol: '', permission: DistrictRP.rank.vulcano }
+    wanted:        { symbol: '', permission: DistrictRP.rank.wanted }
+
+vip-symbols:
+  order:
+    - mvpplus
+    - mvp
+    - vipplus
+    - vip
+  mvpplus: { symbol: '', permission: DistrictRP.mvpplus }
+  mvp:     { symbol: '', permission: DistrictRP.mvp }
+  vipplus: { symbol: '', permission: DistrictRP.vipplus }
+  vip:     { symbol: '', permission: DistrictRP.vip }
+
+# ==========================================================
+#   STAFFMODE
+#   Nota: COMPASS sostituita da NETHER_STAR per non interferire
+#   con WorldEdit. L'invisibilità ora attiva/disattiva il VANISH
+#   (staff si vedono comunque tra loro tramite DistrictRP.vanish.see).
+# ==========================================================
+staffmode:
+  permission: DistrictRP.staffmode
+  tp-random-permission: DistrictRP.staffmode.tprandom
+  invsee-permission: DistrictRP.staffmode.invsee
+  tp-target-permission: DistrictRP.staffmode.tptarget
+  auto-vanish: true
+  auto-fly: true
+  auto-invisibility: false
+  auto-godmode: true
+  save-inventory: true
+  block-drop: true
+  block-inventory-change: true
+  block-block-break: true
+  block-block-place: true
+  block-damage: true
+  restore-location-on-exit: false
+  actionbar:
+    enabled: true
+    refresh-ticks: 20
+    header: '&#FCD05Cᴠᴀɴɪꜱʜᴇᴅ %vanish_state% &fᴛᴘꜱ: &#FCD05C%tps%'
+    vanish-on: '&#FCD05C(✔)'
+    vanish-off: '&c(✗)'
+    subline-tp-random: '&e✈ &fᴛᴇʟᴇᴛʀᴀꜱᴘᴏʀᴛᴏ ᴄᴀꜱᴜᴀʟᴇ'
+    subline-invisibility: '&d✿ &fɪɴᴠɪꜱɪʙɪʟɪᴛà (ᴠᴀɴɪꜱʜ)'
+    subline-player-list: '&b☰ &fʟɪꜱᴛᴀ ɢɪᴏᴄᴀᴛᴏʀɪ'
+    subline-staff-list: '&5✎ &fʟɪꜱᴛᴀ ꜱᴛᴀꜰꜰ'
+    subline-exit: '&c✖ &fᴇꜱᴄɪ ᴅᴀ ꜱᴛᴀꜰꜰ ᴍᴏᴅᴇ'
+    subline-none: ''
+  gui:
+    player-list-title: '&8Lista Giocatori'
+    staff-list-title: '&8Lista Staff'
+    player-list-rows: 6
+    staff-list-rows: 6
+  items:
+    tp-random:
+      slot: 0
+      material: NETHER_STAR
+      name: '&#FCD05C&lᴛᴇʟᴇᴛʀᴀꜱᴘᴏʀᴛᴏ ᴄᴀꜱᴜᴀʟᴇ'
+      lore:
+        - ''
+        - '&7Click destro per teletrasportarti'
+        - '&7ad un giocatore casuale online.'
+    invisibility:
+      slot: 1
+      material: BLAZE_ROD
+      name: '&#FCD05C&lɪɴᴠɪꜱɪʙɪʟɪᴛà (ᴠᴀɴɪꜱʜ)'
+      lore:
+        - ''
+        - '&7Click destro per attivare/disattivare'
+        - '&7il vanish. Gli staff si vedono tra loro.'
+    player-list:
+      slot: 4
+      material: ENDER_PEARL
+      name: '&#FCD05C&lʟɪꜱᴛᴀ ɢɪᴏᴄᴀᴛᴏʀɪ'
+      lore:
+        - ''
+        - '&7Visualizza tutti i giocatori online.'
+    staff-list:
+      slot: 7
+      material: BOOK
+      name: '&#FCD05C&lʟɪꜱᴛᴀ ꜱᴛᴀꜰꜰ'
+      lore:
+        - ''
+        - '&7Visualizza tutti gli staff online.'
+    exit:
+      slot: 8
+      material: BARRIER
+      name: '&c&lᴇꜱᴄɪ ᴅᴀ ꜱᴛᴀꜰꜰ ᴍᴏᴅᴇ'
+      lore:
+        - ''
+        - '&7Disattiva la modalità staff.'
+
+vanish:
+  tab-suffix: ' &fᴠᴀɴɪꜱʜ'
+  actionbar-enabled: true
+  actionbar-refresh-ticks: 20
+  actionbar-vanished: ' &#FCD05Cᴠᴀɴɪꜱʜ ᴀᴛᴛɪᴠᴏ'
+  actionbar-flying: ' &#FCD05Cᴠᴏʟᴏ ᴀᴛᴛɪᴠᴏ'
+  actionbar-vanish-fly: ' &#FCD05Cᴠᴀɴɪꜱʜ, &#FCD05Cᴠᴏʟᴏ ᴀᴛᴛɪᴠɪ'
+
+lobby-mode:
+  enabled: true
+  format: '%rank%&f%player%%vip% &8» &7%message%'
+  hover-lines:
+    - ''
+    - '&7Nome: &f%player%'
+    - ''
+    - '&#FCD05Cᴄʟɪᴄᴄᴀ ᴘᴇʀ ᴄᴏᴘɪᴀʀᴇ ɪʟ ɴᴏᴍᴇ'
+
+# ==========================================================
+#   PROTECTION (interno, custom)
+#   NB: viene mantenuto per no-build/no-interact/whitelist.
+#   CoreProtect (se presente) logga in parallelo tutte le
+#   azioni per rollback/audit. Il modulo interno resta.
+# ==========================================================
+protection:
+  admin-permission: DistrictRP.protection.admin
+  permission-bypass: DistrictRP.protection.bypass
+  particle-on-deny: true
+  particle-type: CAMPFIRE_SIGNAL_SMOKE
+  particle-count: 5
+  particle-speed: 0.05
+  worlds:
+    spawn:
+      no-build: true
+      no-interact: true
+      whitelisted-players: []
+      allowed-interactions: []
+
+coreprotect:
+  enabled: true
+  log-staffmode: true
+  log-wipe: true
+  log-vanish: true
+  log-teleports: true
+
+# ==========================================================
+#   TICKET
+# ==========================================================
+ticket:
+  gui-title: '&#FCD05Cꜱᴇʟᴇᴢɪᴏɴᴀ ᴄᴀᴛᴇɢᴏʀɪᴀ'
+  staff-permission: DistrictRP.ticket.staff
+  list-per-page: 10
+  date-format: dd/MM/yyyy HH:mm
+  quick-replies:
+    generale:
+      - 'Ciao %player%! Ci puoi fornire maggiori dettagli sulla tua segnalazione?'
+      - 'Ciao %player%, la tua richiesta è stata inoltrata al reparto competente.'
+      - 'Grazie per averci contattato, la segnalazione è in fase di valutazione.'
+      - 'Chiudo il ticket per inattività, sentiti libero di riaprirlo se necessario.'
+    tecnico:
+      - 'Ciao %player%! Puoi fornirci uno screenshot o un video del problema?'
+      - 'Prova a riavviare il client e a rientrare, se il problema persiste facci sapere.'
+      - 'Il problema è stato segnalato al team tecnico, ti aggiorneremo appena risolto.'
+    strutture:
+      - 'Ciao %player%! Il reparto edilizia valuterà la tua richiesta.'
+      - 'La tua richiesta di costruzione è stata approvata.'
+    aziende:
+      - 'Ciao %player%! La richiesta è stata inoltrata al reparto aziende.'
+      - 'La tua azienda è stata approvata, ti auguriamo buon lavoro.'
+    fdo:
+      - 'Ciao %player%! La segnalazione è stata presa in carico dalle FDO.'
+      - 'La verifica è in corso, ti aggiorneremo al più presto.'
+    criminalita:
+      - 'Ciao %player%! La tua segnalazione è stata registrata correttamente.'
+      - 'Le prove sono state acquisite, la pratica è in fase di valutazione.'
+    politica:
+      - 'Ciao %player%! La tua richiesta politica è in fase di analisi.'
+      - 'Ti risponderemo entro 24-48 ore lavorative.'
+  categories:
+    generale:
+      name: '&#FCD05Cɢᴇɴᴇʀᴀʟᴇ'
+      material: FILLED_MAP
+      slot: 10
+      permission-notify: DistrictRP.reparto.generale
+      lore:
+        - '&7Assistenza di categoria generale.'
+        - ''
+        - '&#FCD05Cᴄʟɪᴄᴄᴀ ᴘᴇʀ ꜱᴇʟᴇᴢɪᴏɴᴀʀᴇ'
+    tecnico:
+      name: '&bʙᴜɢ ᴇ ᴀꜱꜱɪꜱᴛᴇɴᴢᴀ ᴛᴇᴄɴɪᴄᴀ'
+      material: REDSTONE
+      slot: 11
+      permission-notify: DistrictRP.reparto.tecnico
+      lore:
+        - '&7Problemi tecnici, bug, crash.'
+        - ''
+        - '&#FCD05Cᴄʟɪᴄᴄᴀ ᴘᴇʀ ꜱᴇʟᴇᴢɪᴏɴᴀʀᴇ'
+    strutture:
+      name: '&6ꜱᴛʀᴜᴛᴛᴜʀᴇ ᴇ ᴄᴏꜱᴛʀᴜᴢɪᴏɴɪ'
+      material: BRICKS
+      slot: 12
+      permission-notify: DistrictRP.reparto.edilizia
+      lore:
+        - '&7Richieste costruzioni, rimozioni lock.'
+        - ''
+        - '&#FCD05Cᴄʟɪᴄᴄᴀ ᴘᴇʀ ꜱᴇʟᴇᴢɪᴏɴᴀʀᴇ'
+    aziende:
+      name: '&fᴀᴢɪᴇɴᴅᴇ'
+      material: OAK_SIGN
+      slot: 13
+      permission-notify: DistrictRP.reparto.aziende
+      lore:
+        - '&7Assistenza legata al reparto aziende.'
+        - ''
+        - '&#FCD05Cᴄʟɪᴄᴄᴀ ᴘᴇʀ ꜱᴇʟᴇᴢɪᴏɴᴀʀᴇ'
+    fdo:
+      name: '&9ꜰᴏʀᴢᴇ ᴅᴇʟʟ''ᴏʀᴅɪɴᴇ'
+      material: SHIELD
+      slot: 14
+      permission-notify: DistrictRP.reparto.fdo
+      lore:
+        - '&7Segnalazioni e richieste FDO.'
+        - ''
+        - '&#FCD05Cᴄʟɪᴄᴄᴀ ᴘᴇʀ ꜱᴇʟᴇᴢɪᴏɴᴀʀᴇ'
+    criminalita:
+      name: '&8ᴄʀɪᴍɪɴᴀʟɪᴛᴀ̀'
+      material: IRON_BARS
+      slot: 15
+      permission-notify: DistrictRP.reparto.criminalita
+      lore:
+        - '&7Segnalazioni e richieste criminalità.'
+        - ''
+        - '&#FCD05Cᴄʟɪᴄᴄᴀ ᴘᴇʀ ꜱᴇʟᴇᴢɪᴏɴᴀʀᴇ'
+    politica:
+      name: '&dᴘᴏʟɪᴛɪᴄᴀ'
+      material: SUNFLOWER
+      slot: 16
+      permission-notify: DistrictRP.reparto.politica
+      lore:
+        - '&7Assistenze o richieste politiche.'
+        - ''
+        - '&#FCD05Cᴄʟɪᴄᴄᴀ ᴘᴇʀ ꜱᴇʟᴇᴢɪᴏɴᴀʀᴇ'
+
+supporto:
+  gui-title: '&8ꜱᴇʟᴇᴢɪᴏɴᴀ ᴄᴀᴛᴇɢᴏʀɪᴀ'
+  use-ticket-categories: true
+
+appuntamenti:
+  days-ahead: 3
+  time-slots:
+    start: '20:00'
+    end: '23:50'
+    step-minutes: 5
+    slots-per-page: 16
+  reparti:
+    aziende:
+      display: 'Reparto Aziende'
+      staff-permission: DistrictRP.appuntamenti.aziende
+    criminalita:
+      display: 'Reparto Criminalità'
+      staff-permission: DistrictRP.appuntamenti.criminalita
+    politicaa:
+      display: 'Reparto Politica'
+      staff-permission: DistrictRP.appuntamenti.economia
+    marketing:
+      display: 'Reparto Marketing'
+      staff-permission: DistrictRP.appuntamenti.marketing
+    eventi:
+      display: 'Reparto Eventi'
+      staff-permission: DistrictRP.appuntamenti.eventi
+
+stuck:
+  countdown-seconds: 120
+
+playtime:
+  count-here: false
+  save-interval-seconds: 60
+
+logs:
+  per-page: 8
+
+# ==========================================================
+#   BOTS
+# ==========================================================
+bots:
+  discord:
+    enabled: true
+    token: 'MTUyMzcyNTMyMzk4MjczMzU1Mg.GzcW6z.0D2-vADw4DmxfopvWy3AcoGMMySzh7iTmNhTkM'
+    guild-id: '1522671317722337420'
+    server-name: DistrictRP
+    supporto:
+      voice-category-id: '1522671451637813518'
+      voice-channel-name: '🔊┃supporto-%player%'
+      auto-delete-on-leave: true
+    tickets:
+      channels-by-category:
+        generale: '1523726905331679293'
+        tecnico: '1523727066347081758'
+        edilizia: '1523727171586228446'
+        aziende: '1523726812948070641'
+        fdo: '1523726961225240818'
+        criminalita: '1523726961225240818'
+        economia: '1523727243015225416'
+      recap-channel: '1522671589794119832'
+      recap-interval-minutes: 180
+    appuntamenti:
+      channels-by-reparto:
+        aziende: '1523727908533833789'
+        criminalita: '1523727945066086410'
+        economia: '1523728018764202055'
+        marketing: '1523728018764202055'
+        eventi: '1523727987051200553'
+      recap-channel: '1523728165703258384'
+  telegram:
+    enabled: true
+    bot-token: '8912941750:AAEstNjN3EAUn0l596x295uMDzmGdcEqFOQ'
+    server-name: DistrictRP
+    tickets:
+      chat-id-by-category:
+        generale: '1004309141851'
+        tecnico: '1004365442028'
+        edilizia: '1004402303565'
+        aziende: '1004444709549'
+        fdo: '1003915867349'
+        criminalita: '1003915867349'
+        economia: '1004400889022'
+      recap-chat-id: '1004309141851'
+      recap-interval-minutes: 180
+    appuntamenti:
+      chat-id-by-reparto:
+        aziende: '1004444709549'
+        criminalita: '1003915867349'
+        economia: '1004400889022'
+        marketing: '1004400889022'
+        eventi: '1003936897129'
+      recap-chat-id: '1004309141851'
+    supporto:
+      chat-id: '1004309141851'
+
+chatgate:
+  chats: {}
+  settings:
+    log-chat: true
+    antispam:
+      cooldown-ms: 2000
+      duplicate-block: 3
+
+warp:
+  permission-use: DistrictRP.warp.use
+  permission-manage: DistrictRP.warp.manage
+  permission-bypass: DistrictRP.warp.bypass
+  teleport-delay-seconds: 0
+  play-sound: true
+  sound-teleport: ENTITY_ENDERMAN_TELEPORT
+  show-title: true
+  data: {}
