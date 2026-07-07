@@ -1,6 +1,8 @@
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+
 plugins {
     java
-    id("com.github.johnrengelman.shadow") version "8.1.1"
+    id("com.gradleup.shadow") version "8.3.5"
 }
 
 group = "dev.breach"
@@ -47,31 +49,33 @@ tasks.withType<JavaCompile>().configureEach {
 
 tasks.processResources {
     filteringCharset = "UTF-8"
-    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
 
 tasks.jar {
     enabled = false
 }
 
-tasks.shadowJar {
+tasks.withType<ShadowJar>().configureEach {
     archiveBaseName.set("DistrictRP")
     archiveVersion.set(project.version.toString())
     archiveClassifier.set("")
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 
-    relocate("net.dv8tion.jda", "dev.breach.DistrictRP.lib.jda")
-    relocate("com.pengrad.telegrambot", "dev.breach.DistrictRP.lib.telegram")
-    relocate("okhttp3", "dev.breach.DistrictRP.lib.okhttp3")
-    relocate("okio", "dev.breach.DistrictRP.lib.okio")
-    relocate("com.google.gson", "dev.breach.DistrictRP.lib.gson")
+    isZip64 = true
 
-    minimize {
-        exclude(dependency("net.dv8tion:.*:.*"))
-        exclude(dependency("com.github.pengrad:.*:.*"))
-    }
+    exclude("META-INF/*.SF")
+    exclude("META-INF/*.DSA")
+    exclude("META-INF/*.RSA")
+    exclude("module-info.class")
+    exclude("META-INF/versions/**/module-info.class")
+
+    mergeServiceFiles()
 }
 
 tasks.build {
+    dependsOn(tasks.shadowJar)
+}
+
+tasks.named("assemble") {
     dependsOn(tasks.shadowJar)
 }
