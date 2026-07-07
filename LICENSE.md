@@ -1,4 +1,4 @@
-Copyright (c) 2026 breachato.
+Copyright (c) 2026 breachato
 
 All rights reserved.
 
