@@ -450,7 +450,7 @@ logs:
 bots:
   discord:
     enabled: true
-    token: 'MTUyMzcyNTMyMzk4MjczMzU1Mg.GzcW6z.0D2-vADw4DmxfopvWy3AcoGMMySzh7iTmNhTkM'
+    token: 'se vabbe credici'
     guild-id: '1522671317722337420'
     server-name: DistrictRP
     supporto:
@@ -478,7 +478,7 @@ bots:
       recap-channel: '1523728165703258384'
   telegram:
     enabled: true
-    bot-token: '8912941750:AAEstNjN3EAUn0l596x295uMDzmGdcEqFOQ'
+    bot-token: 'sisi contaci'
     server-name: DistrictRP
     tickets:
       chat-id-by-category:
