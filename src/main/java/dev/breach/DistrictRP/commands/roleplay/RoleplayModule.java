@@ -33,7 +33,6 @@ import dev.breach.DistrictRP.commands.roleplay.ticket.TicketQuickRepliesGUI;
 import dev.breach.DistrictRP.commands.roleplay.vanish.VanishTabHandler;
 import dev.breach.DistrictRP.commands.roleplay.warp.WarpCommand;
 import dev.breach.DistrictRP.commands.roleplay.warp.WarpManager;
-import dev.breach.DistrictRP.functions.servermode.ServerModeChatListener;
 import org.bukkit.Bukkit;
 import org.bukkit.command.TabCompleter;
 
@@ -90,11 +89,6 @@ public class RoleplayModule {
         plugin.getCommand("urlo").setExecutor(new UrloCommand(plugin));
         plugin.getCommand("chatsym").setExecutor(new ChatSymCommand(plugin, chatSymManager));
         Bukkit.getPluginManager().registerEvents(new ChatSymListener(plugin, chatSymManager), plugin);
-
-        if (plugin.getServerModeManager() != null) {
-            Bukkit.getPluginManager().registerEvents(
-                    new ServerModeChatListener(plugin, plugin.getServerModeManager()), plugin);
-        }
 
         ProfileCommand profileCmd = new ProfileCommand(plugin, profileManager);
         if (plugin.getCommand("profilo") != null) {

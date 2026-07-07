@@ -1,9 +1,8 @@
 package dev.breach.DistrictRP.commands.roleplay.chat;
 
 import dev.breach.DistrictRP.DistrictRP;
-import dev.breach.DistrictRP.commands.roleplay.profile.RPProfile;
 import dev.breach.DistrictRP.functions.MessageUtils;
-import org.bukkit.Bukkit;
+import dev.breach.DistrictRP.functions.servermode.ServerMode;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -19,46 +18,29 @@ public class UrloCommand implements CommandExecutor {
     }
 
     @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (!(sender instanceof Player player)) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command,
+                             @NotNull String label, @NotNull String[] args) {
+        if (!(sender instanceof Player p)) {
             MessageUtils.sendMsg(sender, "general.only-player");
             return true;
         }
-
-        if (plugin.getLobbyModeManager() != null && plugin.getLobbyModeManager().isEnabled()) {
-            MessageUtils.sendMsg(sender, "lobby-mode.rp-disabled");
+        if (isChatRestricted()) {
+            MessageUtils.sendMsg(p, "servermode.command-disabled",
+                    "mode", plugin.getServerModeManager().getCurrentDisplay());
             return true;
         }
-
         if (args.length == 0) {
-            MessageUtils.sendMsg(sender, "chat.empty-message");
+            MessageUtils.sendMsg(p, "chat.empty-message");
             return true;
         }
-
-        String message = String.join(" ", args);
-        double radius = plugin.getConfig().getDouble("chat.formats.urlo.radius", 25);
-
-        boolean anonymous = ChatFlags.isAnonymous(player);
-        String formatKey = anonymous
-                ? "chat.formats.urlo.anonymous"
-                : "chat.formats.urlo.format";
-
-        RPProfile profile = plugin.getRoleplay().getProfileManager().get(player.getUniqueId());
-        String rpName = profile.hasRpName() ? profile.getRpName() : player.getName();
-
-        String formatted = MessageUtils.color(
-                plugin.getConfig().getString(formatKey, "")
-                        .replace("%player%", rpName)
-                        .replace("%rp_name%", rpName)
-                        .replace("%message%", message)
-        );
-
-        for (Player p : Bukkit.getOnlinePlayers()) {
-            if (!p.getWorld().equals(player.getWorld())) continue;
-            if (p.getLocation().distance(player.getLocation()) <= radius) {
-                p.sendMessage(formatted);
-            }
-        }
+        String msg = String.join(" ", args);
+        ChatModule.broadcastRp(plugin, p, msg, ChatModule.ChatType.URLO);
         return true;
+    }
+
+    private boolean isChatRestricted() {
+        if (plugin.getServerModeManager() == null) return false;
+        ServerMode mode = plugin.getServerModeManager().getCurrent();
+        return mode == ServerMode.LOBBY || mode == ServerMode.CREATIVE;
     }
 }

@@ -4,6 +4,7 @@ import dev.breach.DistrictRP.DistrictRP;
 import dev.breach.DistrictRP.commands.roleplay.profile.RPProfile;
 import dev.breach.DistrictRP.commands.roleplay.profile.RPProfileManager;
 import dev.breach.DistrictRP.functions.MessageUtils;
+import dev.breach.DistrictRP.functions.servermode.ServerMode;
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
@@ -23,6 +24,23 @@ import java.util.List;
 
 public class ChatModule implements Listener {
 
+    public enum ChatType {
+        AZIONE("azione", 15),
+        BISBIGLIO("bisbiglio", 15),
+        URLO("urlo", 25);
+
+        private final String configKey;
+        private final int defaultRadius;
+
+        ChatType(String configKey, int defaultRadius) {
+            this.configKey = configKey;
+            this.defaultRadius = defaultRadius;
+        }
+
+        public String getConfigKey() { return configKey; }
+        public int getDefaultRadius() { return defaultRadius; }
+    }
+
     private final DistrictRP plugin;
     private final RPProfileManager profiles;
 
@@ -36,7 +54,8 @@ public class ChatModule implements Listener {
         Player sender = event.getPlayer();
         String message = event.getMessage();
 
-        boolean lobbyMode = plugin.getLobbyModeManager() != null && plugin.getLobbyModeManager().isEnabled();
+        boolean lobbyMode = plugin.getServerModeManager() != null
+                && plugin.getServerModeManager().getCurrent() == ServerMode.LOBBY;
 
         if (lobbyMode) {
             handleLobbyChat(event, sender, message);
@@ -78,14 +97,66 @@ public class ChatModule implements Listener {
         }
     }
 
+    public static void broadcastRp(DistrictRP plugin, Player sender, String message, ChatType type) {
+        RPProfileManager profiles = plugin.getRoleplay() != null
+                ? plugin.getRoleplay().getProfileManager()
+                : null;
+        RPProfile profile = profiles != null ? profiles.get(sender.getUniqueId()) : null;
+        String rpName = (profile != null && profile.hasRpName()) ? profile.getRpName() : sender.getName();
+
+        String base = "chat.formats." + type.getConfigKey();
+        double radius = plugin.getConfig().getDouble(base + ".radius", type.getDefaultRadius());
+        boolean hasRp = profile != null && profile.hasRpName();
+        String pathFormat = hasRp ? base + ".format" : base + ".anonymous";
+
+        String formatRaw = plugin.getConfig().getString(pathFormat,
+                plugin.getConfig().getString(base + ".format",
+                        "&7%rp_name% &8» &f%message%"));
+
+        String legacy = formatRaw
+                .replace("%player%", rpName)
+                .replace("%rp_name%", rpName)
+                .replace("%message%", message);
+
+        if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
+            legacy = PlaceholderAPI.setPlaceholders(sender, legacy);
+        }
+        legacy = MessageUtils.color(legacy);
+
+        Location loc = sender.getLocation();
+        boolean nobody = true;
+
+        BaseComponent[] component = TextComponent.fromLegacyText(legacy);
+
+        for (Player p : Bukkit.getOnlinePlayers()) {
+            if (!p.getWorld().equals(loc.getWorld())) continue;
+            if (p.equals(sender)) {
+                p.spigot().sendMessage(component);
+                continue;
+            }
+            if (p.getLocation().distance(loc) <= radius) {
+                p.spigot().sendMessage(component);
+                nobody = false;
+            }
+        }
+
+        if (nobody
+                && plugin.getConfig().getBoolean("chat.proximity.nobody-in-range-message", false)) {
+            MessageUtils.sendMsg(sender, "chat.proximity-nobody");
+        }
+    }
+
     private void handleLobbyChat(AsyncPlayerChatEvent event, Player sender, String message) {
         event.setCancelled(true);
 
         String rankSymbol = getRankSymbol(sender);
         String vipSuffix = getVipSuffix(sender);
 
-        String formatRaw = plugin.getConfig().getString("lobby-mode.format",
-                "%rank%&f%player%%vip% &8» &7%message%");
+        String formatRaw = plugin.getConfig().getString(
+                "server-mode.modes.LOBBY.chat-format",
+                plugin.getConfig().getString("lobby-mode.format",
+                        "%rank%&f%player%%vip% &8» &7%message%")
+        );
 
         String legacy = formatRaw
                 .replace("%rank%", rankSymbol.isEmpty() ? "" : rankSymbol + " ")
@@ -152,7 +223,10 @@ public class ChatModule implements Listener {
 
         List<String> hoverLines;
         if (lobbyMode) {
-            hoverLines = plugin.getConfig().getStringList("lobby-mode.hover-lines");
+            hoverLines = plugin.getConfig().getStringList("server-mode.modes.LOBBY.hover-lines");
+            if (hoverLines.isEmpty()) {
+                hoverLines = plugin.getConfig().getStringList("lobby-mode.hover-lines");
+            }
             if (hoverLines.isEmpty()) {
                 hoverLines = List.of(
                         "&7Nome: &f" + cf,

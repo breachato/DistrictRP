@@ -494,12 +494,18 @@ server-mode:
   admin-permission: DistrictRP.servermode.admin
 
   modes:
+
     LOBBY:
       display: '&#FCD05C&lʟᴏʙʙʏ'
       auto-teleport-world: lobby
       force-gamemode: ADVENTURE
       allow-fly: false
       chat-format: '%rank%&f%player%%vip% &8» &7%message%'
+      hover-lines:
+        - ''
+        - '&7Nome: &f%player%'
+        - ''
+        - '&#FCD05Cᴄʟɪᴄᴄᴀ ᴘᴇʀ ᴄᴏᴘɪᴀʀᴇ ɪʟ ɴᴏᴍᴇ'
       disabled-commands:
         - msg
         - reply
@@ -520,7 +526,7 @@ server-mode:
         - profilo
         - profile
         - back
-      allowed-commands: []
+      allowed-commands: [ ]
 
     CREATIVE:
       display: '&b&lᴄʀᴇᴀᴛɪᴠᴇ'
