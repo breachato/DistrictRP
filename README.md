@@ -1,6 +1,6 @@
 # DistrictRP Core
 
-DistrictRP Core is the proprietary roleplay framework that powers the District Network server.
+The proprietary roleplay framework that powers the District Network server.
 
 This repository contains the core systems used by the server, including mechanics, player management, commands, permissions, various integrations, and other internal features.
 
