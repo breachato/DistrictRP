@@ -2,6 +2,9 @@ package dev.breach.DistrictRP;
 
 import dev.breach.DistrictRP.commands.roleplay.RoleplayModule;
 import dev.breach.DistrictRP.commands.staff.*;
+import dev.breach.DistrictRP.commands.staff.proxychat.ProxyChatBridge;
+import dev.breach.DistrictRP.commands.staff.proxychat.ProxyChatCommand;
+import dev.breach.DistrictRP.commands.staff.proxychat.ProxyChatSymbolListener;
 import dev.breach.DistrictRP.commands.utils.*;
 import dev.breach.DistrictRP.core.*;
 import dev.breach.DistrictRP.framework.ModuleManager;
@@ -22,6 +25,7 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.logging.Level;
@@ -49,6 +53,7 @@ public class DistrictRP extends JavaPlugin {
     private CoreProtectHook coreProtectHook;
     private WorldGuardHook worldGuardHook;
     private ModuleManager moduleManager;
+    private dev.breach.DistrictRP.database.DatabaseManager databaseManager;
 
     private RoleplayModule roleplayModule;
 
@@ -98,8 +103,8 @@ public class DistrictRP extends JavaPlugin {
         if (blockerEnabled) {
             Bukkit.getScheduler().runTaskLater(this, () -> {
                 if (commandBlocker != null) {
-                    java.util.List<String> override = getConfig().getStringList("command-blocker.override");
-                    java.util.List<String> unregister = getConfig().getStringList("command-blocker.unregister");
+                    List<String> override = getConfig().getStringList("command-blocker.override");
+                    List<String> unregister = getConfig().getStringList("command-blocker.unregister");
                     if (!override.isEmpty()) commandBlocker.overrideAll(override.toArray(new String[0]));
                     if (!unregister.isEmpty()) commandBlocker.unregisterAll(unregister.toArray(new String[0]));
                     getLogger().info("[CommandBlocker] Override completato!");
@@ -111,6 +116,44 @@ public class DistrictRP extends JavaPlugin {
 
         getLogger().info("[INIT] DataManager...");
         this.dataManager = safeInit("DataManager", () -> new DataManager(this));
+
+        getLogger().info("[INIT] DatabaseManager...");
+        this.databaseManager = safeInit("DatabaseManager", () -> {
+            dev.breach.DistrictRP.database.DatabaseManager dm =
+                    new dev.breach.DistrictRP.database.DatabaseManager(this);
+            dm.initialize();
+            return dm;
+        });
+
+        if (databaseManager != null && databaseManager.isMariaDb()) {
+            getLogger().info("[Database] Registrazione tabelle...");
+            var ds = databaseManager.getDataStore();
+            databaseManager.registerTable("tickets",
+                    new dev.breach.DistrictRP.database.tables.TicketsTable(this, ds));
+            databaseManager.registerTable("ticket_comments",
+                    new dev.breach.DistrictRP.database.tables.TicketCommentsTable(this, ds));
+            databaseManager.registerTable("profiles",
+                    new dev.breach.DistrictRP.database.tables.ProfilesTable(this, ds));
+            databaseManager.registerTable("warps",
+                    new dev.breach.DistrictRP.database.tables.WarpsTable(this, ds));
+            databaseManager.registerTable("playtime",
+                    new dev.breach.DistrictRP.database.tables.PlaytimeTable(this, ds));
+            databaseManager.registerTable("appuntamenti",
+                    new dev.breach.DistrictRP.database.tables.AppuntamentiTable(this, ds));
+            databaseManager.registerTable("vanish",
+                    new dev.breach.DistrictRP.database.tables.VanishTable(this, ds));
+            databaseManager.registerTable("staffmode",
+                    new dev.breach.DistrictRP.database.tables.StaffModeTable(this, ds));
+            databaseManager.registerTable("server_mode",
+                    new dev.breach.DistrictRP.database.tables.ServerModeTable(this, ds));
+            databaseManager.registerTable("chatsym",
+                    new dev.breach.DistrictRP.database.tables.ChatSymTable(this, ds));
+            databaseManager.registerTable("logs",
+                    new dev.breach.DistrictRP.database.tables.LogsTable(this, ds));
+            databaseManager.registerTable("homes",
+                    new dev.breach.DistrictRP.database.tables.HomesTable(this, ds));
+            getLogger().info("[Database] Registrate " + databaseManager.getAllTables().size() + " tabelle.");
+        }
 
         getLogger().info("[INIT] ModuleManager...");
         this.moduleManager = safeInit("ModuleManager", () -> new ModuleManager(this));
@@ -151,6 +194,20 @@ public class DistrictRP extends JavaPlugin {
         safeRegisterListener("GlobalListener", () -> new GlobalListener(this));
         safeRegisterListener("StaffModeListener", () -> new StaffModeListener(this, staffModeManager, staffModeGUI));
         safeRegisterListener("ServerModeListener", () -> new ServerModeListener(this, serverModeManager));
+        safeRegisterListener("AutoStaffModeListener", () -> new AutoStaffModeListener(this));
+        safeRegisterListener("ProxyChatSymbolListener", () -> new ProxyChatSymbolListener(this));
+
+        if (staffModeManager != null) {
+            getServer().getPluginManager().registerEvents(staffModeManager, this);
+            getLogger().info("  [OK] StaffModeManager auto-registered as Listener (persist)");
+        }
+
+        try {
+            getServer().getMessenger().registerOutgoingPluginChannel(this, ProxyChatBridge.CHANNEL);
+            getLogger().info("[ProxyChat] Canale plugin-message registrato: " + ProxyChatBridge.CHANNEL);
+        } catch (Throwable t) {
+            getLogger().warning("[ProxyChat] Errore registrazione canale: " + t.getMessage());
+        }
 
         getLogger().info("[COMMANDS] Registrazione comandi...");
         try {
@@ -225,6 +282,13 @@ public class DistrictRP extends JavaPlugin {
             catch (Throwable t) { getLogger().warning("Errore disable RoleplayModule: " + t.getMessage()); }
         }
         if (vanishManager != null) vanishManager.shutdown();
+        if (databaseManager != null) {
+            try { databaseManager.shutdown(); }
+            catch (Throwable t) { getLogger().warning("Errore shutdown DB: " + t.getMessage()); }
+        }
+        try {
+            getServer().getMessenger().unregisterOutgoingPluginChannel(this, ProxyChatBridge.CHANNEL);
+        } catch (Throwable ignored) {}
         getLogger().info("[DistrictRP] Plugin disabilitato. (Tag: " + BUILD_TAG + ")");
     }
 
@@ -307,6 +371,8 @@ public class DistrictRP extends JavaPlugin {
         safeRegister("mondo", new MondoCommand(this));
         safeRegister("wipe", new WipeCommand(this));
 
+        registerProxyChatCommands();
+
         CommandExecutor noop = (s, c, l, a) -> true;
         safeRegister("appuntamento_select_reparto", noop);
         safeRegister("appuntamento_select_giorno", noop);
@@ -315,6 +381,22 @@ public class DistrictRP extends JavaPlugin {
         safeRegister("ticket_quickreplies", noop);
         safeRegister("ticket_cancel_comment", noop);
         safeRegister("supporto_continua", noop);
+    }
+
+    private void registerProxyChatCommands() {
+        ConfigurationSection chSec = getConfig().getConfigurationSection("proxy-chat.channels");
+        if (chSec == null) return;
+        for (String channelId : chSec.getKeys(false)) {
+            ConfigurationSection ch = chSec.getConfigurationSection(channelId);
+            if (ch == null) continue;
+            String cmdName = ch.getString("command", channelId);
+            ProxyChatCommand exec = new ProxyChatCommand(this, channelId);
+            safeRegister(cmdName, exec);
+            List<String> aliases = ch.getStringList("aliases");
+            for (String alias : aliases) {
+                safeRegister(alias, exec);
+            }
+        }
     }
 
     public static DistrictRP getInstance() { return instance; }
@@ -333,5 +415,6 @@ public class DistrictRP extends JavaPlugin {
     public CoreProtectHook getCoreProtectHook() { return coreProtectHook; }
     public WorldGuardHook getWorldGuardHook() { return worldGuardHook; }
     public ModuleManager getModuleManager() { return moduleManager; }
+    public dev.breach.DistrictRP.database.DatabaseManager getDatabaseManager() { return databaseManager; }
     public RoleplayModule getRoleplay() { return roleplayModule; }
 }

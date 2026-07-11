@@ -1,6 +1,7 @@
 package dev.breach.DistrictRP.commands.roleplay.warp;
 
 import dev.breach.DistrictRP.DistrictRP;
+import dev.breach.DistrictRP.database.repository.WarpRepository;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 
@@ -13,13 +14,29 @@ public class WarpManager {
     private final DistrictRP plugin;
     private final Map<String, Warp> warps = new LinkedHashMap<>();
 
+    private WarpRepository repo;
+    private boolean useDb;
+
     public WarpManager(DistrictRP plugin) {
         this.plugin = plugin;
-        load();
+        this.repo = new WarpRepository(plugin);
+        this.useDb = repo.isAvailable();
+
+        if (useDb) {
+            plugin.getLogger().info("[Warps] Storage: MariaDB (con cache locale)");
+            loadFromDb();
+        } else {
+            plugin.getLogger().info("[Warps] Storage: YAML");
+            load();
+        }
     }
 
     public void load() {
         warps.clear();
+        if (useDb) {
+            loadFromDb();
+            return;
+        }
         ConfigurationSection sec = plugin.getConfig().getConfigurationSection("warp.data");
         if (sec == null) return;
         for (String key : sec.getKeys(false)) {
@@ -34,6 +51,17 @@ public class WarpManager {
             String perm = w.getString("permission", "");
             warps.put(key.toLowerCase(), new Warp(key, world, x, y, z, yaw, pitch, perm));
         }
+    }
+
+    private void loadFromDb() {
+        repo.loadAllWarps().thenAccept(list -> {
+            warps.clear();
+            for (Warp w : list) warps.put(w.getName().toLowerCase(), w);
+            plugin.getLogger().info("[Warps] Caricati " + warps.size() + " warp dal database.");
+        }).exceptionally(t -> {
+            plugin.getLogger().warning("[Warps] Errore caricamento DB: " + t.getMessage());
+            return null;
+        });
     }
 
     public Warp get(String name) {
@@ -53,19 +81,24 @@ public class WarpManager {
         if (exists(name)) return false;
         Warp w = new Warp(name, loc, permission);
         warps.put(name.toLowerCase(), w);
-        save(w);
+        if (useDb) repo.saveWarp(w);
+        else saveYaml(w);
         return true;
     }
 
     public boolean delete(String name) {
         if (!exists(name)) return false;
         warps.remove(name.toLowerCase());
-        plugin.getConfig().set("warp.data." + name, null);
-        plugin.saveConfig();
+        if (useDb) {
+            repo.deleteWarp(name);
+        } else {
+            plugin.getConfig().set("warp.data." + name, null);
+            plugin.saveConfig();
+        }
         return true;
     }
 
-    private void save(Warp w) {
+    private void saveYaml(Warp w) {
         String base = "warp.data." + w.getName();
         plugin.getConfig().set(base + ".world", w.getWorld());
         plugin.getConfig().set(base + ".x", w.getX());
@@ -78,6 +111,13 @@ public class WarpManager {
     }
 
     public void saveAll() {
-        for (Warp w : warps.values()) save(w);
+        if (useDb) {
+            for (Warp w : warps.values()) repo.saveWarp(w);
+        } else {
+            for (Warp w : warps.values()) saveYaml(w);
+        }
     }
+
+    public boolean isUsingDatabase() { return useDb; }
+    public WarpRepository getRepository() { return repo; }
 }

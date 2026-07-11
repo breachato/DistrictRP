@@ -1,10 +1,16 @@
 package dev.breach.DistrictRP.commands.staff;
 
 import dev.breach.DistrictRP.DistrictRP;
+import dev.breach.DistrictRP.database.repository.StaffModeRepository;
 import dev.breach.DistrictRP.functions.MessageUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 
@@ -15,7 +21,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
-public class StaffModeManager {
+public class StaffModeManager implements Listener {
 
     private final DistrictRP plugin;
     private final Set<UUID> inStaffMode = new HashSet<>();
@@ -28,8 +34,15 @@ public class StaffModeManager {
     private final Map<UUID, Boolean> savedAllowFlight = new HashMap<>();
     private final Set<UUID> invisibilityToggled = new HashSet<>();
 
+    private StaffModeRepository repo;
+    private boolean useDb;
+
     public StaffModeManager(DistrictRP plugin) {
         this.plugin = plugin;
+        this.repo = new StaffModeRepository(plugin);
+        this.useDb = repo.isAvailable();
+        if (useDb) plugin.getLogger().info("[StaffMode] Storage: MariaDB");
+        else plugin.getLogger().info("[StaffMode] Storage: YAML");
     }
 
     public boolean isInStaffMode(UUID uuid) { return inStaffMode.contains(uuid); }
@@ -79,6 +92,8 @@ public class StaffModeManager {
             toggleInvisibility(p);
         }
 
+        if (useDb) repo.setActive(uuid, true, null);
+
         MessageUtils.sendMsg(p, "staffmode.entered");
         if (plugin.getCoreProtectHook() != null)
             plugin.getCoreProtectHook().logCustomAction(p, "staffmode enter");
@@ -87,6 +102,9 @@ public class StaffModeManager {
     public void exit(Player p) {
         UUID uuid = p.getUniqueId();
         if (!inStaffMode.contains(uuid)) return;
+
+        boolean keepVanish = plugin.getConfig().getBoolean("staffmode.exit-keep-vanish", true);
+        boolean keepFly = plugin.getConfig().getBoolean("staffmode.exit-keep-fly", true);
 
         p.getInventory().clear();
         p.getInventory().setArmorContents(null);
@@ -98,8 +116,16 @@ public class StaffModeManager {
             for (PotionEffect e : p.getActivePotionEffects()) p.removePotionEffect(e.getType());
             for (PotionEffect e : savedEffects.remove(uuid)) p.addPotionEffect(e);
         }
-        if (savedAllowFlight.containsKey(uuid)) p.setAllowFlight(savedAllowFlight.remove(uuid));
-        if (savedFlying.containsKey(uuid)) p.setFlying(savedFlying.remove(uuid));
+
+        Boolean savedAllow = savedAllowFlight.remove(uuid);
+        Boolean savedFly = savedFlying.remove(uuid);
+        if (keepFly) {
+            p.setAllowFlight(true);
+            p.setFlying(true);
+        } else {
+            if (savedAllow != null) p.setAllowFlight(savedAllow);
+            if (savedFly != null) p.setFlying(savedFly);
+        }
 
         if (plugin.getConfig().getBoolean("staffmode.restore-location-on-exit", false)) {
             Location loc = savedLocation.get(uuid);
@@ -110,11 +136,15 @@ public class StaffModeManager {
         invisibilityToggled.remove(uuid);
         inStaffMode.remove(uuid);
 
-        if (plugin.getVanishManager() != null && plugin.getVanishManager().isVanished(p)) {
+        if (!keepVanish
+                && plugin.getVanishManager() != null
+                && plugin.getVanishManager().isVanished(p)) {
             plugin.getVanishManager().disable(p);
         }
 
         if (plugin.godMode != null) plugin.godMode.remove(uuid);
+
+        if (useDb) repo.setActive(uuid, false, null);
 
         MessageUtils.sendMsg(p, "staffmode.exited");
         if (plugin.getCoreProtectHook() != null)
@@ -144,4 +174,28 @@ public class StaffModeManager {
             MessageUtils.sendMsg(p, "staffmode.invisibility-on");
         }
     }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onJoin(PlayerJoinEvent event) {
+        if (!useDb) return;
+        if (!plugin.getConfig().getBoolean("staffmode.persist-across-restart", true)) return;
+        Player p = event.getPlayer();
+        UUID uuid = p.getUniqueId();
+        long delay = plugin.getConfig().getLong("staffmode.persist-restore-delay-ticks", 25L);
+        Bukkit.getScheduler().runTaskLaterAsynchronously(plugin, () -> {
+            try {
+                boolean active = repo.isActive(uuid).join();
+                if (!active) return;
+                Bukkit.getScheduler().runTask(plugin, () -> {
+                    if (!p.isOnline()) return;
+                    if (isInStaffMode(p)) return;
+                    enter(p);
+                    MessageUtils.sendMsg(p, "staffmode.persisted-restored");
+                });
+            } catch (Throwable ignored) {}
+        }, delay);
+    }
+
+    public boolean isUsingDatabase() { return useDb; }
+    public StaffModeRepository getRepository() { return repo; }
 }

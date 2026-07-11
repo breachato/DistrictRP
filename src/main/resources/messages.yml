@@ -400,6 +400,15 @@ staffmode:
   tp-target-success: '%prefix%&aᴛᴇʟᴇᴛʀᴀꜱᴘᴏʀᴛᴏ ᴠᴇʀꜱᴏ &#FCD05C%player%&a.'
   invisibility-on: '%prefix%&aɪɴᴠɪꜱɪʙɪʟɪᴛà (ᴠᴀɴɪꜱʜ) ᴀᴛᴛɪᴠᴀᴛᴀ.'
   invisibility-off: '%prefix%&cɪɴᴠɪꜱɪʙɪʟɪᴛà (ᴠᴀɴɪꜱʜ) ᴅɪꜱᴀᴛᴛɪᴠᴀᴛᴀ.'
+  auto-entered: '%prefix%&aꜱᴛᴀꜰꜰ ᴍᴏᴅᴇ ᴀᴜᴛᴏᴍᴀᴛɪᴄᴀᴍᴇɴᴛᴇ ᴀᴛᴛɪᴠᴀᴛᴀ (ʀᴏʟᴇᴘʟsᴀʏ ᴍᴏᴅᴇ).'
+  persisted-restored: '%prefix%&aꜱᴛᴀꜰꜰ ᴍᴏᴅᴇ ʀɪꜱᴛᴀʙɪʟɪᴛᴀ ᴅᴀʟ ᴘʀᴇᴄᴇᴅᴇɴᴛᴇ ᴀᴄᴄᴇꜱꜱᴏ.'
+  auto-staffmode-enabled: true
+  auto-staffmode-permission: DistrictRP.autostaffmode
+  auto-staffmode-delay-ticks: 20
+  exit-keep-vanish: true
+  exit-keep-fly: true
+  persist-across-restart: true
+  persist-restore-delay-ticks: 25
   gui-player-hover:
     - ''
     - '&7ᴘᴏꜱɪᴢɪᴏɴᴇ &8» &f%x%, %y%, %z%'
@@ -476,9 +485,6 @@ warp:
   teleport-title: '&#FCD05C&lᴡᴀʀᴘ'
   teleport-subtitle: '&7ᴛɪ ꜱᴛᴀɪ ᴛᴇʟᴇᴛʀᴀꜱᴘᴏʀᴛᴀɴᴅᴏ ᴀ &#FCD05C%warp%'
 
-vanish:
-  enabled: ''
-  disabled: ''
 
 social:
   ping: '%prefix%&e%player% &7ᴛɪ ʜᴀ ᴍᴇɴᴢɪᴏɴᴀᴛᴏ ɪɴ ᴄʜᴀᴛ.'
@@ -654,3 +660,31 @@ scale:
   set-other: '%prefix%&aʜᴀɪ ɪᴍᴘᴏꜱᴛᴀᴛᴏ ʟᴀ ꜱᴄᴀʟᴀ ᴅɪ &#FCD05C%player% &aᴀ &#FCD05C%value%&a.'
   invalid-value: '%prefix%&cᴠᴀʟᴏʀᴇ ɴᴏɴ ᴠᴀʟɪᴅᴏ.'
   out-of-range: '%prefix%&cɪʟ ᴠᴀʟᴏʀᴇ ᴅᴇᴠᴇ ᴇꜱꜱᴇʀᴇ ᴛʀᴀ &#FCD05C%min% &cᴇ &#FCD05C%max%&c.'
+
+vanish:
+  enabled-self: '%prefix%&7ꜱᴇɪ ᴏʀᴀ ɪɴ &fᴠᴀɴɪꜱʜ&#FCD05C.'
+  disabled-self: '%prefix%&7ɴᴏɴ ꜱᴇɪ ᴘɪù ɪɴ &fᴠᴀɴɪꜱʜ&c.'
+
+database:
+  mariadb-inactive: '%prefix%&cᴍᴀʀɪᴀᴅʙ ɴᴏɴ è ᴀᴛᴛɪᴠᴏ. ᴄᴀᴍʙɪᴀ &fstorage.type: MARIADB &ce ʀɪᴀᴠᴠɪᴀ.'
+  migration-start: '%prefix%&e▶ ᴍɪɢʀᴀᴢɪᴏɴᴇ ʏᴀᴍʟ → ᴍᴀʀɪᴀᴅʙ ᴀᴠᴠɪᴀᴛᴀ...'
+  migration-mgr-unavailable: '%prefix%&c%mgr% ɴᴏɴ ᴅɪꜱᴘᴏɴɪʙɪʟᴇ.'
+  migration-repo-unavailable: '%prefix%&c%repo% ɴᴏɴ ᴅɪꜱᴘᴏɴɪʙɪʟᴇ.'
+  migration-none: '%prefix%&7ɴᴇꜱꜱᴜɴ &f%type% &7ᴅᴀ ᴍɪɢʀᴀʀᴇ.'
+  migration-file-missing: '%prefix%&7ɴᴇꜱꜱᴜɴ ꜰɪʟᴇ &f%file% &7ᴅᴀ ᴍɪɢʀᴀʀᴇ.'
+  migration-in-progress: '%prefix%&e▶ ᴍɪɢʀᴀᴢɪᴏɴᴇ &f%type%&e: &f%count% &erecord...'
+  migration-done: '%prefix%&a✔ %type% ᴍɪɢʀᴀᴛɪ: &f%ok%&a/&f%total%'
+  migration-done-with-fails: '%prefix%&a✔ %type% ᴍɪɢʀᴀᴛɪ: &f%ok%&a/&f%total% &c(ꜰᴀʟʟɪᴍᴇɴᴛɪ: %fail%)'
+
+proxychat:
+  no-permission: '%prefix%&cɴᴏɴ ʜᴀɪ ɪʟ ᴘᴇʀᴍᴇꜱꜱᴏ ᴘᴇʀ Qᴜᴇꜱᴛᴀ ᴄʜᴀᴛ.'
+  empty-message: '%prefix%&cᴅᴇᴠɪ ꜱᴄʀɪᴠᴇʀᴇ ᴜɴ ᴍᴇꜱꜱᴀɢɢɪᴏ.'
+  channel-unknown: '%prefix%&cᴄᴀɴᴀʟᴇ ꜱᴄᴏɴᴏꜱᴄɪᴜᴛᴏ.'
+  proxy-unavailable: '%prefix%&cᴘʀᴏxʏ ɴᴏɴ ᴅɪꜱᴘᴏɴɪʙɪʟᴇ.'
+
+autoinstaller:
+  scanning: '&e▶ ᴀᴜᴛᴏɪɴꜱᴛᴀʟʟᴇʀ: ᴀɴᴀʟɪꜱɪ ᴅɪᴘᴇɴᴅᴇɴᴢᴇ...'
+  installed: '&a✔ %plugin% ɪɴꜱᴛᴀʟʟᴀᴛᴏ.'
+  already-present: '&7• %plugin% ɢɪà ᴘʀᴇꜱᴇɴᴛᴇ.'
+  download-failed: '&c✖ ᴅᴏᴡɴʟᴏᴀᴅ ꜰᴀʟʟɪᴛᴏ: %plugin%'
+  shutdown-warning: '&c▲ ʀɪᴀᴠᴠɪᴀ ɪʟ ꜱᴇʀᴠᴇʀ ᴘᴇʀ ᴄᴏᴍᴘʟᴇᴛᴀʀᴇ ʟ''ɪɴꜱᴛᴀʟʟᴀᴢɪᴏɴᴇ!'

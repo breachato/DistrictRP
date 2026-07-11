@@ -1,0 +1,65 @@
+
+channels:
+  staffchat:
+    prefix-symbol: '!'
+    command: staffchat
+    aliases: [sc]
+    permission: DistrictRP.staffchat
+    format: '&8[&#FCD05CSC&8] &7[%server%] %rank%%player% &8» &f%message%'
+    hover: |-
+      &7Server: &f%server%
+      &7Player: &f%player%
+      &#FCD05Cᴄʟɪᴄᴄᴀ ᴘᴇʀ ʀɪꜱᴘᴏɴᴅᴇʀᴇ
+
+  modchat:
+    prefix-symbol: '.'
+    command: modchat
+    aliases: [mc]
+    permission: DistrictRP.modchat
+    format: '&8[&aMC&8] &7[%server%] %rank%%player% &8» &a%message%'
+    hover: |-
+      &7Server: &f%server%
+      &7Player: &f%player%
+
+  adminchat:
+    prefix-symbol: '@'
+    command: adminchat
+    aliases: [ac]
+    permission: DistrictRP.adminchat
+    format: '&8[&cAC&8] &7[%server%] %rank%%player% &8» &c%message%'
+    hover: |-
+      &7Server: &f%server%
+      &7Player: &f%player%
+
+  builderchat:
+    prefix-symbol: '?'
+    command: builderchat
+    aliases: [bc]
+    permission: DistrictRP.builderchat
+    format: '&8[&6BC&8] &7[%server%] %rank%%player% &8» &6%message%'
+    hover: |-
+      &7Server: &f%server%
+      &7Player: &f%player%
+
+  devchat:
+    prefix-symbol: '#'
+    command: devchat
+    aliases: [dc]
+    permission: DistrictRP.devchat
+    format: '&8[&dDC&8] &7[%server%] %rank%%player% &8» &d%message%'
+    hover: |-
+      &7Server: &f%server%
+      &7Player: &f%player%
+
+messages:
+  no-permission: '&cɴᴏɴ ʜᴀɪ ɪʟ ᴘᴇʀᴍᴇꜱꜱᴏ ᴘᴇʀ Qᴜᴇꜱᴛᴀ ᴄʜᴀᴛ.'
+  only-player: '&cQᴜᴇꜱᴛᴏ ᴄᴏᴍᴀɴᴅᴏ è ʀɪꜱᴇʀᴠᴀᴛᴏ ᴀɪ ɢɪᴏᴄᴀᴛᴏʀɪ.'
+  empty-message: '&cᴅᴇᴠɪ ꜱᴄʀɪᴠᴇʀᴇ ᴜɴ ᴍᴇꜱꜱᴀɢɢɪᴏ.'
+  channel-unknown: '&cᴄᴀɴᴀʟᴇ ᴄʜᴀᴛ ꜱᴄᴏɴᴏꜱᴄɪᴜᴛᴏ.'
+  received-hover-prefix: '&#FCD05Cᴠɪꜱᴜᴀʟɪᴢᴢᴀ ɪɴꜰᴏ'
+
+server-display-names:
+  lobby: 'Lobby'
+  roleplay: 'Roleplay'
+  creative: 'Creative'
+  survival: 'Survival'

@@ -3,6 +3,7 @@ package dev.breach.DistrictRP.commands.roleplay.supporto;
 import dev.breach.DistrictRP.DistrictRP;
 import dev.breach.DistrictRP.commands.roleplay.ticket.TicketCategoryGUI;
 import dev.breach.DistrictRP.functions.MessageUtils;
+import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -34,11 +35,14 @@ public class SupportoCommand implements CommandExecutor {
         List<String> lines = MessageUtils.getList("supporto.message");
         String hoverText = MessageUtils.get("supporto.hover-continue");
 
-        for (int i = 0; i < lines.size(); i++) {
-            String line = lines.get(i);
-            String stripped = net.md_5.bungee.api.ChatColor.stripColor(MessageUtils.color(line));
+        for (String line : lines) {
+            String stripped = ChatColor.stripColor(MessageUtils.color(line)).toLowerCase();
 
-            if (stripped.contains("[Continua]")) {
+            boolean hasContinueMarker = stripped.contains("[continua]")
+                    || stripped.contains("[ᴄᴏɴᴛɪɴᴜᴀ]")
+                    || stripped.contains("continua");
+
+            if (hasContinueMarker) {
                 TextComponent comp = new TextComponent(TextComponent.fromLegacyText(line));
                 comp.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
                         new Text(TextComponent.fromLegacyText(MessageUtils.color(hoverText)))));

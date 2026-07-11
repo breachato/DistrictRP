@@ -1,6 +1,7 @@
 package dev.breach.DistrictRP.commands.roleplay.playtime;
 
 import dev.breach.DistrictRP.DistrictRP;
+import dev.breach.DistrictRP.database.repository.PlaytimeRepository;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -27,6 +28,9 @@ public class PlaytimeTracker implements Listener {
     private BukkitTask tickTask;
     private BukkitTask saveTask;
 
+    private PlaytimeRepository repo;
+    private boolean useDb;
+
     public PlaytimeTracker(DistrictRP plugin) {
         this.plugin = plugin;
         File dir = new File(plugin.getDataFolder(), "roleplay");
@@ -36,10 +40,19 @@ public class PlaytimeTracker implements Listener {
             try { file.createNewFile(); } catch (IOException ignored) {}
         }
         this.config = YamlConfiguration.loadConfiguration(file);
-        loadAll();
+
+        this.repo = new PlaytimeRepository(plugin);
+        this.useDb = repo.isAvailable();
+
+        if (useDb) {
+            plugin.getLogger().info("[Playtime] Storage: MariaDB (con cache locale)");
+        } else {
+            plugin.getLogger().info("[Playtime] Storage: YAML");
+            loadAllYaml();
+        }
     }
 
-    private void loadAll() {
+    private void loadAllYaml() {
         ConfigurationSection sec = config.getConfigurationSection("players");
         if (sec == null) return;
         for (String key : sec.getKeys(false)) {
@@ -60,6 +73,16 @@ public class PlaytimeTracker implements Listener {
     }
 
     public void saveAll() {
+        if (useDb) {
+            for (Map.Entry<UUID, PlaytimeData> e : cache.entrySet()) {
+                repo.save(e.getKey(), e.getValue());
+            }
+        } else {
+            saveAllYaml();
+        }
+    }
+
+    private void saveAllYaml() {
         FileConfiguration newConfig = new YamlConfiguration();
         ConfigurationSection sec = newConfig.createSection("players");
         for (Map.Entry<UUID, PlaytimeData> e : cache.entrySet()) {
@@ -103,14 +126,24 @@ public class PlaytimeTracker implements Listener {
     }
 
     public PlaytimeData get(UUID uuid) {
-        return cache.computeIfAbsent(uuid, k -> {
-            PlaytimeData d = new PlaytimeData();
-            long now = System.currentTimeMillis();
-            d.setDailyReset(now);
-            d.setWeeklyReset(now);
-            d.setMonthlyReset(now);
-            return d;
-        });
+        PlaytimeData cached = cache.get(uuid);
+        if (cached != null) return cached;
+
+        if (useDb) {
+            PlaytimeData fromDb = repo.load(uuid).join();
+            if (fromDb != null) {
+                cache.put(uuid, fromDb);
+                return fromDb;
+            }
+        }
+
+        PlaytimeData fresh = new PlaytimeData();
+        long now = System.currentTimeMillis();
+        fresh.setDailyReset(now);
+        fresh.setWeeklyReset(now);
+        fresh.setMonthlyReset(now);
+        cache.put(uuid, fresh);
+        return fresh;
     }
 
     public void reset(UUID uuid) {
@@ -120,7 +153,8 @@ public class PlaytimeTracker implements Listener {
         d.setWeeklyReset(now);
         d.setMonthlyReset(now);
         cache.put(uuid, d);
-        saveAll();
+        if (useDb) repo.save(uuid, d);
+        else saveAllYaml();
     }
 
     public String format(long seconds) {
@@ -152,4 +186,7 @@ public class PlaytimeTracker implements Listener {
     public void onQuit(PlayerQuitEvent event) {
         Bukkit.getScheduler().runTaskAsynchronously(plugin, this::saveAll);
     }
+
+    public boolean isUsingDatabase() { return useDb; }
+    public PlaytimeRepository getRepository() { return repo; }
 }

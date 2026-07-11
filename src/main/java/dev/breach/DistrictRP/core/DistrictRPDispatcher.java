@@ -18,7 +18,7 @@ import java.util.Locale;
 
 public class DistrictRPDispatcher implements CommandExecutor, TabCompleter {
 
-    private static final List<String> SUBCOMMANDS = Arrays.asList("reload", "info", "mode");
+    private static final List<String> SUBCOMMANDS = Arrays.asList("reload", "info", "mode", "migrate");
     private static final List<String> MODES = Arrays.asList("lobby", "creative", "roleplay", "off");
 
     private final DistrictRP plugin;
@@ -30,6 +30,7 @@ public class DistrictRPDispatcher implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command,
                              @NotNull String label, @NotNull String[] args) {
+
 
         if (!sender.hasPermission("DistrictRP.use")) {
             MessageUtils.send(sender, "&c✗ Non hai accesso a DistrictRP.");
@@ -51,6 +52,13 @@ public class DistrictRPDispatcher implements CommandExecutor, TabCompleter {
             }
             case "info" -> sendInfo(sender);
             case "mode" -> handleMode(sender, args);
+            case "migrate" -> {
+                if (!sender.hasPermission("DistrictRP.admin")) {
+                    MessageUtils.send(sender, "&c✗ Non hai il permesso.");
+                    return true;
+                }
+                new dev.breach.DistrictRP.database.MigrationCommand(plugin).migrateAll(sender);
+            }
             default -> sendInfo(sender);
         }
         return true;

@@ -1,6 +1,7 @@
 package dev.breach.DistrictRP.commands.roleplay.appuntamenti;
 
 import dev.breach.DistrictRP.DistrictRP;
+import dev.breach.DistrictRP.database.repository.AppuntamentoRepository;
 import dev.breach.DistrictRP.functions.MessageUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
@@ -21,6 +22,9 @@ public class AppuntamentoManager {
     private final Map<Integer, Appuntamento> appuntamenti = new LinkedHashMap<>();
     private int nextId = 1;
 
+    private AppuntamentoRepository repo;
+    private boolean useDb;
+
     public AppuntamentoManager(DistrictRP plugin) {
         this.plugin = plugin;
         File dir = new File(plugin.getDataFolder(), "roleplay");
@@ -30,10 +34,20 @@ public class AppuntamentoManager {
             try { file.createNewFile(); } catch (IOException ignored) {}
         }
         this.config = YamlConfiguration.loadConfiguration(file);
-        load();
+
+        this.repo = new AppuntamentoRepository(plugin);
+        this.useDb = repo.isAvailable();
+
+        if (useDb) {
+            plugin.getLogger().info("[Appuntamenti] Storage: MariaDB (con cache locale)");
+            loadFromDb();
+        } else {
+            plugin.getLogger().info("[Appuntamenti] Storage: YAML");
+            loadYaml();
+        }
     }
 
-    private void load() {
+    private void loadYaml() {
         appuntamenti.clear();
         nextId = config.getInt("next-id", 1);
         ConfigurationSection sec = config.getConfigurationSection("appuntamenti");
@@ -53,7 +67,28 @@ public class AppuntamentoManager {
         }
     }
 
+    private void loadFromDb() {
+        repo.fetchAll().thenAccept(list -> {
+            appuntamenti.clear();
+            int maxId = 0;
+            for (Appuntamento a : list) {
+                appuntamenti.put(a.getId(), a);
+                if (a.getId() > maxId) maxId = a.getId();
+            }
+            nextId = maxId + 1;
+            plugin.getLogger().info("[Appuntamenti] Caricati " + appuntamenti.size() + " appuntamenti dal database.");
+        }).exceptionally(t -> {
+            plugin.getLogger().warning("[Appuntamenti] Errore caricamento DB: " + t.getMessage());
+            return null;
+        });
+    }
+
     public void saveAll() {
+        if (useDb) return;
+        saveAllYaml();
+    }
+
+    private void saveAllYaml() {
         FileConfiguration newConfig = new YamlConfiguration();
         newConfig.set("next-id", nextId);
         ConfigurationSection sec = newConfig.createSection("appuntamenti");
@@ -72,13 +107,26 @@ public class AppuntamentoManager {
     }
 
     public Appuntamento create(UUID player, String playerName, String reparto, String giorno, String orario) {
-        int id = nextId++;
-        Appuntamento a = new Appuntamento(id, player, playerName, reparto, giorno, orario, System.currentTimeMillis());
-        appuntamenti.put(id, a);
-        saveAll();
-        notifyStaff(a);
-        sendBotNotify(a);
-        return a;
+        if (useDb) {
+            Integer newId = repo.book(player, playerName, reparto, giorno, orario).join();
+            if (newId == null || newId < 0) {
+                plugin.getLogger().warning("[Appuntamenti] Book fallito (slot occupato o errore DB)");
+                return null;
+            }
+            Appuntamento a = new Appuntamento(newId, player, playerName, reparto, giorno, orario, System.currentTimeMillis());
+            appuntamenti.put(newId, a);
+            notifyStaff(a);
+            sendBotNotify(a);
+            return a;
+        } else {
+            int id = nextId++;
+            Appuntamento a = new Appuntamento(id, player, playerName, reparto, giorno, orario, System.currentTimeMillis());
+            appuntamenti.put(id, a);
+            saveAll();
+            notifyStaff(a);
+            sendBotNotify(a);
+            return a;
+        }
     }
 
     public boolean isSlotTaken(String reparto, String giorno, String orario) {
@@ -87,7 +135,20 @@ public class AppuntamentoManager {
                     && a.getGiorno().equals(giorno)
                     && a.getOrario().equals(orario)) return true;
         }
+        if (useDb) {
+            try {
+                return repo.isSlotTaken(reparto, giorno, orario).join();
+            } catch (Exception ignored) {}
+        }
         return false;
+    }
+
+    public boolean cancel(int id) {
+        Appuntamento a = appuntamenti.remove(id);
+        if (a == null) return false;
+        if (useDb) repo.cancel(id);
+        else saveAll();
+        return true;
     }
 
     public Map<String, String> getReparti() {
@@ -183,4 +244,7 @@ public class AppuntamentoManager {
             plugin.getRoleplay().getBotManager().getTelegramBot().sendAppuntamento(a);
         }
     }
+
+    public boolean isUsingDatabase() { return useDb; }
+    public AppuntamentoRepository getRepository() { return repo; }
 }

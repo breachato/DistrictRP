@@ -1,6 +1,7 @@
 package dev.breach.DistrictRP.functions;
 
 import dev.breach.DistrictRP.DistrictRP;
+import dev.breach.DistrictRP.database.repository.VanishRepository;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -23,12 +24,37 @@ public class VanishManager {
     private final Set<UUID> vanished = new HashSet<>();
     private BukkitTask equipmentHideTask;
 
+    private VanishRepository repo;
+    private boolean useDb;
+
     public VanishManager(DistrictRP plugin) {
         this.plugin = plugin;
-        for (String s : plugin.getDataManager().getAllVanished()) {
-            try { vanished.add(UUID.fromString(s)); } catch (Exception ignored) {}
+
+        this.repo = new VanishRepository(plugin);
+        this.useDb = repo.isAvailable();
+
+        if (useDb) {
+            plugin.getLogger().info("[Vanish] Storage: MariaDB (con cache locale)");
+            loadFromDb();
+        } else {
+            plugin.getLogger().info("[Vanish] Storage: YAML");
+            for (String s : plugin.getDataManager().getAllVanished()) {
+                try { vanished.add(UUID.fromString(s)); } catch (Exception ignored) {}
+            }
         }
+
         startEquipmentHideTask();
+    }
+
+    private void loadFromDb() {
+        repo.loadAllVanished().thenAccept(list -> {
+            vanished.clear();
+            vanished.addAll(list);
+            plugin.getLogger().info("[Vanish] Caricati " + vanished.size() + " vanish dal database.");
+        }).exceptionally(t -> {
+            plugin.getLogger().warning("[Vanish] Errore caricamento DB: " + t.getMessage());
+            return null;
+        });
     }
 
     public static String getVanishSuffix() {
@@ -89,22 +115,24 @@ public class VanishManager {
 
     public void enable(Player p) {
         vanished.add(p.getUniqueId());
-        plugin.getDataManager().setVanished(p.getUniqueId(), true);
+        if (useDb) repo.setVanished(p.getUniqueId(), true);
+        else plugin.getDataManager().setVanished(p.getUniqueId(), true);
         applyVanish(p);
         refreshTabSuffix(p);
         hideEquipmentFromNonStaff(p);
-        MessageUtils.sendPrefixed(p, "&7Sei ora in &fVanish&#FCD05C.");
+        MessageUtils.sendMsg(p, "vanish.enabled-self");
         if (plugin.getCoreProtectHook() != null)
             plugin.getCoreProtectHook().logCustomAction(p, "vanish enable");
     }
 
     public void disable(Player p) {
         vanished.remove(p.getUniqueId());
-        plugin.getDataManager().setVanished(p.getUniqueId(), false);
+        if (useDb) repo.setVanished(p.getUniqueId(), false);
+        else plugin.getDataManager().setVanished(p.getUniqueId(), false);
         removeVanish(p);
         refreshTabSuffix(p);
         restoreEquipmentForAll(p);
-        MessageUtils.sendPrefixed(p, "&7Non sei più in &fVanish&c.");
+        MessageUtils.sendMsg(p, "vanish.disabled-self");
         if (plugin.getCoreProtectHook() != null)
             plugin.getCoreProtectHook().logCustomAction(p, "vanish disable");
     }
@@ -166,6 +194,9 @@ public class VanishManager {
 
     public void cleanupTeam(Player p) {}
     public Set<UUID> getVanished() { return new HashSet<>(vanished); }
+
+    public boolean isUsingDatabase() { return useDb; }
+    public VanishRepository getRepository() { return repo; }
 
     public void shutdown() {
         if (equipmentHideTask != null) equipmentHideTask.cancel();

@@ -10,21 +10,21 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 public class PlaytimeCommand implements CommandExecutor {
 
-    private final DistrictRP plugin;
     private final PlaytimeTracker tracker;
     private final RPProfileManager profileManager;
 
     public PlaytimeCommand(DistrictRP plugin, PlaytimeTracker tracker, RPProfileManager profileManager) {
-        this.plugin = plugin;
         this.tracker = tracker;
         this.profileManager = profileManager;
     }
 
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command,
+                             @NotNull String label, @NotNull String[] args) {
         OfflinePlayer target;
         if (args.length == 0) {
             if (!(sender instanceof Player p)) {

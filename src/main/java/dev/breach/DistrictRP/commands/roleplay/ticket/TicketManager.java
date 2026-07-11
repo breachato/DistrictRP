@@ -1,6 +1,7 @@
 package dev.breach.DistrictRP.commands.roleplay.ticket;
 
 import dev.breach.DistrictRP.DistrictRP;
+import dev.breach.DistrictRP.database.repository.TicketRepository;
 import dev.breach.DistrictRP.functions.MessageUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -22,6 +23,9 @@ public class TicketManager {
     private final Map<String, TicketCategory> categories = new LinkedHashMap<>();
     private int nextId = 1;
 
+    private TicketRepository repo;
+    private boolean useDb;
+
     public TicketManager(DistrictRP plugin) {
         this.plugin = plugin;
         File dir = new File(plugin.getDataFolder(), "roleplay");
@@ -31,8 +35,19 @@ public class TicketManager {
             try { file.createNewFile(); } catch (IOException ignored) {}
         }
         this.config = YamlConfiguration.loadConfiguration(file);
+
+        this.repo = new TicketRepository(plugin);
+        this.useDb = repo.isAvailable();
+
         loadCategories();
-        loadTickets();
+
+        if (useDb) {
+            plugin.getLogger().info("[Tickets] Storage: MariaDB (con cache locale)");
+            loadFromDb();
+        } else {
+            plugin.getLogger().info("[Tickets] Storage: YAML");
+            loadTicketsYaml();
+        }
     }
 
     public void loadCategories() {
@@ -52,7 +67,7 @@ public class TicketManager {
         }
     }
 
-    private void loadTickets() {
+    private void loadTicketsYaml() {
         tickets.clear();
         nextId = config.getInt("next-id", 1);
         ConfigurationSection sec = config.getConfigurationSection("tickets");
@@ -89,7 +104,28 @@ public class TicketManager {
         }
     }
 
+    private void loadFromDb() {
+        repo.fetchAll().thenAccept(list -> {
+            tickets.clear();
+            int maxId = 0;
+            for (Ticket t : list) {
+                tickets.put(t.getId(), t);
+                if (t.getId() > maxId) maxId = t.getId();
+            }
+            nextId = maxId + 1;
+            plugin.getLogger().info("[Tickets] Caricati " + tickets.size() + " ticket dal database.");
+        }).exceptionally(t -> {
+            plugin.getLogger().warning("[Tickets] Errore caricamento DB: " + t.getMessage());
+            return null;
+        });
+    }
+
     public void saveAll() {
+        if (useDb) return;
+        saveAllYaml();
+    }
+
+    private void saveAllYaml() {
         FileConfiguration newConfig = new YamlConfiguration();
         newConfig.set("next-id", nextId);
         ConfigurationSection ticketsSection = newConfig.createSection("tickets");
@@ -116,14 +152,32 @@ public class TicketManager {
         catch (IOException e) { plugin.getLogger().warning("Errore salvataggio tickets.yml: " + e.getMessage()); }
     }
 
+    private String getServerOrigin() {
+        return plugin.getConfig().getString("server-id", Bukkit.getServer().getName());
+    }
+
     public Ticket create(UUID author, String authorName, String category, String reason) {
-        int id = nextId++;
-        Ticket t = new Ticket(id, author, authorName, category.toLowerCase(), reason, System.currentTimeMillis());
-        tickets.put(id, t);
-        saveAll();
-        notifyStaffCategory(t);
-        sendBotNotify(t);
-        return t;
+        if (useDb) {
+            Ticket local = new Ticket(-1, author, authorName, category.toLowerCase(), reason, System.currentTimeMillis());
+            Integer newId = repo.createTicket(local, getServerOrigin()).join();
+            if (newId == null || newId < 0) {
+                plugin.getLogger().warning("[Tickets] create fallito su DB");
+                return null;
+            }
+            Ticket t = new Ticket(newId, author, authorName, category.toLowerCase(), reason, System.currentTimeMillis());
+            tickets.put(newId, t);
+            notifyStaffCategory(t);
+            sendBotNotify(t);
+            return t;
+        } else {
+            int id = nextId++;
+            Ticket t = new Ticket(id, author, authorName, category.toLowerCase(), reason, System.currentTimeMillis());
+            tickets.put(id, t);
+            saveAll();
+            notifyStaffCategory(t);
+            sendBotNotify(t);
+            return t;
+        }
     }
 
     public boolean close(int id, UUID closer, String closerName, String reason) {
@@ -134,7 +188,10 @@ public class TicketManager {
         t.setClosedByName(closerName);
         t.setCloseReason(reason);
         t.setClosedAt(System.currentTimeMillis());
-        saveAll();
+
+        if (useDb) repo.closeTicket(id, closer, closerName, reason);
+        else saveAll();
+
         Player author = Bukkit.getPlayer(t.getAuthor());
         if (author != null) {
             author.sendMessage(MessageUtils.get("ticket.player-notify-closed",
@@ -159,7 +216,9 @@ public class TicketManager {
         t.setClosedByName(null);
         t.setCloseReason(null);
         t.setClosedAt(0);
-        saveAll();
+
+        if (useDb) repo.reopenTicket(id);
+        else saveAll();
         return true;
     }
 
@@ -168,7 +227,10 @@ public class TicketManager {
         if (t == null) return false;
         t.setClaimedBy(staff);
         t.setClaimedByName(staffName);
-        saveAll();
+
+        if (useDb) repo.claimTicket(id, staff, staffName);
+        else saveAll();
+
         Player author = Bukkit.getPlayer(t.getAuthor());
         if (author != null) {
             author.sendMessage(MessageUtils.get("ticket.player-notify-claimed",
@@ -180,8 +242,12 @@ public class TicketManager {
     public boolean comment(int id, UUID commenter, String commenterName, String text, boolean staff) {
         Ticket t = tickets.get(id);
         if (t == null) return false;
-        t.addComment(new TicketComment(commenter, commenterName, text, System.currentTimeMillis(), staff));
-        saveAll();
+        TicketComment tc = new TicketComment(commenter, commenterName, text, System.currentTimeMillis(), staff);
+        t.addComment(tc);
+
+        if (useDb) repo.addComment(id, tc);
+        else saveAll();
+
         Player author = Bukkit.getPlayer(t.getAuthor());
         if (author != null && !author.getUniqueId().equals(commenter)) {
             author.sendMessage(MessageUtils.get("ticket.player-notify-comment",
@@ -195,7 +261,9 @@ public class TicketManager {
         if (t == null) return false;
         t.setClaimedBy(null);
         t.setClaimedByName(null);
-        saveAll();
+
+        if (useDb) repo.unclaimTicket(id);
+        else saveAll();
         return true;
     }
 
@@ -204,7 +272,9 @@ public class TicketManager {
         if (t == null) return false;
         if (!hasCategory(newCategory)) return false;
         t.setCategory(newCategory.toLowerCase());
-        saveAll();
+
+        if (useDb) repo.updateCategory(id, newCategory.toLowerCase());
+        else saveAll();
         return true;
     }
 
@@ -217,7 +287,8 @@ public class TicketManager {
         c.setCancelled(true);
         c.setText(MessageUtils.get("ticket.comment-cancelled-placeholder")
                 .replace("§", "").replaceAll("&.", "").replaceAll("&#[A-Fa-f0-9]{6}", ""));
-        saveAll();
+
+        if (!useDb) saveAll();
         return true;
     }
 
@@ -327,4 +398,7 @@ public class TicketManager {
             plugin.getRoleplay().getBotManager().getTelegramBot().sendTicketCreated(t);
         }
     }
+
+    public boolean isUsingDatabase() { return useDb; }
+    public TicketRepository getRepository() { return repo; }
 }

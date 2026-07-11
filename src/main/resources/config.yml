@@ -3,6 +3,19 @@ prefix: '&#FCD05C&lᴅɪꜱᴛʀɪᴄᴛʀᴘ &8» &r'
 storage:
   type: YAML
 
+  mariadb:
+    host: localhost
+    port: 3306
+    database: districtrp
+    username: root
+    password: ''
+    table-prefix: drp_
+    pool-size: 10
+    connection-timeout-ms: 30000
+    idle-timeout-ms: 600000
+    max-lifetime-ms: 1800000
+    use-ssl: false
+
 staff-notify:
   permission: DistrictRP.staff.notify
 
@@ -81,15 +94,7 @@ profile:
 
 chatsym:
   permission: DistrictRP.staffchatsym
-  default:
-    - symbol: '!'
-      command: staffchat
-    - symbol: '.'
-      command: modchat
-    - symbol: '?'
-      command: builderchat
-    - symbol: '@'
-      command: adminchat
+  default: []
 
 emoji:
   permission: DistrictRP.emojiaccess
@@ -709,3 +714,95 @@ plot:
     use: DistrictRP.plot.use
     admin: DistrictRP.plot.admin
     unlimited: DistrictRP.plot.unlimited
+
+proxy-chat:
+  enabled: true
+  send-to-proxy: true
+  channels:
+    staffchat:
+      prefix-symbol: '!'
+      command: staffchat
+      aliases: [sc]
+      permission: DistrictRP.staffchat
+      local-echo-format: '&8[&#FCD05CSC&8] &7[%server%] %rank%%player% &8» &f%message%'
+    modchat:
+      prefix-symbol: '.'
+      command: modchat
+      aliases: [mc]
+      permission: DistrictRP.modchat
+      local-echo-format: '&8[&aMC&8] &7[%server%] %rank%%player% &8» &a%message%'
+    adminchat:
+      prefix-symbol: '@'
+      command: adminchat
+      aliases: [ac]
+      permission: DistrictRP.adminchat
+      local-echo-format: '&8[&cAC&8] &7[%server%] %rank%%player% &8» &c%message%'
+    builderchat:
+      prefix-symbol: '?'
+      command: builderchat
+      aliases: [bc]
+      permission: DistrictRP.builderchat
+      local-echo-format: '&8[&6BC&8] &7[%server%] %rank%%player% &8» &6%message%'
+    devchat:
+      prefix-symbol: '#'
+      command: devchat
+      aliases: [dc]
+      permission: DistrictRP.devchat
+      local-echo-format: '&8[&dDC&8] &7[%server%] %rank%%player% &8» &d%message%'
+
+auto-installer:
+  enabled: true
+  check-on-startup: true
+  shutdown-after-install: true
+
+  plugins:
+    PlaceholderAPI:
+      enabled: true
+      plugin-name: PlaceholderAPI
+      file-name: PlaceholderAPI.jar
+      url: 'https://api.spiget.org/v2/resources/6245/download'
+      required: true
+
+    LuckPerms:
+      enabled: true
+      plugin-name: LuckPerms
+      file-name: LuckPerms-Bukkit.jar
+      url: 'https://download.luckperms.net/1571/bukkit/loader/LuckPerms-Bukkit-5.4.148.jar'
+      required: false
+
+    CoreProtect:
+      enabled: true
+      plugin-name: CoreProtect
+      file-name: CoreProtect.jar
+      url: 'https://api.spiget.org/v2/resources/8631/download'
+      required: false
+
+    WorldEdit:
+      enabled: false
+      plugin-name: WorldEdit
+      file-name: WorldEdit.jar
+      url: 'https://dev.bukkit.org/projects/worldedit/files/latest'
+      required: false
+
+    WorldGuard:
+      enabled: true
+      plugin-name: WorldGuard
+      file-name: WorldGuard.jar
+      url: 'https://dev.bukkit.org/projects/worldguard/files/latest'
+      required: false
+
+    PlotSquared:
+      enabled: true
+      plugin-name: PlotSquared
+      file-name: PlotSquared.jar
+      url: 'https://api.spiget.org/v2/resources/77506/download'
+      required: false
+
+    Multiverse-Core:
+      enabled: false
+      plugin-name: Multiverse-Core
+      file-name: Multiverse-Core.jar
+      url: 'https://dev.bukkit.org/projects/multiverse-core/files/latest'
+      required: false
+
+server-id: 'lobby'

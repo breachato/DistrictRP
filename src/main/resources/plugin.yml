@@ -1,5 +1,5 @@
 name: DistrictRP
-version: 2.1.8
+version: 2.1.9
 main: dev.breach.DistrictRP.DistrictRP
 api-version: '1.20'
 author: breachato
@@ -178,6 +178,26 @@ commands:
     usage: /ticket_cancel_comment
   supporto_continua:
     usage: /supporto_continua
+  staffchat:
+    description: Staff chat cross-server
+    usage: /staffchat <msg>
+    aliases: [ sc ]
+  modchat:
+    description: Mod chat cross-server
+    usage: /modchat <msg>
+    aliases: [ mc ]
+  adminchat:
+    description: Admin chat cross-server
+    usage: /adminchat <msg>
+    aliases: [ ac ]
+  builderchat:
+    description: Builder chat cross-server
+    usage: /builderchat <msg>
+    aliases: [ bc ]
+  devchat:
+    description: Dev chat cross-server
+    usage: /devchat <msg>
+    aliases: [ dc ]
 
 permissions:
   DistrictRP.profile.admin:
@@ -270,6 +290,19 @@ permissions:
       DistrictRP.warp.bypass: true
       DistrictRP.plot.admin: true
       DistrictRP.plot.unlimited: true
+      DistrictRP.autostaffmode: true
+  DistrictRP.autostaffmode:
+    default: false
+  DistrictRP.staffchat:
+    default: op
+  DistrictRP.modchat:
+    default: op
+  DistrictRP.adminchat:
+    default: op
+  DistrictRP.builderchat:
+    default: op
+  DistrictRP.devchat:
+    default: op
   DistrictRP.vanish:
     default: op
   DistrictRP.vanish.see:

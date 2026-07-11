@@ -1,6 +1,7 @@
 package dev.breach.DistrictRP.functions.servermode;
 
 import dev.breach.DistrictRP.DistrictRP;
+import dev.breach.DistrictRP.database.repository.ServerModeRepository;
 import dev.breach.DistrictRP.functions.MessageUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -18,15 +19,30 @@ public class ServerModeManager {
     private final DistrictRP plugin;
     private ServerMode currentMode = ServerMode.OFF;
 
+    private ServerModeRepository repo;
+    private boolean useDb;
+
     public ServerModeManager(DistrictRP plugin) {
         this.plugin = plugin;
+        this.repo = new ServerModeRepository(plugin);
+        this.useDb = repo.isAvailable();
         loadFromConfig();
     }
 
     public void loadFromConfig() {
+        if (useDb) {
+            try {
+                String fromDb = repo.getMode(getServerId()).join();
+                if (fromDb != null && !fromDb.isEmpty()) {
+                    this.currentMode = ServerMode.fromString(fromDb);
+                    plugin.getLogger().info("[ServerMode] Modalità caricata dal DB: " + currentMode.name());
+                    return;
+                }
+            } catch (Exception ignored) {}
+        }
         String raw = plugin.getConfig().getString("server-mode.current", "OFF");
         this.currentMode = ServerMode.fromString(raw);
-        plugin.getLogger().info("[ServerMode] Modalità caricata: " + currentMode.name());
+        plugin.getLogger().info("[ServerMode] Modalità caricata da config: " + currentMode.name());
     }
 
     public ServerMode getCurrent() {
@@ -38,14 +54,27 @@ public class ServerModeManager {
         return MessageUtils.color(plugin.getConfig().getString(path, currentMode.name()));
     }
 
+    private String getServerId() {
+        return plugin.getConfig().getString("server-id", Bukkit.getServer().getName());
+    }
+
     public boolean setMode(ServerMode mode) {
+        return setMode(mode, "console");
+    }
+
+    public boolean setMode(ServerMode mode, String by) {
         if (mode == null) return false;
         if (mode == currentMode) return false;
 
         ServerMode old = this.currentMode;
         this.currentMode = mode;
-        plugin.getConfig().set("server-mode.current", mode.name());
-        plugin.saveConfig();
+
+        if (useDb) {
+            repo.setMode(getServerId(), mode.name(), by);
+        } else {
+            plugin.getConfig().set("server-mode.current", mode.name());
+            plugin.saveConfig();
+        }
 
         applyToAll(old, mode);
 
@@ -178,4 +207,7 @@ public class ServerModeManager {
         for (ServerMode m : ServerMode.values()) out.add(m.name().toLowerCase(Locale.ROOT));
         return out;
     }
+
+    public boolean isUsingDatabase() { return useDb; }
+    public ServerModeRepository getRepository() { return repo; }
 }
