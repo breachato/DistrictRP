@@ -12,7 +12,6 @@ import dev.breach.DistrictRP.commands.roleplay.playtime.PlaytimeTracker;
 import dev.breach.DistrictRP.commands.roleplay.plot.PlotSquaredHook;
 import dev.breach.DistrictRP.commands.roleplay.profile.RPProfile;
 import dev.breach.DistrictRP.commands.roleplay.profile.RPProfileManager;
-import dev.breach.DistrictRP.commands.roleplay.protection.ProtectionManager;
 import dev.breach.DistrictRP.commands.roleplay.ticket.Ticket;
 import dev.breach.DistrictRP.commands.roleplay.ticket.TicketManager;
 import dev.breach.DistrictRP.functions.VanishManager;
@@ -59,7 +58,7 @@ public class RoleplayPlaceholders extends PlaceholderExpansion {
     @Override public boolean persist() { return true; }
 
     private String getDefaultJob() {
-        return plugin.getConfig().getString("profile.default-job", "DISOCCUPATO");
+        return plugin.getConfig().getString("profile.default-job", "&7Disoccupato");
     }
 
     private String resolveJob(RPProfile p) {
@@ -126,7 +125,14 @@ public class RoleplayPlaceholders extends PlaceholderExpansion {
             case "rank_symbol_any": return getRankSymbolAny(player);
             case "rank_symbol_or_none": {
                 String s = getRankSymbolAny(player);
-                return s.isEmpty() ? "&7[UTENTE]" : s;
+                return s.isEmpty() ? "&7Utente" : s;
+            }
+            case "rank_symbol_or_utente": {
+                String s = getRankSymbolAny(player);
+                return s.isEmpty() ? "&7Utente" : s;
+            }
+            case "rank_symbol_or_empty": {
+                return getRankSymbolAny(player);
             }
             case "staff_rank": return getRankFromOrder(player);
             case "staff_symbol": return getRankSymbolFromOrder(player);
@@ -509,39 +515,25 @@ public class RoleplayPlaceholders extends PlaceholderExpansion {
 
     private boolean isCurrentWorldProtected(OfflinePlayer player) {
         if (!player.isOnline() || player.getPlayer() == null) return false;
-        try {
-            ProtectionManager pm = plugin.getRoleplay().getProtectionManager();
-            if (pm == null) return false;
-            String w = player.getPlayer().getWorld().getName();
-            return pm.isNoBuild(w) || pm.isNoInteract(w);
-        } catch (Throwable t) { return false; }
+        if (plugin.getWorldGuardHook() == null || !plugin.getWorldGuardHook().isAvailable()) return false;
+        String region = plugin.getWorldGuardHook().getRegionAt(player.getPlayer().getLocation());
+        return !region.isEmpty();
     }
 
     private boolean isCurrentWorldNoBuild(OfflinePlayer player) {
         if (!player.isOnline() || player.getPlayer() == null) return false;
-        try {
-            ProtectionManager pm = plugin.getRoleplay().getProtectionManager();
-            if (pm == null) return false;
-            return pm.isNoBuild(player.getPlayer().getWorld().getName());
-        } catch (Throwable t) { return false; }
+        if (plugin.getWorldGuardHook() == null || !plugin.getWorldGuardHook().isAvailable()) return false;
+        return !plugin.getWorldGuardHook().canBuild(player.getPlayer(), player.getPlayer().getLocation());
     }
 
     private boolean isCurrentWorldNoInteract(OfflinePlayer player) {
         if (!player.isOnline() || player.getPlayer() == null) return false;
-        try {
-            ProtectionManager pm = plugin.getRoleplay().getProtectionManager();
-            if (pm == null) return false;
-            return pm.isNoInteract(player.getPlayer().getWorld().getName());
-        } catch (Throwable t) { return false; }
+        if (plugin.getWorldGuardHook() == null || !plugin.getWorldGuardHook().isAvailable()) return false;
+        return !plugin.getWorldGuardHook().canInteract(player.getPlayer(), player.getPlayer().getLocation());
     }
 
     private boolean isCurrentWorldWhitelisted(OfflinePlayer player) {
-        if (!player.isOnline() || player.getPlayer() == null) return false;
-        try {
-            ProtectionManager pm = plugin.getRoleplay().getProtectionManager();
-            if (pm == null) return false;
-            return pm.isWhitelisted(player.getPlayer().getWorld().getName(), player.getPlayer());
-        } catch (Throwable t) { return false; }
+        return isCurrentWorldProtected(player);
     }
 
     private int countTotalTickets(OfflinePlayer player) {

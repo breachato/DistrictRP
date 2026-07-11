@@ -2,14 +2,12 @@ package dev.breach.DistrictRP.commands.roleplay.plot;
 
 import dev.breach.DistrictRP.DistrictRP;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -22,22 +20,16 @@ public class PlotSquaredHook {
     private Class<?> classBukkitUtil;
     private Class<?> classPlotPlayer;
     private Class<?> classPlot;
-    private Class<?> classLocation;
-    private Class<?> classPlotAreaManager;
 
     private Method mAdapt;
-    private Method mGetLocation;
     private Method mGetCurrentPlot;
     private Method mGetOwner;
     private Method mGetTrusted;
     private Method mGetMembers;
     private Method mGetDenied;
     private Method mGetId;
-    private Method mGetIdX;
-    private Method mGetIdY;
     private Method mHasOwner;
     private Method mGetPlots;
-    private Method mPlotGetOwners;
 
     public PlotSquaredHook(DistrictRP plugin) {
         this.plugin = plugin;
@@ -53,33 +45,26 @@ public class PlotSquaredHook {
             }
             this.plotSquaredPlugin = p;
 
-            classBukkitUtil     = tryLoad("com.plotsquared.bukkit.util.BukkitUtil");
-            classPlotPlayer     = tryLoad("com.plotsquared.core.player.PlotPlayer");
-            classPlot           = tryLoad("com.plotsquared.core.plot.Plot");
-            classLocation       = tryLoad("com.plotsquared.core.location.Location");
-            classPlotAreaManager= tryLoad("com.plotsquared.core.plot.world.PlotAreaManager");
+            classBukkitUtil = tryLoad("com.plotsquared.bukkit.util.BukkitUtil");
+            classPlotPlayer = tryLoad("com.plotsquared.core.player.PlotPlayer");
+            classPlot = tryLoad("com.plotsquared.core.plot.Plot");
 
             if (classPlotPlayer == null || classPlot == null) {
-                plugin.getLogger().warning("[PlotSquared] Classi core non trovate, hook fallito.");
+                plugin.getLogger().warning("[PlotSquared] Classi core non trovate.");
                 return;
             }
 
             if (classBukkitUtil != null) {
-                try {
-                    mAdapt = classBukkitUtil.getMethod("adapt", Player.class);
-                } catch (NoSuchMethodException ignored) {}
+                try { mAdapt = classBukkitUtil.getMethod("adapt", Player.class); } catch (Throwable ignored) {}
             }
-
-            try { mGetLocation      = classPlotPlayer.getMethod("getLocation"); } catch (Throwable ignored) {}
-            try { mGetCurrentPlot   = classPlotPlayer.getMethod("getCurrentPlot"); } catch (Throwable ignored) {}
-            try { mGetOwner         = classPlot.getMethod("getOwnerAbs"); } catch (Throwable ignored) {}
-            try { mGetTrusted       = classPlot.getMethod("getTrusted"); } catch (Throwable ignored) {}
-            try { mGetMembers       = classPlot.getMethod("getMembers"); } catch (Throwable ignored) {}
-            try { mGetDenied        = classPlot.getMethod("getDenied"); } catch (Throwable ignored) {}
-            try { mGetId            = classPlot.getMethod("getId"); } catch (Throwable ignored) {}
-            try { mHasOwner         = classPlot.getMethod("hasOwner"); } catch (Throwable ignored) {}
-            try { mGetPlots         = classPlotPlayer.getMethod("getPlots"); } catch (Throwable ignored) {}
-            try { mPlotGetOwners    = classPlot.getMethod("getOwners"); } catch (Throwable ignored) {}
+            try { mGetCurrentPlot = classPlotPlayer.getMethod("getCurrentPlot"); } catch (Throwable ignored) {}
+            try { mGetOwner = classPlot.getMethod("getOwnerAbs"); } catch (Throwable ignored) {}
+            try { mGetTrusted = classPlot.getMethod("getTrusted"); } catch (Throwable ignored) {}
+            try { mGetMembers = classPlot.getMethod("getMembers"); } catch (Throwable ignored) {}
+            try { mGetDenied = classPlot.getMethod("getDenied"); } catch (Throwable ignored) {}
+            try { mGetId = classPlot.getMethod("getId"); } catch (Throwable ignored) {}
+            try { mHasOwner = classPlot.getMethod("hasOwner"); } catch (Throwable ignored) {}
+            try { mGetPlots = classPlotPlayer.getMethod("getPlots"); } catch (Throwable ignored) {}
 
             available = true;
             plugin.getLogger().info("[PlotSquared] Hook completato correttamente.");
@@ -94,6 +79,7 @@ public class PlotSquaredHook {
     }
 
     public boolean isAvailable() { return available; }
+    public Plugin getPlotSquaredPlugin() { return plotSquaredPlugin; }
 
     private Object toPlotPlayer(Player p) {
         if (!available || mAdapt == null) return null;
@@ -183,10 +169,12 @@ public class PlotSquaredHook {
     }
 
     public boolean runPlotSquaredCommand(Player p, String command) {
-        try {
-            return Bukkit.dispatchCommand(p, command);
-        } catch (Throwable t) {
-            return false;
-        }
+        try { return Bukkit.dispatchCommand(p, command); }
+        catch (Throwable t) { return false; }
+    }
+
+    public boolean runConsoleCommand(String command) {
+        try { return Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command); }
+        catch (Throwable t) { return false; }
     }
 }

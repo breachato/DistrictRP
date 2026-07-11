@@ -182,17 +182,13 @@ public class DistrictTabManager implements TabCompleter {
     }
 
     private List<String> handleProtection(CommandSender sender, String[] args) {
-        if (args.length == 1) return filter(PROTECTION_SUBS, args[0]);
-        if (args.length == 2) return filterWorlds(args[1]);
-        if (args.length == 3) {
-            String sub = args[0].toLowerCase();
-            if (sub.equals("toggle")) return filter(PROTECTION_TOGGLE, args[2]);
-            if (sub.equals("whitelist")) return filter(PROTECTION_WL, args[2]);
-        }
-        if (args.length == 4 && args[0].equalsIgnoreCase("whitelist")) {
-            String action = args[2].toLowerCase();
-            if (action.equals("add") || action.equals("remove")) return filterPlayers(args[3]);
-        }
+        List<String> subs = Arrays.asList(
+                "crea", "elimina", "flag", "info", "lista",
+                "aggiungimembro", "rimuovimembro",
+                "aggiungiowner", "rimuoviowner",
+                "wand", "select", "expand", "reload"
+        );
+        if (args.length == 1) return filter(subs, args[0]);
         return empty();
     }
 

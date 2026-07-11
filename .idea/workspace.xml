@@ -5,12 +5,29 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f8484a99-3ebb-4cf7-8822-eb79d36ef2c3" name="Changes" comment=",">
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/utils/ScaleCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/plot/PlotBlockerListener.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/framework/DistrictAPI.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/framework/DistrictModule.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/framework/ModuleContext.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/framework/ModuleManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/framework/ModuleMessages.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/framework/ModuleState.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/functions/CoreProtectAutoLogger.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/functions/WorldGuardHook.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/chat/ChatModule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/chat/ChatModule.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/DistrictRP.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/DistrictRP.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/RoleplayModule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/RoleplayModule.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/RoleplayPlaceholders.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/RoleplayPlaceholders.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/plot/PlotAddon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/plot/PlotAddon.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/plot/PlotCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/plot/PlotCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/plot/PlotSquaredHook.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/plot/PlotSquaredHook.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/profile/ProfileCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/profile/ProfileCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/staff/StaffModeItems.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/staff/StaffModeItems.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/staff/StaffModeListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/staff/StaffModeListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/protection/ProtectionCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/protection/ProtectionCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/protection/ProtectionInteractionsGUI.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/protection/ProtectionListener.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/protection/ProtectionManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/functions/CoreProtectHook.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/functions/CoreProtectHook.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/functions/DistrictTabManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/functions/DistrictTabManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/config.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/config.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/messages.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/messages.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/plugin.yml" afterDir="false" />
@@ -397,7 +414,15 @@
       <option name="project" value="LOCAL" />
       <updated>1783466452633</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary=",">
+      <option name="closed" value="true" />
+      <created>1783761490805</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1783761490805</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

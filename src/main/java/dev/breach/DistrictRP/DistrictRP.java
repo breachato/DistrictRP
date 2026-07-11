@@ -4,6 +4,7 @@ import dev.breach.DistrictRP.commands.roleplay.RoleplayModule;
 import dev.breach.DistrictRP.commands.staff.*;
 import dev.breach.DistrictRP.commands.utils.*;
 import dev.breach.DistrictRP.core.*;
+import dev.breach.DistrictRP.framework.ModuleManager;
 import dev.breach.DistrictRP.functions.*;
 import dev.breach.DistrictRP.functions.servermode.ServerModeListener;
 import dev.breach.DistrictRP.functions.servermode.ServerModeManager;
@@ -16,7 +17,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
 import org.bukkit.plugin.java.JavaPlugin;
-import dev.breach.DistrictRP.commands.utils.ScaleCommand;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -45,8 +45,10 @@ public class DistrictRP extends JavaPlugin {
     private CommandBlocker commandBlocker;
     private StaffModeManager staffModeManager;
     private StaffModeGUI staffModeGUI;
-    private CoreProtectHook coreProtectHook;
     private ServerModeManager serverModeManager;
+    private CoreProtectHook coreProtectHook;
+    private WorldGuardHook worldGuardHook;
+    private ModuleManager moduleManager;
 
     private RoleplayModule roleplayModule;
 
@@ -110,6 +112,9 @@ public class DistrictRP extends JavaPlugin {
         getLogger().info("[INIT] DataManager...");
         this.dataManager = safeInit("DataManager", () -> new DataManager(this));
 
+        getLogger().info("[INIT] ModuleManager...");
+        this.moduleManager = safeInit("ModuleManager", () -> new ModuleManager(this));
+
         getLogger().info("[INIT] WorldManager...");
         this.worldManager = safeInit("WorldManager", () -> new WorldManager(this));
 
@@ -133,6 +138,14 @@ public class DistrictRP extends JavaPlugin {
 
         getLogger().info("[INIT] CoreProtectHook...");
         this.coreProtectHook = safeInit("CoreProtectHook", () -> new CoreProtectHook(this));
+
+        getLogger().info("[INIT] WorldGuardHook...");
+        this.worldGuardHook = safeInit("WorldGuardHook", () -> new WorldGuardHook(this));
+
+        if (coreProtectHook != null && coreProtectHook.isAvailable()) {
+            safeRegisterListener("CoreProtectAutoLogger",
+                    () -> new CoreProtectAutoLogger(this, coreProtectHook));
+        }
 
         getLogger().info("[LISTENER] Registrazione listener...");
         safeRegisterListener("GlobalListener", () -> new GlobalListener(this));
@@ -203,6 +216,10 @@ public class DistrictRP extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        if (moduleManager != null) {
+            try { moduleManager.disableAll(); }
+            catch (Throwable t) { getLogger().warning("Errore disable ModuleManager: " + t.getMessage()); }
+        }
         if (roleplayModule != null) {
             try { roleplayModule.disable(); }
             catch (Throwable t) { getLogger().warning("Errore disable RoleplayModule: " + t.getMessage()); }
@@ -268,6 +285,7 @@ public class DistrictRP extends JavaPlugin {
         safeRegister("clear", new ClearCommand(this));
         safeRegister("tpall", new TpAllCommand(this));
         safeRegister("tphere", new TpHereCommand(this));
+        safeRegister("scale", new ScaleCommand(this));
 
         GamemodeCommands gmCmds = new GamemodeCommands(this);
         safeRegister("gms", gmCmds.gms());
@@ -288,8 +306,6 @@ public class DistrictRP extends JavaPlugin {
         safeRegister("build", new BuildCommand(this));
         safeRegister("mondo", new MondoCommand(this));
         safeRegister("wipe", new WipeCommand(this));
-
-        safeRegister("scale", new ScaleCommand(this));
 
         CommandExecutor noop = (s, c, l, a) -> true;
         safeRegister("appuntamento_select_reparto", noop);
@@ -315,5 +331,7 @@ public class DistrictRP extends JavaPlugin {
     public DistrictTabManager getTabManager() { return tabManager; }
     public WorldDownloader getWorldDownloader() { return worldDownloader; }
     public CoreProtectHook getCoreProtectHook() { return coreProtectHook; }
+    public WorldGuardHook getWorldGuardHook() { return worldGuardHook; }
+    public ModuleManager getModuleManager() { return moduleManager; }
     public RoleplayModule getRoleplay() { return roleplayModule; }
 }

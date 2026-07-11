@@ -67,7 +67,7 @@ public class ProfileCommand implements CommandExecutor, TabCompleter {
                 manager.save(target.getUniqueId());
                 MessageUtils.sendMsg(sender, "profile.rpname-set", "name", name, "player", targetName);
             }
-            case "cognome": {
+            case "cognome" -> {
                 if (args.length < 3) {
                     MessageUtils.sendMsg(sender, "profile.usage-cognome");
                     return true;
@@ -83,12 +83,10 @@ public class ProfileCommand implements CommandExecutor, TabCompleter {
                     return true;
                 }
                 profile.setRpSurname(surname);
-                profileManager.save(target.getUniqueId());
+                manager.save(target.getUniqueId());
                 MessageUtils.sendMsg(sender, "profile.rpsurname-set",
-                        "player", target.getName(), "surname", surname);
-                return true;
+                        "player", targetName, "surname", surname);
             }
-
             case "eta" -> {
                 if (args.length < 3) { MessageUtils.sendMsg(sender, "profile.usage-eta"); return true; }
                 int age;

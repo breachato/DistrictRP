@@ -5,7 +5,14 @@ import dev.breach.DistrictRP.commands.roleplay.appuntamenti.AppuntamentoCommand;
 import dev.breach.DistrictRP.commands.roleplay.appuntamenti.AppuntamentoGUI;
 import dev.breach.DistrictRP.commands.roleplay.appuntamenti.AppuntamentoManager;
 import dev.breach.DistrictRP.commands.roleplay.bots.BotManager;
-import dev.breach.DistrictRP.commands.roleplay.chat.*;
+import dev.breach.DistrictRP.commands.roleplay.chat.AzioneCommand;
+import dev.breach.DistrictRP.commands.roleplay.chat.BisbiglioCommand;
+import dev.breach.DistrictRP.commands.roleplay.chat.ChatModule;
+import dev.breach.DistrictRP.commands.roleplay.chat.ChatSymCommand;
+import dev.breach.DistrictRP.commands.roleplay.chat.ChatSymListener;
+import dev.breach.DistrictRP.commands.roleplay.chat.ChatSymManager;
+import dev.breach.DistrictRP.commands.roleplay.chat.StaffListCommand;
+import dev.breach.DistrictRP.commands.roleplay.chat.UrloCommand;
 import dev.breach.DistrictRP.commands.roleplay.emoji.EmojiCommand;
 import dev.breach.DistrictRP.commands.roleplay.emoji.EmojiGUI;
 import dev.breach.DistrictRP.commands.roleplay.emoji.EmojiListener;
@@ -19,10 +26,6 @@ import dev.breach.DistrictRP.commands.roleplay.profile.JobService;
 import dev.breach.DistrictRP.commands.roleplay.profile.ProfileCommand;
 import dev.breach.DistrictRP.commands.roleplay.profile.RPProfileManager;
 import dev.breach.DistrictRP.commands.roleplay.protection.ProtectionCommand;
-import dev.breach.DistrictRP.commands.roleplay.protection.ProtectionInteractionsGUI;
-import dev.breach.DistrictRP.commands.roleplay.protection.ProtectionListener;
-import dev.breach.DistrictRP.commands.roleplay.protection.ProtectionManager;
-import dev.breach.DistrictRP.commands.roleplay.chat.StaffListCommand;
 import dev.breach.DistrictRP.commands.roleplay.stuck.StuckCommand;
 import dev.breach.DistrictRP.commands.roleplay.supporto.SupportoCommand;
 import dev.breach.DistrictRP.commands.roleplay.supporto.SupportoListener;
@@ -34,7 +37,7 @@ import dev.breach.DistrictRP.commands.roleplay.vanish.VanishTabHandler;
 import dev.breach.DistrictRP.commands.roleplay.warp.WarpCommand;
 import dev.breach.DistrictRP.commands.roleplay.warp.WarpManager;
 import org.bukkit.Bukkit;
-import org.bukkit.command.TabCompleter;
+import org.bukkit.command.PluginCommand;
 
 public class RoleplayModule {
 
@@ -51,7 +54,6 @@ public class RoleplayModule {
     private EmojiManager emojiManager;
     private LogsAPI logsAPI;
     private BotManager botManager;
-    private ProtectionManager protectionManager;
     private VanishTabHandler vanishTabHandler;
     private WarpManager warpManager;
     private PlotAddon plotAddon;
@@ -84,80 +86,64 @@ public class RoleplayModule {
         }
 
         Bukkit.getPluginManager().registerEvents(new ChatModule(plugin, profileManager), plugin);
-        plugin.getCommand("azione").setExecutor(new AzioneCommand(plugin));
-        plugin.getCommand("bisbiglio").setExecutor(new BisbiglioCommand(plugin));
-        plugin.getCommand("urlo").setExecutor(new UrloCommand(plugin));
-        plugin.getCommand("chatsym").setExecutor(new ChatSymCommand(plugin, chatSymManager));
+        bindExecutor("azione", new AzioneCommand(plugin));
+        bindExecutor("bisbiglio", new BisbiglioCommand(plugin));
+        bindExecutor("urlo", new UrloCommand(plugin));
+        bindExecutor("chatsym", new ChatSymCommand(plugin, chatSymManager));
         Bukkit.getPluginManager().registerEvents(new ChatSymListener(plugin, chatSymManager), plugin);
 
         ProfileCommand profileCmd = new ProfileCommand(plugin, profileManager);
-        if (plugin.getCommand("profilo") != null) {
-            plugin.getCommand("profilo").setExecutor(profileCmd);
-            plugin.getCommand("profilo").setTabCompleter(profileCmd);
-        }
+        bindFull("profilo", profileCmd, profileCmd);
 
         EmojiGUI emojiGUI = new EmojiGUI(plugin, emojiManager);
         EmojiCommand emojiCmd = new EmojiCommand(emojiManager);
         emojiCmd.setGui(emojiGUI);
-        plugin.getCommand("emoji").setExecutor(emojiCmd);
+        bindExecutor("emoji", emojiCmd);
         Bukkit.getPluginManager().registerEvents(new EmojiListener(plugin, emojiManager), plugin);
         Bukkit.getPluginManager().registerEvents(emojiGUI, plugin);
 
         StaffListCommand slExecutor = new StaffListCommand(plugin);
-        if (plugin.getCommand("stafflist") != null) {
-            plugin.getCommand("stafflist").setExecutor(slExecutor);
-            plugin.getCommand("stafflist").setTabCompleter((TabCompleter) slExecutor);
-        }
+        bindFull("stafflist", slExecutor, slExecutor);
+        bindFull("sl", slExecutor, slExecutor);
 
         ticketGui = new TicketCategoryGUI(plugin, ticketManager);
         Bukkit.getPluginManager().registerEvents(ticketGui, plugin);
         TicketCommand tc = new TicketCommand(plugin, ticketManager);
-        plugin.getCommand("ticket").setExecutor(tc);
-        plugin.getCommand("ticket").setTabCompleter(tc);
+        bindFull("ticket", tc, tc);
 
         ticketQuickRepliesGUI = new TicketQuickRepliesGUI(plugin, ticketManager);
         Bukkit.getPluginManager().registerEvents(ticketQuickRepliesGUI, plugin);
 
         SupportoListener supportoListener = new SupportoListener(plugin, ticketGui);
-        plugin.getCommand("supporto").setExecutor(new SupportoCommand(plugin, ticketGui));
+        bindExecutor("supporto", new SupportoCommand(plugin, ticketGui));
         Bukkit.getPluginManager().registerEvents(supportoListener, plugin);
 
-        plugin.getCommand("appuntamento").setExecutor(new AppuntamentoCommand(plugin, appuntamentoManager));
+        bindExecutor("appuntamento", new AppuntamentoCommand(plugin, appuntamentoManager));
         Bukkit.getPluginManager().registerEvents(new AppuntamentoGUI(plugin, appuntamentoManager), plugin);
 
         StuckCommand stuckCmd = new StuckCommand(plugin);
-        plugin.getCommand("stuck").setExecutor(stuckCmd);
-        if (plugin.getCommand("stuck") != null) plugin.getCommand("stuck").setTabCompleter(stuckCmd);
+        bindFull("stuck", stuckCmd, stuckCmd);
 
-        plugin.getCommand("playtime").setExecutor(new PlaytimeCommand(plugin, playtimeTracker, profileManager));
+        bindExecutor("playtime", new PlaytimeCommand(plugin, playtimeTracker, profileManager));
         Bukkit.getPluginManager().registerEvents(playtimeTracker, plugin);
         playtimeTracker.start();
 
-        plugin.getCommand("logs").setExecutor(new LogsCommand(plugin, logsAPI));
+        bindExecutor("logs", new LogsCommand(plugin, logsAPI));
 
-        protectionManager = new ProtectionManager(plugin);
-        ProtectionInteractionsGUI protGui = new ProtectionInteractionsGUI(plugin, protectionManager);
-        ProtectionCommand protCmd = new ProtectionCommand(plugin, protectionManager, protGui);
-        plugin.getCommand("protection").setExecutor(protCmd);
-        plugin.getCommand("protection").setTabCompleter(protCmd);
-        Bukkit.getPluginManager().registerEvents(new ProtectionListener(plugin, protectionManager), plugin);
-        Bukkit.getPluginManager().registerEvents(protGui, plugin);
+        if (plugin.getWorldGuardHook() != null && plugin.getWorldGuardHook().isAvailable()) {
+            ProtectionCommand protCmd = new ProtectionCommand(plugin, plugin.getWorldGuardHook());
+            bindFull("protection", protCmd, protCmd);
+            plugin.getLogger().info("[Protection] Comando /protection registrato (WorldGuard wrapper).");
+        } else {
+            plugin.getLogger().warning("[Protection] WorldGuard non disponibile, /protection disabilitato.");
+        }
 
         WarpCommand warpExec = new WarpCommand(plugin, warpManager, WarpCommand.Mode.WARP);
         WarpCommand setwarpExec = new WarpCommand(plugin, warpManager, WarpCommand.Mode.SETWARP);
         WarpCommand delwarpExec = new WarpCommand(plugin, warpManager, WarpCommand.Mode.DELWARP);
-        if (plugin.getCommand("warp") != null) {
-            plugin.getCommand("warp").setExecutor(warpExec);
-            plugin.getCommand("warp").setTabCompleter(warpExec);
-        }
-        if (plugin.getCommand("setwarp") != null) {
-            plugin.getCommand("setwarp").setExecutor(setwarpExec);
-            plugin.getCommand("setwarp").setTabCompleter(setwarpExec);
-        }
-        if (plugin.getCommand("delwarp") != null) {
-            plugin.getCommand("delwarp").setExecutor(delwarpExec);
-            plugin.getCommand("delwarp").setTabCompleter(delwarpExec);
-        }
+        bindFull("warp", warpExec, warpExec);
+        bindFull("setwarp", setwarpExec, setwarpExec);
+        bindFull("delwarp", delwarpExec, delwarpExec);
 
         plotAddon = new PlotAddon(plugin, plugin.getServerModeManager());
         plotAddon.enable();
@@ -167,6 +153,25 @@ public class RoleplayModule {
         vanishTabHandler.start();
 
         plugin.getLogger().info("RoleplayModule abilitato.");
+    }
+
+    private void bindExecutor(String name, org.bukkit.command.CommandExecutor exec) {
+        PluginCommand cmd = plugin.getCommand(name);
+        if (cmd == null) {
+            plugin.getLogger().warning("[Roleplay] Comando /" + name + " non trovato nel plugin.yml!");
+            return;
+        }
+        cmd.setExecutor(exec);
+    }
+
+    private void bindFull(String name, org.bukkit.command.CommandExecutor exec, org.bukkit.command.TabCompleter tab) {
+        PluginCommand cmd = plugin.getCommand(name);
+        if (cmd == null) {
+            plugin.getLogger().warning("[Roleplay] Comando /" + name + " non trovato nel plugin.yml!");
+            return;
+        }
+        cmd.setExecutor(exec);
+        cmd.setTabCompleter(tab);
     }
 
     public void disable() {
@@ -182,7 +187,6 @@ public class RoleplayModule {
         if (chatGate != null) chatGate.disable();
     }
 
-    public ProtectionManager getProtectionManager() { return protectionManager; }
     public dev.breach.DistrictRP.commands.ChatGate.ChatGate getChatGate() { return chatGate; }
     public RPProfileManager getProfileManager() { return profileManager; }
     public JobService getJobService() { return jobService; }

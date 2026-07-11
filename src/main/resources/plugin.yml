@@ -115,10 +115,10 @@ commands:
   stafflist:
     usage: /stafflist
     aliases: [sl]
-  plot:
-    description: Gestione plot (creative mode)
-    usage: /plot <sub>
-    aliases: [ p, plots ]
+  plots:
+    description: Gestione plot italiana DistrictRP
+    usage: /plots <sub>
+    aliases: [plot, p, ps]
     permission: DistrictRP.plot.use
   ticket:
     usage: /ticket <sub>
@@ -182,6 +182,8 @@ commands:
 permissions:
   DistrictRP.profile.admin:
     default: op
+  DistrictRP.plot.psbypass:
+    default: false
   DistrictRP.plot.use:
     default: true
   DistrictRP.plot.admin:

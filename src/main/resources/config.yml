@@ -383,24 +383,18 @@ vanish:
 
 protection:
   admin-permission: DistrictRP.protection.admin
-  permission-bypass: DistrictRP.protection.bypass
-  particle-on-deny: true
-  particle-type: CAMPFIRE_SIGNAL_SMOKE
-  particle-count: 5
-  particle-speed: 0.05
-  worlds:
-    spawn:
-      no-build: true
-      no-interact: true
-      whitelisted-players: []
-      allowed-interactions: []
+  bypass-permission: DistrictRP.protection.bypass
 
 coreprotect:
   enabled: true
+  log-chat: true
+  log-commands: true
+  log-teleports: true
+  log-containers: true
   log-staffmode: true
   log-wipe: true
   log-vanish: true
-  log-teleports: true
+  log-warp: true
 
 scale:
   permission: DistrictRP.scale
@@ -697,6 +691,8 @@ server-mode:
 plot:
   enabled: true
   plot-world-name: plots
+  block-ps-commands: true
+  bypass-block-permission: DistrictRP.plot.psbypass
   auto-gamemode:
     enabled: true
     only-in-mode: CREATIVE
