@@ -54,11 +54,13 @@ public class ChatModule implements Listener {
         Player sender = event.getPlayer();
         String message = event.getMessage();
 
-        boolean lobbyMode = plugin.getServerModeManager() != null
+        boolean isLobby = plugin.getServerModeManager() != null
                 && plugin.getServerModeManager().getCurrent() == ServerMode.LOBBY;
+        boolean isCreative = plugin.getServerModeManager() != null
+                && plugin.getServerModeManager().getCurrent() == ServerMode.CREATIVE;
 
-        if (lobbyMode) {
-            handleLobbyChat(event, sender, message);
+        if (isLobby || isCreative) {
+            handleModeChat(event, sender, message);
             return;
         }
 
@@ -68,66 +70,20 @@ public class ChatModule implements Listener {
         event.setCancelled(true);
 
         String formatRaw = plugin.getConfig().getString("chat.formats.normal",
-                "&7%player% &8» &f%message%");
+                "&7%rp_name% &8» &f%message%");
         RPProfile profile = profiles.get(sender.getUniqueId());
         String rpName = profile.hasRpName() ? profile.getRpName() : sender.getName();
+        String rpSurname = profile.getRpSurname() == null ? "" : profile.getRpSurname();
+        String rpFullName = profile.getRpFullName().isEmpty() ? sender.getName() : profile.getRpFullName();
 
-        String legacy = formatRaw
-                .replace("%player%", rpName)
-                .replace("%rp_name%", rpName)
-                .replace("%message%", message);
-
-        if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
-            legacy = PlaceholderAPI.setPlaceholders(sender, legacy);
-        }
+        String legacy = replaceAll(formatRaw, sender.getName(), rpName, rpSurname, rpFullName, message);
+        legacy = processPapi(sender, legacy);
         legacy = MessageUtils.color(legacy);
 
         BaseComponent[] component = buildHoverComponent(sender, profile, legacy, false);
 
         Location loc = sender.getLocation();
-        for (Player p : Bukkit.getOnlinePlayers()) {
-            if (!p.getWorld().equals(loc.getWorld())) continue;
-            if (p.equals(sender)) {
-                p.spigot().sendMessage(component);
-                continue;
-            }
-            if (p.getLocation().distance(loc) <= radius) {
-                p.spigot().sendMessage(component);
-            }
-        }
-    }
-
-    public static void broadcastRp(DistrictRP plugin, Player sender, String message, ChatType type) {
-        RPProfileManager profiles = plugin.getRoleplay() != null
-                ? plugin.getRoleplay().getProfileManager()
-                : null;
-        RPProfile profile = profiles != null ? profiles.get(sender.getUniqueId()) : null;
-        String rpName = (profile != null && profile.hasRpName()) ? profile.getRpName() : sender.getName();
-
-        String base = "chat.formats." + type.getConfigKey();
-        double radius = plugin.getConfig().getDouble(base + ".radius", type.getDefaultRadius());
-        boolean hasRp = profile != null && profile.hasRpName();
-        String pathFormat = hasRp ? base + ".format" : base + ".anonymous";
-
-        String formatRaw = plugin.getConfig().getString(pathFormat,
-                plugin.getConfig().getString(base + ".format",
-                        "&7%rp_name% &8» &f%message%"));
-
-        String legacy = formatRaw
-                .replace("%player%", rpName)
-                .replace("%rp_name%", rpName)
-                .replace("%message%", message);
-
-        if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
-            legacy = PlaceholderAPI.setPlaceholders(sender, legacy);
-        }
-        legacy = MessageUtils.color(legacy);
-
-        Location loc = sender.getLocation();
         boolean nobody = true;
-
-        BaseComponent[] component = TextComponent.fromLegacyText(legacy);
-
         for (Player p : Bukkit.getOnlinePlayers()) {
             if (!p.getWorld().equals(loc.getWorld())) continue;
             if (p.equals(sender)) {
@@ -140,23 +96,64 @@ public class ChatModule implements Listener {
             }
         }
 
-        if (nobody
-                && plugin.getConfig().getBoolean("chat.proximity.nobody-in-range-message", false)) {
+        if (nobody && plugin.getConfig().getBoolean("chat.proximity.nobody-in-range-message", false)) {
             MessageUtils.sendMsg(sender, "chat.proximity-nobody");
         }
     }
 
-    private void handleLobbyChat(AsyncPlayerChatEvent event, Player sender, String message) {
+    public static void broadcastRp(DistrictRP plugin, Player sender, String message, ChatType type) {
+        RPProfileManager profiles = plugin.getRoleplay() != null
+                ? plugin.getRoleplay().getProfileManager()
+                : null;
+        RPProfile profile = profiles != null ? profiles.get(sender.getUniqueId()) : null;
+        String rpName = (profile != null && profile.hasRpName()) ? profile.getRpName() : sender.getName();
+        String rpSurname = (profile != null && profile.getRpSurname() != null) ? profile.getRpSurname() : "";
+        String rpFullName = (profile != null && !profile.getRpFullName().isEmpty()) ? profile.getRpFullName() : sender.getName();
+
+        String base = "chat.formats." + type.getConfigKey();
+        double radius = plugin.getConfig().getDouble(base + ".radius", type.getDefaultRadius());
+        boolean hasRp = profile != null && profile.hasRpName();
+        String pathFormat = hasRp ? base + ".format" : base + ".anonymous";
+
+        String formatRaw = plugin.getConfig().getString(pathFormat,
+                plugin.getConfig().getString(base + ".format",
+                        "&7%rp_name% &8» &f%message%"));
+
+        String legacy = replaceAllStatic(formatRaw, sender.getName(), rpName, rpSurname, rpFullName, message);
+        if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
+            legacy = PlaceholderAPI.setPlaceholders(sender, legacy);
+        }
+        legacy = MessageUtils.color(legacy);
+
+        Location loc = sender.getLocation();
+        BaseComponent[] component = TextComponent.fromLegacyText(legacy);
+
+        for (Player p : Bukkit.getOnlinePlayers()) {
+            if (!p.getWorld().equals(loc.getWorld())) continue;
+            if (p.equals(sender)) {
+                p.spigot().sendMessage(component);
+                continue;
+            }
+            if (p.getLocation().distance(loc) <= radius) {
+                p.spigot().sendMessage(component);
+            }
+        }
+    }
+
+    private void handleModeChat(AsyncPlayerChatEvent event, Player sender, String message) {
         event.setCancelled(true);
 
         String rankSymbol = getRankSymbol(sender);
         String vipSuffix = getVipSuffix(sender);
 
+        ServerMode mode = plugin.getServerModeManager().getCurrent();
         String formatRaw = plugin.getConfig().getString(
-                "server-mode.modes.LOBBY.chat-format",
-                plugin.getConfig().getString("lobby-mode.format",
-                        "%rank%&f%player%%vip% &8» &7%message%")
-        );
+                "server-mode.modes." + mode.name() + ".chat-format",
+                "%rank%&f%player%%vip% &8» &7%message%");
+
+        if (formatRaw == null || formatRaw.equalsIgnoreCase("null") || formatRaw.isEmpty()) {
+            return;
+        }
 
         String legacy = formatRaw
                 .replace("%rank%", rankSymbol.isEmpty() ? "" : rankSymbol + " ")
@@ -164,9 +161,7 @@ public class ChatModule implements Listener {
                 .replace("%vip%", vipSuffix.isEmpty() ? "" : " " + vipSuffix)
                 .replace("%message%", message);
 
-        if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
-            legacy = PlaceholderAPI.setPlaceholders(sender, legacy);
-        }
+        legacy = processPapi(sender, legacy);
         legacy = MessageUtils.color(legacy);
 
         RPProfile profile = profiles.get(sender.getUniqueId());
@@ -201,32 +196,30 @@ public class ChatModule implements Listener {
             String perm = v.getString("permission", "");
             String symbol = v.getString("symbol", "");
             if (perm.isEmpty() || symbol == null || symbol.isEmpty()) continue;
-
             boolean hasExplicit = player.getEffectivePermissions().stream()
                     .anyMatch(pai -> pai.getPermission().equalsIgnoreCase(perm) && pai.getValue());
-
-            if (hasExplicit) {
-                return symbol;
-            }
+            if (hasExplicit) return symbol;
         }
         return "";
     }
 
-    private BaseComponent[] buildHoverComponent(Player sender, RPProfile profile, String legacyMessage, boolean lobbyMode) {
+    private BaseComponent[] buildHoverComponent(Player sender, RPProfile profile, String legacyMessage, boolean modeChat) {
         boolean hoverEnabled = plugin.getConfig().getBoolean("chat.hover.enabled", true);
         TextComponent[] parts = fromLegacy(legacyMessage);
-
         if (!hoverEnabled) return parts;
 
         String rpName = profile.hasRpName() ? profile.getRpName() : sender.getName();
+        String rpSurname = profile.getRpSurname() == null ? "" : profile.getRpSurname();
+        String rpFullName = profile.getRpFullName().isEmpty() ? sender.getName() : profile.getRpFullName();
         String cf = sender.getName();
 
         List<String> hoverLines;
-        if (lobbyMode) {
-            hoverLines = plugin.getConfig().getStringList("server-mode.modes.LOBBY.hover-lines");
-            if (hoverLines.isEmpty()) {
-                hoverLines = plugin.getConfig().getStringList("lobby-mode.hover-lines");
-            }
+
+        if (modeChat) {
+            ServerMode mode = plugin.getServerModeManager() != null
+                    ? plugin.getServerModeManager().getCurrent() : ServerMode.OFF;
+            hoverLines = plugin.getConfig().getStringList(
+                    "server-mode.modes." + mode.name() + ".hover-lines");
             if (hoverLines.isEmpty()) {
                 hoverLines = List.of(
                         "&7Nome: &f" + cf,
@@ -239,6 +232,7 @@ public class ChatModule implements Listener {
             if (hoverLines.isEmpty()) {
                 hoverLines = List.of(
                         "&7Nome: &f" + rpName,
+                        "&7Cognome: &f" + rpSurname,
                         "&7Codice Fiscale: &f" + cf,
                         "",
                         "&#FCD05Cᴄʟɪᴄᴄᴀ ᴘᴇʀ ᴄᴏᴘɪᴀʀᴇ ɪʟ ɴᴏᴍᴇ"
@@ -257,10 +251,8 @@ public class ChatModule implements Listener {
 
         StringBuilder hoverText = new StringBuilder();
         for (int i = 0; i < hoverLines.size(); i++) {
-            String line = hoverLines.get(i)
-                    .replace("%rp_name%", rpName)
-                    .replace("%player%", cf)
-                    .replace("%cf%", cf);
+            String line = replaceAll(hoverLines.get(i), cf, rpName, rpSurname, rpFullName, "");
+            line = processPapi(sender, line);
             hoverText.append(MessageUtils.color(line));
             if (i < hoverLines.size() - 1) hoverText.append("\n");
         }
@@ -274,6 +266,31 @@ public class ChatModule implements Listener {
             part.setClickEvent(click);
         }
         return parts;
+    }
+
+    private String replaceAll(String s, String cf, String rpName, String rpSurname, String rpFullName, String message) {
+        return s.replace("%player%", cf)
+                .replace("%cf%", cf)
+                .replace("%rp_name%", rpName)
+                .replace("%rp_surname%", rpSurname)
+                .replace("%rp_fullname%", rpFullName)
+                .replace("%message%", message);
+    }
+
+    private static String replaceAllStatic(String s, String cf, String rpName, String rpSurname, String rpFullName, String message) {
+        return s.replace("%player%", cf)
+                .replace("%cf%", cf)
+                .replace("%rp_name%", rpName)
+                .replace("%rp_surname%", rpSurname)
+                .replace("%rp_fullname%", rpFullName)
+                .replace("%message%", message);
+    }
+
+    private String processPapi(Player sender, String text) {
+        if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
+            return PlaceholderAPI.setPlaceholders(sender, text);
+        }
+        return text;
     }
 
     private TextComponent[] fromLegacy(String legacy) {

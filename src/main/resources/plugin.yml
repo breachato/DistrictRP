@@ -2,8 +2,8 @@ name: DistrictRP
 version: 2.1.8
 main: dev.breach.DistrictRP.DistrictRP
 api-version: '1.20'
-author: visualizzazione
-description: Core Plugin by visualizzazione
+author: breachato
+description: Roleplay Core made by breachato
 load: POSTWORLD
 softdepend:
   - LuckPerms
@@ -17,8 +17,8 @@ softdepend:
 
 commands:
   districtrp:
-    usage: /cc [sub-comando]
-    aliases: [cc]
+    usage: /districtrp [sub-comando]
+    aliases: [drp]
     permission: DistrictRP.use
   spawn:
     usage: /spawn [world]
@@ -84,8 +84,6 @@ commands:
     usage: /build
     aliases: [assets]
     permission: DistrictRP.buildworld
-  inizia:
-    usage: /inizia
   mondo:
     usage: /mondo <sub>
     aliases: [mondi]
@@ -98,6 +96,10 @@ commands:
     usage: /staffmode
     aliases: [sm, staff]
     permission: DistrictRP.staffmode
+  scale:
+    description: Cambia la scala del player
+    usage: /scale <valore> [player]
+    permission: DistrictRP.scale
   azione:
     usage: /azione <testo>
     aliases: [a]
@@ -203,6 +205,10 @@ permissions:
   DistrictRP.warp.manage:
     default: op
   DistrictRP.warp.bypass:
+    default: op
+  DistrictRP.scale:
+    default: op
+  DistrictRP.scale.others:
     default: op
   chatgate.use:
     default: op

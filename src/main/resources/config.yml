@@ -38,18 +38,18 @@ chat:
     enabled: true
     lines:
       - ''
-      - '&7Nome: &f%rp_name%'
-      - '&7Cognome: &f%rp_surname%'
-      - '&7Codice Fiscale: &f%player%'
+      - '&7Nome: &#D7D7D7%rp_name%'
+      - '&7Cognome: &#D7D7D7%rp_surname%'
+      - '&7Codice Fiscale: &#D7D7D7%player%'
       - ''
       - '&#FCD05Cᴄʟɪᴄᴄᴀ ᴘᴇʀ ᴄᴏᴘɪᴀʀᴇ ɪʟ ɴᴏᴍᴇ'
     lines-no-rp:
       - ''
-      - '&7Nome: &f%player%'
+      - '&7Nome: &#D7D7D7%player%'
       - ''
       - '&#FCD05Cᴄʟɪᴄᴄᴀ ᴘᴇʀ ᴄᴏᴘɪᴀʀᴇ ɪʟ ɴᴏᴍᴇ'
   formats:
-    normal: '&7%rp_name% &8» &f%message%'
+    normal: '&7%rp_name% &8» &#D7D7D7%message%'
     azione:
       radius: 15
       format: '&#FCD05Cᴀᴢɪᴏɴᴇ &r&7%rp_name% &8» &e%message%'
@@ -115,69 +115,188 @@ stafflist:
     - developer
     - builder
     - texturemaker
-    - staff
   ranks:
-    abbigliamento: { symbol: '', permission: DistrictRP.rank.abbigliamento }
-    admin: { symbol: '', permission: DistrictRP.rank.admin }
-    banca: { symbol: '', permission: DistrictRP.rank.banca }
-    blacklist: { symbol: '', permission: DistrictRP.rank.blacklist }
-    builder: { symbol: '', permission: DistrictRP.rank.builder }
-    burgy: { symbol: '', permission: DistrictRP.rank.burgy }
-    casino: { symbol: '', permission: DistrictRP.rank.casino }
-    cinema: { symbol: '', permission: DistrictRP.rank.cinema }
-    concessionaria: { symbol: '', permission: DistrictRP.rank.concessionaria }
-    crime: { symbol: '', permission: DistrictRP.rank.crime }
-    developer: { symbol: '', permission: DistrictRP.rank.developer }
-    discoteca: { symbol: '', permission: DistrictRP.rank.discoteca }
-    district: { symbol: '', permission: DistrictRP.rank.district }
-    edicola: { symbol: '', permission: DistrictRP.rank.edicola }
-    electronics: { symbol: '', permission: DistrictRP.rank.electronics }
-    esta_the: { symbol: '', permission: DistrictRP.rank.esta_the }
-    estate: { symbol: '', permission: DistrictRP.rank.estate }
-    fdo: { symbol: '', permission: DistrictRP.rank.fdo }
-    fdo_2: { symbol: '', permission: DistrictRP.rank.fdo_2 }
-    finanza: { symbol: '', permission: DistrictRP.rank.finanza }
-    fondatore: { symbol: '', permission: DistrictRP.rank.fondatore }
-    gestore: { symbol: '', permission: DistrictRP.rank.gestore }
-    gioielleria: { symbol: '', permission: DistrictRP.rank.gioielleria }
-    helper: { symbol: '', permission: DistrictRP.rank.helper }
-    immobiliare: { symbol: '', permission: DistrictRP.rank.immobiliare }
-    magazzino: { symbol: '', permission: DistrictRP.rank.magazzino }
-    magistratura: { symbol: '', permission: DistrictRP.rank.magistratura }
-    market: { symbol: '', permission: DistrictRP.rank.market }
-    mod: { symbol: '', permission: DistrictRP.rank.mod }
-    oracolo: { symbol: '', permission: DistrictRP.rank.oracolo }
-    ottica: { symbol: '', permission: DistrictRP.rank.ottica }
-    pasticceria: { symbol: '', permission: DistrictRP.rank.pasticceria }
-    polizia: { symbol: '', permission: DistrictRP.rank.polizia }
-    ricercato: { symbol: '', permission: DistrictRP.rank.ricercato }
-    scuola: { symbol: '', permission: DistrictRP.rank.scuola }
-    security: { symbol: '', permission: DistrictRP.rank.security }
-    senato: { symbol: '', permission: DistrictRP.rank.senato }
-    sospetto: { symbol: '', permission: DistrictRP.rank.sospetto }
-    srmod: { symbol: '', permission: DistrictRP.rank.srmod }
-    staff: { symbol: '', permission: DistrictRP.rank.staff }
-    staffer: { symbol: '', permission: DistrictRP.rank.staffer }
-    taxi: { symbol: '', permission: DistrictRP.rank.taxi }
-    texturemaker: { symbol: '', permission: DistrictRP.rank.texturemaker }
-    the: { symbol: '', permission: DistrictRP.rank.the }
-    traslochi: { symbol: '', permission: DistrictRP.rank.traslochi }
-    tutor: { symbol: '', permission: DistrictRP.rank.tutor }
-    utente: { symbol: '', permission: DistrictRP.rank.utente }
-    vesuvio: { symbol: '', permission: DistrictRP.rank.vesuvio }
-    vulcano: { symbol: '', permission: DistrictRP.rank.vulcano }
-    wanted: { symbol: '', permission: DistrictRP.rank.wanted }
+    abbigliamento:
+      symbol: ''
+      permission: DistrictRP.rank.abbigliamento
+    admin:
+      symbol: ''
+      permission: DistrictRP.rank.admin
+    banca:
+      symbol: ''
+      permission: DistrictRP.rank.banca
+    blacklist:
+      symbol: ''
+      permission: DistrictRP.rank.blacklist
+    builder:
+      symbol: ''
+      permission: DistrictRP.rank.builder
+    burgy:
+      symbol: ''
+      permission: DistrictRP.rank.burgy
+    casino:
+      symbol: ''
+      permission: DistrictRP.rank.casino
+    cinema:
+      symbol: ''
+      permission: DistrictRP.rank.cinema
+    concessionaria:
+      symbol: ''
+      permission: DistrictRP.rank.concessionaria
+    crime:
+      symbol: ''
+      permission: DistrictRP.rank.crime
+    developer:
+      symbol: ''
+      permission: DistrictRP.rank.developer
+    discoteca:
+      symbol: ''
+      permission: DistrictRP.rank.discoteca
+    district:
+      symbol: ''
+      permission: DistrictRP.rank.district
+    edicola:
+      symbol: ''
+      permission: DistrictRP.rank.edicola
+    electronics:
+      symbol: ''
+      permission: DistrictRP.rank.electronics
+    esta_the:
+      symbol: ''
+      permission: DistrictRP.rank.esta_the
+    estate:
+      symbol: ''
+      permission: DistrictRP.rank.estate
+    fdo:
+      symbol: ''
+      permission: DistrictRP.rank.fdo
+    fdo_2:
+      symbol: ''
+      permission: DistrictRP.rank.fdo_2
+    finanza:
+      symbol: ''
+      permission: DistrictRP.rank.finanza
+    fondatore:
+      symbol: ''
+      permission: DistrictRP.rank.fondatore
+    gestore:
+      symbol: ''
+      permission: DistrictRP.rank.gestore
+    gioielleria:
+      symbol: ''
+      permission: DistrictRP.rank.gioielleria
+    helper:
+      symbol: ''
+      permission: DistrictRP.rank.helper
+    immobiliare:
+      symbol: ''
+      permission: DistrictRP.rank.immobiliare
+    magazzino:
+      symbol: ''
+      permission: DistrictRP.rank.magazzino
+    magistratura:
+      symbol: ''
+      permission: DistrictRP.rank.magistratura
+    market:
+      symbol: ''
+      permission: DistrictRP.rank.market
+    mod:
+      symbol: ''
+      permission: DistrictRP.rank.mod
+    oracolo:
+      symbol: ''
+      permission: DistrictRP.rank.oracolo
+    ottica:
+      symbol: ''
+      permission: DistrictRP.rank.ottica
+    pasticceria:
+      symbol: ''
+      permission: DistrictRP.rank.pasticceria
+    polizia:
+      symbol: ''
+      permission: DistrictRP.rank.polizia
+    ricercato:
+      symbol: ''
+      permission: DistrictRP.rank.ricercato
+    scuola:
+      symbol: ''
+      permission: DistrictRP.rank.scuola
+    security:
+      symbol: ''
+      permission: DistrictRP.rank.security
+    senato:
+      symbol: ''
+      permission: DistrictRP.rank.senato
+    sospetto:
+      symbol: ''
+      permission: DistrictRP.rank.sospetto
+    srmod:
+      symbol: ''
+      permission: DistrictRP.rank.srmod
+    staff:
+      symbol: ''
+      permission: DistrictRP.rank.staff
+    staffer:
+      symbol: ''
+      permission: DistrictRP.rank.staffer
+    taxi:
+      symbol: ''
+      permission: DistrictRP.rank.taxi
+    texturemaker:
+      symbol: ''
+      permission: DistrictRP.rank.texturemaker
+    the:
+      symbol: ''
+      permission: DistrictRP.rank.the
+    traslochi:
+      symbol: ''
+      permission: DistrictRP.rank.traslochi
+    tutor:
+      symbol: ''
+      permission: DistrictRP.rank.tutor
+    utente:
+      symbol: ''
+      permission: DistrictRP.rank.utente
+    vesuvio:
+      symbol: ''
+      permission: DistrictRP.rank.vesuvio
+    vulcano:
+      symbol: ''
+      permission: DistrictRP.rank.vulcano
+    wanted:
+      symbol: ''
+      permission: DistrictRP.rank.wanted
+    mvpplus:
+      symbol: ''
+      permission: DistrictRP.mvpplus
+    mvp:
+      symbol: ''
+      permission: DistrictRP.mvp
+    vipplus:
+      symbol: ''
+      permission: DistrictRP.vipplus
+    vip:
+      symbol: ''
+      permission: DistrictRP.vip
 
-vip-symbols:
-  order:
-    - mvpplus
-    - mvp
-    - vipplus
-    - vip
-  mvpplus: { symbol: '', permission: DistrictRP.mvpplus }
-  mvp: { symbol: '', permission: DistrictRP.mvp }
-  vipplus: { symbol: '', permission: DistrictRP.vipplus }
-  vip: { symbol: '', permission: DistrictRP.vip }
+  vip-symbols:
+    order:
+      - mvpplus
+      - mvp
+      - vipplus
+      - vip
+    mvpplus:
+      symbol: ''
+      permission: DistrictRP.mvpplus
+    mvp:
+      symbol: ''
+      permission: DistrictRP.mvp
+    vipplus:
+      symbol: ''
+      permission: DistrictRP.vipplus
+    vip:
+      symbol: ''
+      permission: DistrictRP.vip
 
 staffmode:
   permission: DistrictRP.staffmode
@@ -198,7 +317,7 @@ staffmode:
   actionbar:
     enabled: true
     refresh-ticks: 20
-    header: '&#FCD05Cᴠᴀɴɪꜱʜᴇᴅ %vanish_state% &fᴛᴘꜱ: &#FCD05C%tps%'
+    header: '&#FCD05C\uF50Aᴀɴɪꜱʜᴇᴅ %vanish_state% &fᴛᴘꜱ: &#FCD05C%tps%'
     vanish-on: '&#FCD05C(✔)'
     vanish-off: '&c(✗)'
     subline-tp-random: '&e✈ &fᴛᴇʟᴇᴛʀᴀꜱᴘᴏʀᴛᴏ ᴄᴀꜱᴜᴀʟᴇ'
@@ -215,7 +334,7 @@ staffmode:
   items:
     tp-random:
       slot: 0
-      material: NETHER_STAR
+      material: RECOVERY_COMPASS
       name: '&#FCD05C&lᴛᴇʟᴇᴛʀᴀꜱᴘᴏʀᴛᴏ ᴄᴀꜱᴜᴀʟᴇ'
       lore:
         - ''
@@ -235,24 +354,27 @@ staffmode:
       name: '&#FCD05C&lʟɪꜱᴛᴀ ɢɪᴏᴄᴀᴛᴏʀɪ'
       lore:
         - ''
-        - '&7Visualizza tutti i giocatori online.'
+        - '&7Click destro per visualizzare tutti'
+        - '&7i giocatori online.'
     staff-list:
       slot: 7
       material: BOOK
       name: '&#FCD05C&lʟɪꜱᴛᴀ ꜱᴛᴀꜰꜰ'
       lore:
         - ''
-        - '&7Visualizza tutti gli staff online.'
+        - '&7Click destro per visualizzare tutti'
+        - '&7gli staff online.'
     exit:
       slot: 8
       material: BARRIER
       name: '&c&lᴇꜱᴄɪ ᴅᴀ ꜱᴛᴀꜰꜰ ᴍᴏᴅᴇ'
       lore:
         - ''
-        - '&7Disattiva la modalità staff.'
+        - '&7Click destro per disattivare'
+        - '&7la modalità staff.'
 
 vanish:
-  tab-suffix: ' &fᴠᴀɴɪꜱʜ'
+  tab-suffix: ' &#D7D7D7- ᴠᴀɴɪꜱʜ -'
   actionbar-enabled: true
   actionbar-refresh-ticks: 20
   actionbar-vanished: ' &#FCD05Cᴠᴀɴɪꜱʜ ᴀᴛᴛɪᴠᴏ'
@@ -280,6 +402,12 @@ coreprotect:
   log-vanish: true
   log-teleports: true
 
+scale:
+  permission: DistrictRP.scale
+  permission-others: DistrictRP.scale.others
+  min: 0.1
+  max: 100.0
+
 ticket:
   gui-title: '&#FCD05Cꜱᴇʟᴇᴢɪᴏɴᴀ ᴄᴀᴛᴇɢᴏʀɪᴀ'
   staff-permission: DistrictRP.ticket.staff
@@ -287,29 +415,29 @@ ticket:
   date-format: dd/MM/yyyy HH:mm
   quick-replies:
     generale:
-      - 'Ciao %player%! Ci puoi fornire maggiori dettagli sulla tua segnalazione?'
-      - 'Ciao %player%, la tua richiesta è stata inoltrata al reparto competente.'
-      - 'Grazie per averci contattato, la segnalazione è in fase di valutazione.'
-      - 'Chiudo il ticket per inattività, sentiti libero di riaprirlo se necessario.'
+      - Ciao %player%! Ci puoi fornire maggiori dettagli sulla tua segnalazione?
+      - Ciao %player%, la tua richiesta è stata inoltrata al reparto competente.
+      - Grazie per averci contattato, la segnalazione è in fase di valutazione.
+      - Chiudo il ticket per inattività, sentiti libero di riaprirlo se necessario.
     tecnico:
-      - 'Ciao %player%! Puoi fornirci uno screenshot o un video del problema?'
-      - 'Prova a riavviare il client e a rientrare, se il problema persiste facci sapere.'
-      - 'Il problema è stato segnalato al team tecnico, ti aggiorneremo appena risolto.'
+      - Ciao %player%! Puoi fornirci uno screenshot o un video del problema?
+      - Prova a riavviare il client e a rientrare, se il problema persiste facci sapere.
+      - Il problema è stato segnalato al team tecnico, ti aggiorneremo appena risolto.
     strutture:
-      - 'Ciao %player%! Il reparto edilizia valuterà la tua richiesta.'
-      - 'La tua richiesta di costruzione è stata approvata.'
+      - Ciao %player%! Il reparto edilizia valuterà la tua richiesta.
+      - La tua richiesta di costruzione è stata approvata.
     aziende:
-      - 'Ciao %player%! La richiesta è stata inoltrata al reparto aziende.'
-      - 'La tua azienda è stata approvata, ti auguriamo buon lavoro.'
+      - Ciao %player%! La richiesta è stata inoltrata al reparto aziende.
+      - La tua azienda è stata approvata, ti auguriamo buon lavoro.
     fdo:
-      - 'Ciao %player%! La segnalazione è stata presa in carico dalle FDO.'
-      - 'La verifica è in corso, ti aggiorneremo al più presto.'
+      - Ciao %player%! La segnalazione è stata presa in carico dalle FDO.
+      - La verifica è in corso, ti aggiorneremo al più presto.
     criminalita:
-      - 'Ciao %player%! La tua segnalazione è stata registrata correttamente.'
-      - 'Le prove sono state acquisite, la pratica è in fase di valutazione.'
+      - Ciao %player%! La tua segnalazione è stata registrata correttamente.
+      - Le prove sono state acquisite, la pratica è in fase di valutazione.
     politica:
-      - 'Ciao %player%! La tua richiesta politica è in fase di analisi.'
-      - 'Ti risponderemo entro 24-48 ore lavorative.'
+      - Ciao %player%! La tua richiesta politica è in fase di analisi.
+      - Ti risponderemo entro 24-48 ore lavorative.
   categories:
     generale:
       name: '&#FCD05Cɢᴇɴᴇʀᴀʟᴇ'
@@ -339,7 +467,7 @@ ticket:
         - ''
         - '&#FCD05Cᴄʟɪᴄᴄᴀ ᴘᴇʀ ꜱᴇʟᴇᴢɪᴏɴᴀʀᴇ'
     aziende:
-      name: '&fᴀᴢɪᴇɴᴅᴇ'
+      name: '&#D7D7D7ᴀᴢɪᴇɴᴅᴇ'
       material: OAK_SIGN
       slot: 13
       permission-notify: DistrictRP.reparto.aziende
@@ -388,19 +516,19 @@ appuntamenti:
     slots-per-page: 16
   reparti:
     aziende:
-      display: 'Reparto Aziende'
+      display: Reparto Aziende
       staff-permission: DistrictRP.appuntamenti.aziende
     criminalita:
-      display: 'Reparto Criminalità'
+      display: Reparto Criminalità
       staff-permission: DistrictRP.appuntamenti.criminalita
     politicaa:
-      display: 'Reparto Politica'
+      display: Reparto Politica
       staff-permission: DistrictRP.appuntamenti.economia
     marketing:
-      display: 'Reparto Marketing'
+      display: Reparto Marketing
       staff-permission: DistrictRP.appuntamenti.marketing
     eventi:
-      display: 'Reparto Eventi'
+      display: Reparto Eventi
       staff-permission: DistrictRP.appuntamenti.eventi
 
 stuck:
@@ -416,12 +544,12 @@ logs:
 bots:
   discord:
     enabled: true
-    token: 'certamente'
+    token: certamente
     guild-id: '1522671317722337420'
     server-name: DistrictRP
     supporto:
       voice-category-id: '1522671451637813518'
-      voice-channel-name: '🔊┃supporto-%player%'
+      voice-channel-name: 🔊┃supporto-%player%
       auto-delete-on-leave: true
     tickets:
       channels-by-category:
@@ -444,7 +572,7 @@ bots:
       recap-channel: '1523728165703258384'
   telegram:
     enabled: true
-    bot-token: 'sisi ovvio'
+    bot-token: sisi ovvio
     server-name: DistrictRP
     tickets:
       chat-id-by-category:
@@ -473,7 +601,7 @@ chatgate:
   settings:
     log-chat: true
     antispam:
-      cooldown-ms: 2000
+      countdown-ms: 2000
       duplicate-block: 3
 
 warp:
@@ -487,7 +615,7 @@ warp:
   data: {}
 
 server-mode:
-  current: OFF
+  current: LOBBY
   broadcast-change: true
   show-title-on-join: true
   bypass-permission: DistrictRP.servermode.bypass
@@ -500,10 +628,10 @@ server-mode:
       auto-teleport-world: lobby
       force-gamemode: ADVENTURE
       allow-fly: false
-      chat-format: '%rank%&f%player%%vip% &8» &7%message%'
+      chat-format: '%districtrp_rank_symbol_or_none%&#D7D7D7 %player% &8» &7%message%'
       hover-lines:
         - ''
-        - '&7Nome: &f%player%'
+        - '&7Nome: &#D7D7D7%player%'
         - ''
         - '&#FCD05Cᴄʟɪᴄᴄᴀ ᴘᴇʀ ᴄᴏᴘɪᴀʀᴇ ɪʟ ɴᴏᴍᴇ'
       disabled-commands:
@@ -526,14 +654,14 @@ server-mode:
         - profilo
         - profile
         - back
-      allowed-commands: [ ]
+      allowed-commands: []
 
     CREATIVE:
-      display: '&b&lᴄʀᴇᴀᴛɪᴠᴇ'
+      display: '&#FCD05C&lᴄʀᴇᴀᴛɪᴠᴇ'
       auto-teleport-world: plots
       force-gamemode: SURVIVAL
       allow-fly: false
-      chat-format: '&b[CREATIVE] &f%player% &8» &f%message%'
+      chat-format: '%districtrp_rank_symbol_or_none%&#D7D7D7 %player% &8» &7%message%'
       disabled-commands:
         - azione
         - bisbiglio
@@ -551,7 +679,6 @@ server-mode:
       auto-teleport-world: roleplay
       force-gamemode: SURVIVAL
       allow-fly: false
-      chat-format: null
       disabled-commands:
         - gmc
         - gma
@@ -562,12 +689,8 @@ server-mode:
         - delwarp
       allowed-commands: []
 
-    OFF:
+    'false':
       display: '&8&lᴏꜰꜰ'
-      auto-teleport-world: null
-      force-gamemode: null
-      allow-fly: null
-      chat-format: null
       disabled-commands: []
       allowed-commands: []
 

@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -17,6 +18,8 @@ import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerSwapHandItemsEvent;
+
+import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,20 +38,32 @@ public class StaffModeListener implements Listener {
         this.gui = gui;
     }
 
-    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onInteract(PlayerInteractEvent event) {
         Player p = event.getPlayer();
         if (!manager.isInStaffMode(p)) return;
-        StaffModeItems.Tool tool = StaffModeItems.getTool(plugin, event.getItem());
+
+        Action action = event.getAction();
+        boolean isRight = action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK;
+        boolean isLeft = action == Action.LEFT_CLICK_AIR || action == Action.LEFT_CLICK_BLOCK;
+        if (!isRight && !isLeft) return;
+
+        ItemStack held = event.getItem();
+        if (held == null) return;
+
+        StaffModeItems.Tool tool = StaffModeItems.getTool(plugin, held);
         if (tool == null) return;
+
         event.setCancelled(true);
+        event.setUseInteractedBlock(org.bukkit.event.Event.Result.DENY);
+        event.setUseItemInHand(org.bukkit.event.Event.Result.DENY);
 
         switch (tool) {
-            case TP_RANDOM: handleTpRandom(p); break;
-            case INVISIBILITY: manager.toggleInvisibility(p); break;
-            case PLAYER_LIST: gui.openPlayerList(p); break;
-            case STAFF_LIST: gui.openStaffList(p); break;
-            case EXIT: manager.exit(p); break;
+            case TP_RANDOM -> handleTpRandom(p);
+            case INVISIBILITY -> manager.toggleInvisibility(p);
+            case PLAYER_LIST -> gui.openPlayerList(p);
+            case STAFF_LIST -> gui.openStaffList(p);
+            case EXIT -> manager.exit(p);
         }
     }
 
@@ -59,8 +74,13 @@ public class StaffModeListener implements Listener {
             return;
         }
         List<Player> candidates = new ArrayList<>();
-        for (Player o : Bukkit.getOnlinePlayers()) if (!o.equals(p)) candidates.add(o);
-        if (candidates.isEmpty()) { MessageUtils.sendMsg(p, "staffmode.tp-random-no-players"); return; }
+        for (Player o : Bukkit.getOnlinePlayers()) {
+            if (!o.equals(p) && !manager.isInStaffMode(o)) candidates.add(o);
+        }
+        if (candidates.isEmpty()) {
+            MessageUtils.sendMsg(p, "staffmode.tp-random-no-players");
+            return;
+        }
         Player target = candidates.get(random.nextInt(candidates.size()));
         p.teleport(target.getLocation());
         MessageUtils.sendMsg(p, "staffmode.tp-random-success", "player", target.getName());
@@ -69,11 +89,11 @@ public class StaffModeListener implements Listener {
     @EventHandler(priority = EventPriority.HIGH)
     public void onDrop(PlayerDropItemEvent event) {
         if (!manager.isInStaffMode(event.getPlayer())) return;
-        if (plugin.getConfig().getBoolean("staffmode.block-drop", true)) {
+        if (StaffModeItems.isStaffModeItem(plugin, event.getItemDrop().getItemStack())) {
             event.setCancelled(true);
             return;
         }
-        if (StaffModeItems.getTool(plugin, event.getItemDrop().getItemStack()) != null) {
+        if (plugin.getConfig().getBoolean("staffmode.block-drop", true)) {
             event.setCancelled(true);
         }
     }
@@ -83,32 +103,18 @@ public class StaffModeListener implements Listener {
         if (!(event.getWhoClicked() instanceof Player p)) return;
         if (!manager.isInStaffMode(p)) return;
 
-        boolean isStaffToolCurrent = StaffModeItems.getTool(plugin, event.getCurrentItem()) != null;
-        boolean isStaffToolCursor  = StaffModeItems.getTool(plugin, event.getCursor()) != null;
-        if (isStaffToolCurrent || isStaffToolCursor) {
+        if (StaffModeItems.isStaffModeItem(plugin, event.getCurrentItem())
+                || StaffModeItems.isStaffModeItem(plugin, event.getCursor())) {
             event.setCancelled(true);
             return;
         }
 
-        String title = event.getView().getTitle();
-        String tPl = MessageUtils.color(plugin.getConfig().getString(
-                "staffmode.gui.player-list-title", "&8Lista Giocatori"));
-        String tSt = MessageUtils.color(plugin.getConfig().getString(
-                "staffmode.gui.staff-list-title", "&8Lista Staff"));
-        if (title.equals(tPl) || title.equals(tSt)) {
-            event.setCancelled(true);
-            return;
-        }
-
-        if (!plugin.getConfig().getBoolean("staffmode.block-inventory-change", true)) return;
-
-        if (event.getClickedInventory() == null) return;
-        if (event.getClickedInventory().equals(p.getInventory())) {
-            event.setCancelled(true);
-            return;
-        }
-        if (event.isShiftClick()) {
-            event.setCancelled(true);
+        if (plugin.getConfig().getBoolean("staffmode.block-inventory-change", true)) {
+            if (event.getClickedInventory() != null && event.getClickedInventory().equals(p.getInventory())) {
+                event.setCancelled(true);
+            } else if (event.isShiftClick()) {
+                event.setCancelled(true);
+            }
         }
     }
 
@@ -116,7 +122,7 @@ public class StaffModeListener implements Listener {
     public void onInvDrag(InventoryDragEvent event) {
         if (!(event.getWhoClicked() instanceof Player p)) return;
         if (!manager.isInStaffMode(p)) return;
-        if (StaffModeItems.getTool(plugin, event.getOldCursor()) != null) {
+        if (StaffModeItems.isStaffModeItem(plugin, event.getOldCursor())) {
             event.setCancelled(true);
             return;
         }
@@ -128,8 +134,8 @@ public class StaffModeListener implements Listener {
     @EventHandler(priority = EventPriority.HIGH)
     public void onSwapHand(PlayerSwapHandItemsEvent event) {
         if (!manager.isInStaffMode(event.getPlayer())) return;
-        if (StaffModeItems.getTool(plugin, event.getMainHandItem()) != null
-                || StaffModeItems.getTool(plugin, event.getOffHandItem()) != null) {
+        if (StaffModeItems.isStaffModeItem(plugin, event.getMainHandItem())
+                || StaffModeItems.isStaffModeItem(plugin, event.getOffHandItem())) {
             event.setCancelled(true);
         }
     }

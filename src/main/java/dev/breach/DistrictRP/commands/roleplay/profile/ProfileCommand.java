@@ -67,14 +67,28 @@ public class ProfileCommand implements CommandExecutor, TabCompleter {
                 manager.save(target.getUniqueId());
                 MessageUtils.sendMsg(sender, "profile.rpname-set", "name", name, "player", targetName);
             }
-            case "cognome" -> {
-                if (args.length < 3) { MessageUtils.sendMsg(sender, "profile.usage-cognome"); return true; }
-                String surname = args[2];
-                if (!isValidName(surname)) { MessageUtils.sendMsg(sender, "profile.invalid-name"); return true; }
+            case "cognome": {
+                if (args.length < 3) {
+                    MessageUtils.sendMsg(sender, "profile.usage-cognome");
+                    return true;
+                }
+                StringBuilder sb = new StringBuilder();
+                for (int i = 2; i < args.length; i++) {
+                    if (i > 2) sb.append(" ");
+                    sb.append(args[i]);
+                }
+                String surname = sb.toString();
+                if (!surname.matches("[a-zA-ZÀ-ÿ ]+")) {
+                    MessageUtils.sendMsg(sender, "profile.invalid-name");
+                    return true;
+                }
                 profile.setRpSurname(surname);
-                manager.save(target.getUniqueId());
-                MessageUtils.sendMsg(sender, "profile.rpsurname-set", "surname", surname, "player", targetName);
+                profileManager.save(target.getUniqueId());
+                MessageUtils.sendMsg(sender, "profile.rpsurname-set",
+                        "player", target.getName(), "surname", surname);
+                return true;
             }
+
             case "eta" -> {
                 if (args.length < 3) { MessageUtils.sendMsg(sender, "profile.usage-eta"); return true; }
                 int age;

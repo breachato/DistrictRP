@@ -16,6 +16,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
 import org.bukkit.plugin.java.JavaPlugin;
+import dev.breach.DistrictRP.commands.utils.ScaleCommand;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -287,6 +288,8 @@ public class DistrictRP extends JavaPlugin {
         safeRegister("build", new BuildCommand(this));
         safeRegister("mondo", new MondoCommand(this));
         safeRegister("wipe", new WipeCommand(this));
+
+        safeRegister("scale", new ScaleCommand(this));
 
         CommandExecutor noop = (s, c, l, a) -> true;
         safeRegister("appuntamento_select_reparto", noop);
