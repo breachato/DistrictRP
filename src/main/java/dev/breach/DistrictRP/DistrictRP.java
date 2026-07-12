@@ -53,6 +53,7 @@ public class DistrictRP extends JavaPlugin {
     private CoreProtectHook coreProtectHook;
     private WorldGuardHook worldGuardHook;
     private ModuleManager moduleManager;
+    private dev.breach.DistrictRP.staffpanel.StaffPanelManager staffPanelManager;
     private dev.breach.DistrictRP.database.DatabaseManager databaseManager;
 
     private RoleplayModule roleplayModule;
@@ -123,6 +124,13 @@ public class DistrictRP extends JavaPlugin {
                     new dev.breach.DistrictRP.database.DatabaseManager(this);
             dm.initialize();
             return dm;
+        });
+
+        getLogger().info("[INIT] StaffPanelManager...");
+        this.staffPanelManager = safeInit("StaffPanelManager", () -> {
+            var m = new dev.breach.DistrictRP.staffpanel.StaffPanelManager(this);
+            m.enable();
+            return m;
         });
 
         if (databaseManager != null && databaseManager.isMariaDb()) {
@@ -313,6 +321,10 @@ public class DistrictRP extends JavaPlugin {
                 }
             }
         } catch (Throwable ignored) {}
+        if (staffPanelManager != null) {
+            try { staffPanelManager.disable(); }
+            catch (Throwable t) { getLogger().warning("Errore disable StaffPanel: " + t.getMessage()); }
+        }
         getLogger().info("[DistrictRP] Plugin disabilitato. (Tag: " + BUILD_TAG + ")");
     }
 
@@ -405,6 +417,10 @@ public class DistrictRP extends JavaPlugin {
         safeRegister("ticket_quickreplies", noop);
         safeRegister("ticket_cancel_comment", noop);
         safeRegister("supporto_continua", noop);
+
+        if (staffPanelManager != null) {
+            safeRegister("staffauth", new dev.breach.DistrictRP.staffpanel.StaffAuthCommand(staffPanelManager));
+        }
     }
 
     private void registerProxyChatCommands() {
@@ -441,4 +457,5 @@ public class DistrictRP extends JavaPlugin {
     public ModuleManager getModuleManager() { return moduleManager; }
     public dev.breach.DistrictRP.database.DatabaseManager getDatabaseManager() { return databaseManager; }
     public RoleplayModule getRoleplay() { return roleplayModule; }
+    public dev.breach.DistrictRP.staffpanel.StaffPanelManager getStaffPanelManager() { return staffPanelManager; }
 }

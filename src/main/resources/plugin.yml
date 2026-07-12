@@ -16,6 +16,9 @@ softdepend:
   - WorldEdit
 
 commands:
+  staffauth:
+    usage: /staffauth <register|password> <email> <password> [player]
+    permission: DistrictRP.staffpanel.command.staffauth
   districtrp:
     usage: /districtrp [sub-comando]
     aliases: [drp]
@@ -204,6 +207,10 @@ commands:
     aliases: [ dc ]
 
 permissions:
+  DistrictRP.staffpanel.command.staffauth:
+    default: op
+  DistrictRP.staffpanel.use:
+    default: true
   DistrictRP.profile.admin:
     default: op
   DistrictRP.plot.psbypass:

@@ -941,4 +941,57 @@ profile-scoreboard:
     - ''
     - '&#FCD05C&lᴅɪꜱᴛʀɪᴄᴛʀᴘ'
 
+staff-panel:
+  enabled: true
+
+  http:
+    enabled: true
+    bind: "127.0.0.1"
+    port: 8787
+    api-token: "CAMBIA_QUESTO_TOKEN_LUNGO_A_CASO"
+
+  departments:
+    seed-on-first-run: true
+    defaults:
+      - id: generale
+        name: "Generale"
+        color: "#c9a84c"
+        order: 1
+        columns: ["Tickets", "Forum", "Supporto Rapido"]
+      - id: crimine-ffoo
+        name: "Criminalità & FF.OO."
+        color: "#ef4444"
+        order: 2
+        columns: ["Tickets"]
+      - id: politica
+        name: "Politica"
+        color: "#8b5cf6"
+        order: 3
+        columns: ["Tickets", "Forum"]
+      - id: economia
+        name: "Economia"
+        color: "#22c55e"
+        order: 4
+        columns: ["Tickets"]
+      - id: aziende
+        name: "Aziende"
+        color: "#e69628"
+        order: 5
+        columns: ["Tickets", "Forum"]
+      - id: eventi
+        name: "Eventi"
+        color: "#22d3ee"
+        order: 6
+        columns: ["Tickets"]
+      - id: marketing
+        name: "Marketing"
+        color: "#f0b957"
+        order: 7
+        columns: ["Tickets"]
+
+  staff-sync:
+    auto-on-enable: true
+    from-ranks: ["mod", "srmod", "admin", "fondatore", "developer", "helper", "trial"]
+    default-department: "generale"
+
 server-id: 'lobby'
