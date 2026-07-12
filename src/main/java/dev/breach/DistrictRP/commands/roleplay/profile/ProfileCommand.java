@@ -174,6 +174,11 @@ public class ProfileCommand implements CommandExecutor, TabCompleter {
                         "job", job)) {
                     sender.sendMessage(line);
                 }
+                if (sender instanceof Player viewer && target.isOnline()) {
+                    dev.breach.DistrictRP.functions.profile.ProfileScoreboard sb =
+                            new dev.breach.DistrictRP.functions.profile.ProfileScoreboard(plugin);
+                    sb.show(viewer, target.getPlayer());
+                }
             }
             default -> sendHelp(sender);
         }

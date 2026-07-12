@@ -393,22 +393,16 @@ protection:
     - ''
 
 staffmode:
-  entered: '%prefix%&aꜱᴛᴀꜰꜰ ᴍᴏᴅᴇ ᴀᴛᴛɪᴠᴀᴛᴀ. ɪɴᴠᴇɴᴛᴀʀɪᴏ ꜱᴀʟᴠᴀᴛᴏ.'
-  exited: '%prefix%&cꜱᴛᴀꜰꜰ ᴍᴏᴅᴇ ᴅɪꜱᴀᴛᴛɪᴠᴀᴛᴀ. ɪɴᴠᴇɴᴛᴀʀɪᴏ ʀɪᴘʀɪꜱᴛɪɴᴀᴛᴏ.'
-  tp-random-success: '%prefix%&aᴛᴇʟᴇᴛʀᴀꜱᴘᴏʀᴛᴏ ᴄᴀꜱᴜᴀʟᴇ ᴠᴇʀꜱᴏ &#FCD05C%player%&a.'
+  entered: '%prefix%&aꜱᴛᴀꜰꜰ ᴍᴏᴅᴇ ᴀᴛᴛɪᴠᴀᴛᴀ.'
+  exited: '%prefix%&cꜱᴛᴀꜰꜰ ᴍᴏᴅᴇ ᴅɪꜱᴀᴛᴛɪᴠᴀᴛᴀ.'
+  tp-random-success: '%prefix%&aᴛᴘ ᴄᴀꜱᴜᴀʟᴇ ᴠᴇʀꜱᴏ &#FCD05C%player%&a.'
   tp-random-no-players: '%prefix%&cɴᴇꜱꜱᴜɴ ɢɪᴏᴄᴀᴛᴏʀᴇ ᴅɪꜱᴘᴏɴɪʙɪʟᴇ.'
-  tp-target-success: '%prefix%&aᴛᴇʟᴇᴛʀᴀꜱᴘᴏʀᴛᴏ ᴠᴇʀꜱᴏ &#FCD05C%player%&a.'
-  invisibility-on: '%prefix%&aɪɴᴠɪꜱɪʙɪʟɪᴛà (ᴠᴀɴɪꜱʜ) ᴀᴛᴛɪᴠᴀᴛᴀ.'
-  invisibility-off: '%prefix%&cɪɴᴠɪꜱɪʙɪʟɪᴛà (ᴠᴀɴɪꜱʜ) ᴅɪꜱᴀᴛᴛɪᴠᴀᴛᴀ.'
-  auto-entered: '%prefix%&aꜱᴛᴀꜰꜰ ᴍᴏᴅᴇ ᴀᴜᴛᴏᴍᴀᴛɪᴄᴀᴍᴇɴᴛᴇ ᴀᴛᴛɪᴠᴀᴛᴀ (ʀᴏʟᴇᴘʟsᴀʏ ᴍᴏᴅᴇ).'
-  persisted-restored: '%prefix%&aꜱᴛᴀꜰꜰ ᴍᴏᴅᴇ ʀɪꜱᴛᴀʙɪʟɪᴛᴀ ᴅᴀʟ ᴘʀᴇᴄᴇᴅᴇɴᴛᴇ ᴀᴄᴄᴇꜱꜱᴏ.'
-  auto-staffmode-enabled: true
-  auto-staffmode-permission: DistrictRP.autostaffmode
-  auto-staffmode-delay-ticks: 20
-  exit-keep-vanish: true
-  exit-keep-fly: true
-  persist-across-restart: true
-  persist-restore-delay-ticks: 25
+  tp-target-success: '%prefix%&aᴛᴘ ᴠᴇʀꜱᴏ &#FCD05C%player%&a.'
+  invisibility-on: '%prefix%&aɪɴᴠɪꜱɪʙɪʟɪᴛà ᴀᴛᴛɪᴠᴀᴛᴀ.'
+  invisibility-off: '%prefix%&cɪɴᴠɪꜱɪʙɪʟɪᴛà ᴅɪꜱᴀᴛᴛɪᴠᴀᴛᴀ.'
+  scale-applied: '%prefix%&aꜱᴄᴀʟᴇ ɪᴍᴘᴏꜱᴛᴀᴛᴀ ᴀ &#FCD05C%value%&a.'
+  auto-entered: '%prefix%&aꜱᴛᴀꜰꜰ ᴍᴏᴅᴇ ᴀᴜᴛᴏ ᴀᴛᴛɪᴠᴀᴛᴀ (ʀᴏʟᴇᴘʟᴀʏ).'
+  persisted-restored: '%prefix%&aꜱᴛᴀꜰꜰ ᴍᴏᴅᴇ ʀɪꜱᴛᴀʙɪʟɪᴛᴀ.'
   gui-player-hover:
     - ''
     - '&7ᴘᴏꜱɪᴢɪᴏɴᴇ &8» &f%x%, %y%, %z%'
@@ -420,8 +414,8 @@ staffmode:
     - '&7ᴍᴏᴅᴀʟɪᴛà &8» &f%gamemode%'
     - '&7ᴜᴜɪᴅ &8» &7%uuid%'
     - ''
-    - '&aᴄʟɪᴄᴋ ꜱɪɴɪꜱᴛʀᴏ &8» &7ᴛᴇʟᴇᴛʀᴀꜱᴘᴏʀᴛᴏ'
-    - '&cᴄʟɪᴄᴋ ᴅᴇꜱᴛʀᴏ &8» &7ɪꜱᴘᴇᴢɪᴏɴᴀ ɪɴᴠᴇɴᴛᴀʀɪᴏ'
+    - '&aᴄʟɪᴄᴋ ꜱɪɴɪꜱᴛʀᴏ &8» &7ᴛᴘ'
+    - '&cᴄʟɪᴄᴋ ᴅᴇꜱᴛʀᴏ &8» &7ɪɴᴠꜱᴇᴇ'
 
 world:
   entering: '&7ᴛɪ ꜱᴛᴀɪ ᴛᴇʟᴇᴛʀᴀꜱᴘᴏʀᴛᴀɴᴅᴏ ᴀ &#FCD05C%world%&7...'
@@ -584,24 +578,24 @@ chatgate:
 
 servermode:
   usage: '%prefix%&cᴜꜱᴏ: &f/ᴅɪꜱᴛʀɪᴄᴛʀᴘ ᴍᴏᴅᴇ <ʟᴏʙʙʏ|ᴄʀᴇᴀᴛɪᴠᴇ|ʀᴏʟᴇᴘʟᴀʏ|ᴏꜰꜰ>'
-  current: '%prefix%&fᴍᴏᴅᴀʟɪᴛà ꜱᴇʀᴠᴇʀ ᴀᴛᴛᴜᴀʟᴇ: &#FCD05C%mode%'
-  changed: '%prefix%&aᴍᴏᴅᴀʟɪᴛà ꜱᴇʀᴠᴇʀ ᴄᴀᴍʙɪᴀᴛᴀ ɪɴ &#FCD05C%mode%&a.'
-  broadcast: '%prefix%&eʟᴀ ᴍᴏᴅᴀʟɪᴛà ᴅᴇʟ ꜱᴇʀᴠᴇʀ è ᴏʀᴀ &#FCD05C%mode%&e.'
-  invalid: '%prefix%&cᴍᴏᴅᴀʟɪᴛà ɴᴏɴ ᴠᴀʟɪᴅᴀ. ᴠᴀʟᴏʀɪ: &fʟᴏʙʙʏ, ᴄʀᴇᴀᴛɪᴠᴇ, ʀᴏʟᴇᴘʟᴀʏ, ᴏꜰꜰ'
-  command-disabled: '%prefix%&cQᴜᴇꜱᴛᴏ ᴄᴏᴍᴀɴᴅᴏ è ᴅɪꜱᴀʙɪʟɪᴛᴀᴛᴏ ɪɴ ᴍᴏᴅᴀʟɪᴛà &#FCD05C%mode%&c.'
-  same-mode: '%prefix%&cɪʟ ꜱᴇʀᴠᴇʀ è ɢɪà ɪɴ ᴍᴏᴅᴀʟɪᴛà &#FCD05C%mode%&c.'
+  current: '%prefix%&fᴀᴛᴛᴜᴀʟᴇ: &#FCD05C%mode%'
+  changed: '%prefix%&aᴄᴀᴍʙɪᴀᴛᴀ ɪɴ &#FCD05C%mode%&a.'
+  broadcast: '%prefix%&eꜱᴇʀᴠᴇʀ ᴏʀᴀ ɪɴ &#FCD05C%mode%&e.'
+  invalid: '%prefix%&cᴠᴀʟᴏʀᴇ ɴᴏɴ ᴠᴀʟɪᴅᴏ. ᴜꜱᴀ: &fʟᴏʙʙʏ, ᴄʀᴇᴀᴛɪᴠᴇ, ʀᴏʟᴇᴘʟᴀʏ, ᴏꜰꜰ'
+  command-disabled: '%prefix%&cQᴜᴇꜱᴛᴏ ᴄᴏᴍᴀɴᴅᴏ è ᴅɪꜱᴀʙɪʟɪᴛᴀᴛᴏ ɪɴ &#FCD05C%mode%&c.'
+  same-mode: '%prefix%&cɢɪà ɪɴ &#FCD05C%mode%&c.'
   title-lobby:
-    title: '&#FCD05C&lʟᴏʙʙʏ ᴍᴏᴅᴇ'
-    subtitle: '&7ɪʟ ꜱᴇʀᴠᴇʀ è ᴏʀᴀ ɪɴ ʟᴏʙʙʏ ᴍᴏᴅᴇ'
+    title: '&#FCD05C&lʟᴏʙʙʏ'
+    subtitle: '&7ʙᴇɴᴠᴇɴᴜᴛᴏ'
   title-creative:
-    title: '&b&lᴄʀᴇᴀᴛɪᴠᴇ ᴍᴏᴅᴇ'
-    subtitle: '&7ᴄᴏꜱᴛʀᴜɪꜱᴄɪ ʟɪʙᴇʀᴀᴍᴇɴᴛᴇ ɴᴇʟ ᴛᴜᴏ ᴘʟᴏᴛ'
+    title: '&b&lᴄʀᴇᴀᴛɪᴠᴇ'
+    subtitle: '&7ᴄᴏꜱᴛʀᴜɪꜱᴄɪ ʟɪʙᴇʀᴀᴍᴇɴᴛᴇ'
   title-roleplay:
-    title: '&#FCD05C&lʀᴏʟᴇᴘʟᴀʏ ᴍᴏᴅᴇ'
+    title: '&#FCD05C&lʀᴏʟᴇᴘʟᴀʏ'
     subtitle: '&7ʙᴇɴᴠᴇɴᴜᴛᴏ ɪɴ ᴄɪᴛᴛà'
   title-off:
     title: '&8&lᴏꜰꜰ'
-    subtitle: '&7ɴᴇꜱꜱᴜɴᴀ ᴍᴏᴅᴀʟɪᴛà ᴀᴛᴛɪᴠᴀ'
+    subtitle: '&7ɴᴇꜱꜱᴜɴᴀ ᴍᴏᴅᴀʟɪᴛà'
 
 plot:
   not-installed: '%prefix%&cᴘʟᴏᴛꜱQᴜᴀʀᴇᴅ ɴᴏɴ è ɪɴꜱᴛᴀʟʟᴀᴛᴏ ꜱᴜ Qᴜᴇꜱᴛᴏ ꜱᴇʀᴠᴇʀ.'
@@ -688,3 +682,21 @@ autoinstaller:
   already-present: '&7• %plugin% ɢɪà ᴘʀᴇꜱᴇɴᴛᴇ.'
   download-failed: '&c✖ ᴅᴏᴡɴʟᴏᴀᴅ ꜰᴀʟʟɪᴛᴏ: %plugin%'
   shutdown-warning: '&c▲ ʀɪᴀᴠᴠɪᴀ ɪʟ ꜱᴇʀᴠᴇʀ ᴘᴇʀ ᴄᴏᴍᴘʟᴇᴛᴀʀᴇ ʟ''ɪɴꜱᴛᴀʟʟᴀᴢɪᴏɴᴇ!'
+
+camera:
+  help:
+    - ''
+    - '&#FCD05C&l⓵ &r&#FCD05C/ᴄᴀ'
+    - ''
+    - '&#FCD05C» &r&#FCD05C/ᴄᴀᴍ ɢɢɪᴜɴɢɪ &8- &7ꜱᴀʟᴠᴀ ʟᴀ ᴏꜱɪᴢɪᴏɴᴇ ᴄᴀᴍ'
+    - '&#FCD05C» &r&#FCD05C/ᴄᴀ ʀɪᴜᴏᴠɪ &8- &7ʀɪᴍᴜᴏᴠᴇ ʟᴀ ᴄᴍ'
+    - '&#FCD05C» &r&#FCD05C/ᴄᴀᴍ ᴛᴇʟᴇᴛʀᴀᴘᴏᴛᴀ &8- &7ᴠᴀɪ ʟʟ ᴄᴀᴍ'
+    - ''
+  added: '%prefix%&aᴄᴀᴍᴇʀᴀ ꜱᴀʟᴠᴀᴛᴀ.'
+  removed: '%prefix%&cᴄᴀᴍᴇʀᴀ ʀɪᴍᴏꜱꜱᴀ.'
+  teleported: '%prefix%&aᴛᴇʟᴇᴛʀᴀꜱᴘᴏʀᴛᴀᴛᴏ ʟʟ ᴄᴀᴍᴇʀᴀ.'
+  not-set: '%prefix%&cɴᴇꜱᴜɴᴀ ᴄᴀᴍᴇʀᴀ ᴄᴏɴꜰɪɢᴜʀᴛᴀ. ꜱᴀ &f/ᴄᴀ ᴀɢɪᴜɴɢɪ&c.'
+
+logout-hologram:
+  enabled: '%prefix%&aᴏʟᴏɢʀᴀᴍᴍᴀ ʟᴏɢᴏᴜᴛ ᴀᴛᴛɪᴠᴏ.'
+  disabled: '%prefix%&cᴏʟᴏɢʀᴀᴍᴍᴀ ʟᴏɢᴏᴜᴛ ᴅɪꜱᴀᴛᴛɪᴠᴀᴛᴏ.'

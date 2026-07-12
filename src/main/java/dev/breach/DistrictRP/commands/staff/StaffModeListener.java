@@ -18,7 +18,6 @@ import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerSwapHandItemsEvent;
-
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
@@ -60,7 +59,10 @@ public class StaffModeListener implements Listener {
 
         switch (tool) {
             case TP_RANDOM -> handleTpRandom(p);
-            case INVISIBILITY -> manager.toggleInvisibility(p);
+            case VANISH -> {
+                if (plugin.getVanishManager() != null) plugin.getVanishManager().toggle(p);
+            }
+            case SCALE_SMALL, SCALE_NORMAL -> applyScale(p, StaffModeItems.getScaleValue(plugin, held));
             case PLAYER_LIST -> gui.openPlayerList(p);
             case STAFF_LIST -> gui.openStaffList(p);
             case EXIT -> manager.exit(p);
@@ -84,6 +86,12 @@ public class StaffModeListener implements Listener {
         Player target = candidates.get(random.nextInt(candidates.size()));
         p.teleport(target.getLocation());
         MessageUtils.sendMsg(p, "staffmode.tp-random-success", "player", target.getName());
+    }
+
+    private void applyScale(Player p, double value) {
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
+                "attribute " + p.getName() + " minecraft:scale base set " + value);
+        MessageUtils.sendMsg(p, "staffmode.scale-applied", "value", String.valueOf(value));
     }
 
     @EventHandler(priority = EventPriority.HIGH)

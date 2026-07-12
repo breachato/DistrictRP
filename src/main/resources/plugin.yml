@@ -20,6 +20,10 @@ commands:
     usage: /districtrp [sub-comando]
     aliases: [drp]
     permission: DistrictRP.use
+  cam:
+    description: Gestione camera loading screen
+    usage: /cam <aggiungi|rimuovi|teletrasporta>
+    permission: DistrictRP.camera
   spawn:
     usage: /spawn [world]
     permission: DistrictRP.spawn
@@ -212,6 +216,10 @@ permissions:
     default: op
   DistrictRP.stuck.admin:
     default: op
+  DistrictRP.camera:
+    default: op
+  DistrictRP.loading.bypass:
+    default: false
   DistrictRP.vip:
     default: false
   DistrictRP.vipplus:

@@ -63,6 +63,7 @@ chat:
       - '&#FCD05Cᴄʟɪᴄᴄᴀ ᴘᴇʀ ᴄᴏᴘɪᴀʀᴇ ɪʟ ɴᴏᴍᴇ'
   formats:
     normal: '&7%rp_name% &8» &#D7D7D7%message%'
+    roleplay: '%chat_prefix%%name_color%%display_name% &8» %msg_color%%message%'
     azione:
       radius: 15
       format: '&#FCD05Cᴀᴢɪᴏɴᴇ &r&7%rp_name% &8» &e%message%'
@@ -124,165 +125,219 @@ stafflist:
     abbigliamento:
       symbol: ''
       permission: DistrictRP.rank.abbigliamento
+      color: '&#FF6B00'
     admin:
       symbol: ''
       permission: DistrictRP.rank.admin
+      color: '&#FF6B00'
     banca:
       symbol: ''
       permission: DistrictRP.rank.banca
+      color: '&#FF6B00'
     blacklist:
       symbol: ''
       permission: DistrictRP.rank.blacklist
+      color: '&#FF6B00'
     builder:
       symbol: ''
       permission: DistrictRP.rank.builder
+      color: '&#FF6B00'
     burgy:
       symbol: ''
       permission: DistrictRP.rank.burgy
+      color: '&#FF6B00'
     casino:
       symbol: ''
       permission: DistrictRP.rank.casino
+      color: '&#FF6B00'
     cinema:
       symbol: ''
       permission: DistrictRP.rank.cinema
+      color: '&#FF6B00'
     concessionaria:
       symbol: ''
       permission: DistrictRP.rank.concessionaria
+      color: '&#FF6B00'
     crime:
       symbol: ''
       permission: DistrictRP.rank.crime
+      color: '&#FF6B00'
     developer:
       symbol: ''
       permission: DistrictRP.rank.developer
+      color: '&#FF6B00'
     discoteca:
       symbol: ''
       permission: DistrictRP.rank.discoteca
+      color: '&#FF6B00'
     district:
       symbol: ''
       permission: DistrictRP.rank.district
+      color: '&#FF6B00'
     edicola:
       symbol: ''
       permission: DistrictRP.rank.edicola
+      color: '&#FF6B00'
     electronics:
       symbol: ''
       permission: DistrictRP.rank.electronics
+      color: '&#FF6B00'
     esta_the:
       symbol: ''
       permission: DistrictRP.rank.esta_the
+      color: '&#FF6B00'
     estate:
       symbol: ''
       permission: DistrictRP.rank.estate
+      color: '&#FF6B00'
     fdo:
       symbol: ''
       permission: DistrictRP.rank.fdo
+      color: '&#FF6B00'
     fdo_2:
       symbol: ''
       permission: DistrictRP.rank.fdo_2
+      color: '&#FF6B00'
     finanza:
       symbol: ''
       permission: DistrictRP.rank.finanza
+      color: '&#FF6B00'
     fondatore:
       symbol: ''
       permission: DistrictRP.rank.fondatore
+      color: '&#FF6B00'
     gestore:
       symbol: ''
       permission: DistrictRP.rank.gestore
+      color: '&#FF6B00'
     gioielleria:
       symbol: ''
       permission: DistrictRP.rank.gioielleria
+      color: '&#FF6B00'
     helper:
       symbol: ''
       permission: DistrictRP.rank.helper
+      color: '&#FF6B00'
     immobiliare:
       symbol: ''
       permission: DistrictRP.rank.immobiliare
+      color: '&#FF6B00'
     magazzino:
       symbol: ''
       permission: DistrictRP.rank.magazzino
+      color: '&#FF6B00'
     magistratura:
       symbol: ''
       permission: DistrictRP.rank.magistratura
+      color: '&#FF6B00'
     market:
       symbol: ''
       permission: DistrictRP.rank.market
+      color: '&#FF6B00'
     mod:
       symbol: ''
       permission: DistrictRP.rank.mod
+      color: '&#FF6B00'
     oracolo:
       symbol: ''
       permission: DistrictRP.rank.oracolo
+      color: '&#FF6B00'
     ottica:
       symbol: ''
       permission: DistrictRP.rank.ottica
+      color: '&#FF6B00'
     pasticceria:
       symbol: ''
       permission: DistrictRP.rank.pasticceria
+      color: '&#FF6B00'
     polizia:
       symbol: ''
       permission: DistrictRP.rank.polizia
+      color: '&#FF6B00'
     ricercato:
       symbol: ''
       permission: DistrictRP.rank.ricercato
+      color: '&#FF6B00'
     scuola:
       symbol: ''
       permission: DistrictRP.rank.scuola
+      color: '&#FF6B00'
     security:
       symbol: ''
       permission: DistrictRP.rank.security
+      color: '&#FF6B00'
     senato:
       symbol: ''
       permission: DistrictRP.rank.senato
+      color: '&#FF6B00'
     sospetto:
       symbol: ''
       permission: DistrictRP.rank.sospetto
+      color: '&#FF6B00'
     srmod:
       symbol: ''
       permission: DistrictRP.rank.srmod
+      color: '&#FF6B00'
     staff:
       symbol: ''
       permission: DistrictRP.rank.staff
+      color: '&#FF6B00'
     staffer:
       symbol: ''
       permission: DistrictRP.rank.staffer
+      color: '&#FF6B00'
     taxi:
       symbol: ''
       permission: DistrictRP.rank.taxi
+      color: '&#FF6B00'
     texturemaker:
       symbol: ''
       permission: DistrictRP.rank.texturemaker
+      color: '&#FF6B00'
     the:
       symbol: ''
       permission: DistrictRP.rank.the
+      color: '&#FF6B00'
     traslochi:
       symbol: ''
       permission: DistrictRP.rank.traslochi
+      color: '&#FF6B00'
     tutor:
       symbol: ''
       permission: DistrictRP.rank.tutor
+      color: '&#FF6B00'
     utente:
       symbol: ''
       permission: DistrictRP.rank.utente
+      color: '&#FF6B00'
     vesuvio:
       symbol: ''
       permission: DistrictRP.rank.vesuvio
+      color: '&#FF6B00'
     vulcano:
       symbol: ''
       permission: DistrictRP.rank.vulcano
+      color: '&#FF6B00'
     wanted:
       symbol: ''
       permission: DistrictRP.rank.wanted
+      color: '&#FF6B00'
     mvpplus:
       symbol: ''
       permission: DistrictRP.mvpplus
+      color: '&#FF6B00'
     mvp:
       symbol: ''
       permission: DistrictRP.mvp
+      color: '&#FF6B00'
     vipplus:
       symbol: ''
       permission: DistrictRP.vipplus
+      color: '&#FF6B00'
     vip:
       symbol: ''
       permission: DistrictRP.vip
+      color: '&#FF6B00'
 
   vip-symbols:
     order:
@@ -293,15 +348,19 @@ stafflist:
     mvpplus:
       symbol: ''
       permission: DistrictRP.mvpplus
+      color: '&#FF6B00'
     mvp:
       symbol: ''
       permission: DistrictRP.mvp
+      color: '&#FF6B00'
     vipplus:
       symbol: ''
       permission: DistrictRP.vipplus
+      color: '&#FF6B00'
     vip:
       symbol: ''
       permission: DistrictRP.vip
+      color: '&#FF6B00'
 
 staffmode:
   permission: DistrictRP.staffmode
@@ -319,25 +378,17 @@ staffmode:
   block-block-place: true
   block-damage: true
   restore-location-on-exit: false
-  actionbar:
-    enabled: true
-    refresh-ticks: 20
-    header: '&#FCD05C\uF50Aᴀɴɪꜱʜᴇᴅ %vanish_state% &fᴛᴘꜱ: &#FCD05C%tps%'
-    vanish-on: '&#FCD05C(✔)'
-    vanish-off: '&c(✗)'
-    subline-tp-random: '&e✈ &fᴛᴇʟᴇᴛʀᴀꜱᴘᴏʀᴛᴏ ᴄᴀꜱᴜᴀʟᴇ'
-    subline-invisibility: '&d✿ &fɪɴᴠɪꜱɪʙɪʟɪᴛà (ᴠᴀɴɪꜱʜ)'
-    subline-player-list: '&b☰ &fʟɪꜱᴛᴀ ɢɪᴏᴄᴀᴛᴏʀɪ'
-    subline-staff-list: '&5✎ &fʟɪꜱᴛᴀ ꜱᴛᴀꜰꜰ'
-    subline-exit: '&c✖ &fᴇꜱᴄɪ ᴅᴀ ꜱᴛᴀꜰꜰ ᴍᴏᴅᴇ'
-    subline-none: ''
-  gui:
-    player-list-title: '&8Lista Giocatori'
-    staff-list-title: '&8Lista Staff'
-    player-list-rows: 6
-    staff-list-rows: 6
+  exit-keep-vanish: true
+  exit-keep-fly: true
+  persist-across-restart: true
+  persist-restore-delay-ticks: 25
+  auto-staffmode-enabled: true
+  auto-staffmode-permission: DistrictRP.autostaffmode
+  auto-staffmode-delay-ticks: 20
+
   items:
     tp-random:
+      enabled: true
       slot: 0
       material: RECOVERY_COMPASS
       name: '&#FCD05C&lᴛᴇʟᴇᴛʀᴀꜱᴘᴏʀᴛᴏ ᴄᴀꜱᴜᴀʟᴇ'
@@ -345,38 +396,64 @@ staffmode:
         - ''
         - '&7Click destro per teletrasportarti'
         - '&7ad un giocatore casuale online.'
-    invisibility:
+
+    vanish:
+      enabled: true
       slot: 1
       material: BLAZE_ROD
-      name: '&#FCD05C&lɪɴᴠɪꜱɪʙɪʟɪᴛà (ᴠᴀɴɪꜱʜ)'
+      name: '&#FCD05C&lᴠᴀɴɪꜱʜ'
       lore:
         - ''
         - '&7Click destro per attivare/disattivare'
-        - '&7il vanish. Gli staff si vedono tra loro.'
+        - '&7il vanish (alias di /vanish).'
+
+    scale-small:
+      enabled: true
+      slot: 2
+      material: RABBIT_HIDE
+      name: '&#FCD05C&lꜱᴄᴀʟᴇ &7- &f0.01'
+      scale-value: 0.01
+      lore:
+        - ''
+        - '&7Click destro per rimpicciolirti.'
+
+    scale-normal:
+      enabled: true
+      slot: 3
+      material: LEATHER
+      name: '&#FCD05C&lꜱᴄᴀʟᴇ &7- &f1.0'
+      scale-value: 1.0
+      lore:
+        - ''
+        - '&7Click destro per tornare normale.'
+
     player-list:
+      enabled: true
       slot: 4
       material: ENDER_PEARL
       name: '&#FCD05C&lʟɪꜱᴛᴀ ɢɪᴏᴄᴀᴛᴏʀɪ'
       lore:
         - ''
-        - '&7Click destro per visualizzare tutti'
-        - '&7i giocatori online.'
+        - '&7Visualizza tutti i giocatori online.'
+
     staff-list:
+      enabled: true
       slot: 7
       material: BOOK
       name: '&#FCD05C&lʟɪꜱᴛᴀ ꜱᴛᴀꜰꜰ'
       lore:
         - ''
-        - '&7Click destro per visualizzare tutti'
-        - '&7gli staff online.'
+        - '&7Visualizza tutti gli staff online.'
+
     exit:
+      enabled: true
       slot: 8
       material: BARRIER
       name: '&c&lᴇꜱᴄɪ ᴅᴀ ꜱᴛᴀꜰꜰ ᴍᴏᴅᴇ'
       lore:
         - ''
-        - '&7Click destro per disattivare'
-        - '&7la modalità staff.'
+        - '&7Disattiva la modalità staff.'
+
 
 vanish:
   tab-suffix: ' &#D7D7D7- ᴠᴀɴɪꜱʜ -'
@@ -763,6 +840,15 @@ auto-installer:
       url: 'https://api.spiget.org/v2/resources/6245/download'
       required: true
 
+    ProtocolLib:
+      enabled: true
+      plugin-name: ProtocolLib
+      file-name: ProtocolLib.jar
+      file-aliases:
+        - protocollib
+      url: 'https://ci.dmulloy2.net/job/ProtocolLib/lastSuccessfulBuild/artifact/target/ProtocolLib.jar'
+      required: false
+
     LuckPerms:
       enabled: true
       plugin-name: LuckPerms
@@ -804,5 +890,55 @@ auto-installer:
       file-name: Multiverse-Core.jar
       url: 'https://dev.bukkit.org/projects/multiverse-core/files/latest'
       required: false
+
+chat-rules:
+  high-staff-ranks:
+    - mod
+    - srmod
+    - admin
+    - fondatore
+    - developer
+  high-staff-name-color: '&f'
+  high-staff-msg-color: '&f'
+  default-name-color: '&7'
+  default-msg-color: '&7'
+
+camera:
+  permission: DistrictRP.camera
+
+loading:
+  enabled: true
+  duration-seconds: 15
+  bypass-permission: DistrictRP.loading.bypass
+  title: '&#FCD05C&lᴅɪꜱᴛʀɪᴄᴛᴘ'
+  welcome-title: '&#FCD05C&lʙᴇɴᴠᴇɴᴜᴛᴏ'
+  welcome-subtitle: '&7 '
+
+logout-hologram:
+  enabled: true
+  duration-seconds: 15
+  line-1: '&c✖ %player% ꜱɪ è ᴅɪꜱᴄᴏɴɴᴇꜱꜱᴏ'
+  line-2: '&7%date%'
+  background-alpha: 128
+  background-red: 0
+  background-green: 0
+  background-blue: 0
+
+profile-scoreboard:
+  duration-seconds: 10
+  title: '&#FCD05C&lᴘʀᴏꜰɪʟᴏ &7— &f%player%'
+  lines:
+    - ''
+    - '&7ɴᴏᴍᴇ ɪᴄ &8» &f%rpfullname%'
+    - '&7ᴄᴏᴅɪᴄᴇ ꜰɪꜱᴄᴀʟᴇ &8» &f%cf%'
+    - '&7ᴇᴛà &8» &f%age%'
+    - '&7ꜱᴇꜱꜱᴏ &8» &f%gender%'
+    - '&7ɴᴀᴢɪᴏɴᴀʟɪᴛà &8» &f%nationality%'
+    - '&7ʟᴀᴠᴏʀᴏ &8» &f%job%'
+    - '&7ᴀᴢɪᴇɴᴅᴀ &8» &f%azienda%'
+    - '&7ʀᴜᴏʟᴏ &8» &f%ruolo%'
+    - '&7ꜱᴏʟᴅɪ &8» &f%money%'
+    - ''
+    - '&#FCD05C&lᴅɪꜱᴛʀɪᴄᴛʀᴘ'
 
 server-id: 'lobby'

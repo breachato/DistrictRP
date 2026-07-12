@@ -29,40 +29,36 @@ public class WorldManager {
 
         try {
             Plugin mv = Bukkit.getPluginManager().getPlugin("Multiverse-Core");
+
             if (mv != null && mv.isEnabled()) {
                 String ver = mv.getDescription().getVersion();
                 if (ver != null && !ver.isEmpty()) {
                     try {
-                        String num = ver.split("[.-]")[0];
-                        major = Integer.parseInt(num);
+                        major = Integer.parseInt(ver.split("[.-]")[0]);
                     } catch (Exception ignored) {}
                 }
 
-                if (major >= 5) {
-                    try {
-                        Class<?> mvCoreClass = mv.getClass();
-                        Method getService = mvCoreClass.getMethod("getService", Class.class);
+                try {
+                    if (major >= 5) {
+                        Method getService = mv.getClass().getMethod("getService", Class.class);
                         Class<?> wmClass = Class.forName("org.mvplugins.multiverse.core.world.WorldManager");
                         mvwm = getService.invoke(mv, wmClass);
                         ok = (mvwm != null);
                         if (ok) plugin.getLogger().info("Multiverse-Core 5.x hookato correttamente.");
-                    } catch (Throwable t5) {
-                        plugin.getLogger().warning("Hook MV 5.x fallito: " + t5.getMessage());
-                    }
-                } else {
-                    try {
+                    } else {
                         Method getMVWM = mv.getClass().getMethod("getMVWorldManager");
                         mvwm = getMVWM.invoke(mv);
                         ok = (mvwm != null);
                         if (ok) plugin.getLogger().info("Multiverse-Core 4.x hookato correttamente.");
-                    } catch (Throwable t4) {
-                        plugin.getLogger().warning("Hook MV 4.x fallito: " + t4.getMessage());
                     }
+                } catch (Throwable t) {
+                    plugin.getLogger().warning("Hook MV " + (major >= 5 ? "5.x" : "4.x") + " fallito: " + t.getMessage());
                 }
             }
         } catch (Throwable t) {
             plugin.getLogger().warning("Hook Multiverse fallito globalmente: " + t.getMessage());
         }
+
         this.mvWorldManager = mvwm;
         this.mvAvailable = ok;
         this.mvMajorVersion = major;
@@ -107,12 +103,8 @@ public class WorldManager {
         if (mvAvailable) {
             try {
                 if (worldExists(folderName)) return true;
-
-                if (mvMajorVersion >= 5) {
-                    return importWorldMV5(folderName, env);
-                } else {
-                    return importWorldMV4(folderName, env);
-                }
+                if (mvMajorVersion >= 5) return importWorldMV5(folderName, env);
+                else return importWorldMV4(folderName, env);
             } catch (Throwable t) {
                 plugin.getLogger().warning("MV importWorld fallita, fallback Bukkit: " + t.getMessage());
             }
@@ -130,14 +122,8 @@ public class WorldManager {
 
     private boolean importWorldMV4(String folderName, World.Environment env) throws Exception {
         Method addWorld = mvWorldManager.getClass().getMethod(
-                "addWorld",
-                String.class,
-                World.Environment.class,
-                String.class,
-                org.bukkit.WorldType.class,
-                Boolean.class,
-                String.class
-        );
+                "addWorld", String.class, World.Environment.class,
+                String.class, org.bukkit.WorldType.class, Boolean.class, String.class);
         Object res = addWorld.invoke(mvWorldManager, folderName, env, null, null, true, null);
         return res instanceof Boolean && (Boolean) res;
     }
@@ -149,13 +135,10 @@ public class WorldManager {
             Object opts = worldName.invoke(null, folderName);
             Method envMethod = opts.getClass().getMethod("environment", World.Environment.class);
             opts = envMethod.invoke(opts, env);
-
             Method imp = mvWorldManager.getClass().getMethod("importWorld", importOpts);
             Object result = imp.invoke(mvWorldManager, opts);
-
             Method isSuccess = result.getClass().getMethod("isSuccess");
-            Object success = isSuccess.invoke(result);
-            return Boolean.TRUE.equals(success);
+            return Boolean.TRUE.equals(isSuccess.invoke(result));
         } catch (Throwable t) {
             plugin.getLogger().warning("MV5 importWorld fallita: " + t.getMessage());
             return false;
@@ -178,11 +161,9 @@ public class WorldManager {
                     }
                 } else {
                     Method isMV = mvWorldManager.getClass().getMethod("isMVWorld", String.class);
-                    Object exists = isMV.invoke(mvWorldManager, name);
-                    if (Boolean.TRUE.equals(exists)) {
+                    if (Boolean.TRUE.equals(isMV.invoke(mvWorldManager, name))) {
                         Method unload = mvWorldManager.getClass().getMethod("unloadWorld", String.class);
-                        Object res = unload.invoke(mvWorldManager, name);
-                        if (Boolean.TRUE.equals(res)) return true;
+                        if (Boolean.TRUE.equals(unload.invoke(mvWorldManager, name))) return true;
                     }
                 }
             } catch (Throwable t) {

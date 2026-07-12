@@ -202,6 +202,21 @@ public class DistrictRP extends JavaPlugin {
             getLogger().info("  [OK] StaffModeManager auto-registered as Listener (persist)");
         }
 
+        getLogger().info("[INIT] CameraManager...");
+        dev.breach.DistrictRP.functions.camera.CameraManager camMgr =
+                new dev.breach.DistrictRP.functions.camera.CameraManager(this);
+        safeRegister("cam", camMgr);
+
+        getLogger().info("[INIT] LoadingScreenManager...");
+        dev.breach.DistrictRP.functions.loading.LoadingScreenManager loadingMgr =
+                new dev.breach.DistrictRP.functions.loading.LoadingScreenManager(this, camMgr);
+        getServer().getPluginManager().registerEvents(loadingMgr, this);
+
+        getLogger().info("[INIT] LogoutHologramManager...");
+        dev.breach.DistrictRP.functions.hologram.LogoutHologramManager holoMgr =
+                new dev.breach.DistrictRP.functions.hologram.LogoutHologramManager(this);
+        getServer().getPluginManager().registerEvents(holoMgr, this);
+
         try {
             getServer().getMessenger().registerOutgoingPluginChannel(this, ProxyChatBridge.CHANNEL);
             getLogger().info("[ProxyChat] Canale plugin-message registrato: " + ProxyChatBridge.CHANNEL);
@@ -288,6 +303,15 @@ public class DistrictRP extends JavaPlugin {
         }
         try {
             getServer().getMessenger().unregisterOutgoingPluginChannel(this, ProxyChatBridge.CHANNEL);
+        } catch (Throwable ignored) {}
+        try {
+            for (org.bukkit.World w : Bukkit.getWorlds()) {
+                for (org.bukkit.entity.Entity e : w.getEntities()) {
+                    if (e instanceof org.bukkit.entity.TextDisplay td) {
+                        if (td.getScoreboardTags().contains("drp_logout")) td.remove();
+                    }
+                }
+            }
         } catch (Throwable ignored) {}
         getLogger().info("[DistrictRP] Plugin disabilitato. (Tag: " + BUILD_TAG + ")");
     }

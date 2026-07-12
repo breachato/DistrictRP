@@ -54,29 +54,49 @@ public class ChatModule implements Listener {
         Player sender = event.getPlayer();
         String message = event.getMessage();
 
-        boolean isLobby = plugin.getServerModeManager() != null
-                && plugin.getServerModeManager().getCurrent() == ServerMode.LOBBY;
-        boolean isCreative = plugin.getServerModeManager() != null
-                && plugin.getServerModeManager().getCurrent() == ServerMode.CREATIVE;
+        ServerMode mode = plugin.getServerModeManager() != null
+                ? plugin.getServerModeManager().getCurrent() : ServerMode.OFF;
 
-        if (isLobby || isCreative) {
-            handleModeChat(event, sender, message);
+        if (mode == ServerMode.LOBBY || mode == ServerMode.CREATIVE) {
+            handleModeChat(event, sender, message, mode);
+            return;
+        }
+
+        if (mode == ServerMode.ROLEPLAY) {
+            handleRoleplayChat(event, sender, message);
             return;
         }
 
         if (!plugin.getConfig().getBoolean("chat.proximity.enabled", true)) return;
+        handleProximityChat(event, sender, message);
+    }
 
-        double radius = plugin.getConfig().getDouble("chat.proximity.radius", 15);
+    private void handleRoleplayChat(AsyncPlayerChatEvent event, Player sender, String message) {
         event.setCancelled(true);
 
-        String formatRaw = plugin.getConfig().getString("chat.formats.normal",
-                "&7%rp_name% &8» &f%message%");
+        double radius = plugin.getConfig().getDouble("chat.proximity.radius", 15);
         RPProfile profile = profiles.get(sender.getUniqueId());
-        String rpName = profile.hasRpName() ? profile.getRpName() : sender.getName();
-        String rpSurname = profile.getRpSurname() == null ? "" : profile.getRpSurname();
-        String rpFullName = profile.getRpFullName().isEmpty() ? sender.getName() : profile.getRpFullName();
 
-        String legacy = replaceAll(formatRaw, sender.getName(), rpName, rpSurname, rpFullName, message);
+        String chatPrefix = buildRoleplayChatPrefix(sender, profile);
+        String displayName = resolveDisplayName(sender, profile);
+        String nameColor = resolveNameColor(sender);
+        String msgColor = resolveMsgColor(sender);
+
+        String format = plugin.getConfig().getString("chat.formats.roleplay",
+                "%chat_prefix%%name_color%%display_name% &8» %msg_color%%message%");
+
+        String legacy = format
+                .replace("%chat_prefix%", chatPrefix)
+                .replace("%name_color%", nameColor)
+                .replace("%display_name%", displayName)
+                .replace("%msg_color%", msgColor)
+                .replace("%message%", message)
+                .replace("%player%", sender.getName())
+                .replace("%rp_name%", profile.hasRpName() ? profile.getRpName() : sender.getName())
+                .replace("%rp_surname%", profile.getRpSurname() == null ? "" : profile.getRpSurname())
+                .replace("%rp_fullname%", profile.getRpFullName().isEmpty() ? sender.getName() : profile.getRpFullName())
+                .replace("%cf%", sender.getName());
+
         legacy = processPapi(sender, legacy);
         legacy = MessageUtils.color(legacy);
 
@@ -84,6 +104,7 @@ public class ChatModule implements Listener {
 
         Location loc = sender.getLocation();
         boolean nobody = true;
+
         for (Player p : Bukkit.getOnlinePlayers()) {
             if (!p.getWorld().equals(loc.getWorld())) continue;
             if (p.equals(sender)) {
@@ -101,10 +122,42 @@ public class ChatModule implements Listener {
         }
     }
 
+    private void handleProximityChat(AsyncPlayerChatEvent event, Player sender, String message) {
+        event.setCancelled(true);
+
+        double radius = plugin.getConfig().getDouble("chat.proximity.radius", 15);
+        RPProfile profile = profiles.get(sender.getUniqueId());
+        String rpName = profile.hasRpName() ? profile.getRpName() : sender.getName();
+
+        String formatRaw = plugin.getConfig().getString("chat.formats.normal",
+                "&7%rp_name% &8» &f%message%");
+
+        String legacy = replaceAll(formatRaw, sender.getName(), rpName,
+                profile.getRpSurname() == null ? "" : profile.getRpSurname(),
+                profile.getRpFullName().isEmpty() ? sender.getName() : profile.getRpFullName(),
+                message);
+
+        legacy = processPapi(sender, legacy);
+        legacy = MessageUtils.color(legacy);
+
+        BaseComponent[] component = buildHoverComponent(sender, profile, legacy, false);
+
+        Location loc = sender.getLocation();
+        for (Player p : Bukkit.getOnlinePlayers()) {
+            if (!p.getWorld().equals(loc.getWorld())) continue;
+            if (p.equals(sender)) {
+                p.spigot().sendMessage(component);
+                continue;
+            }
+            if (p.getLocation().distance(loc) <= radius) {
+                p.spigot().sendMessage(component);
+            }
+        }
+    }
+
     public static void broadcastRp(DistrictRP plugin, Player sender, String message, ChatType type) {
         RPProfileManager profiles = plugin.getRoleplay() != null
-                ? plugin.getRoleplay().getProfileManager()
-                : null;
+                ? plugin.getRoleplay().getProfileManager() : null;
         RPProfile profile = profiles != null ? profiles.get(sender.getUniqueId()) : null;
         String rpName = (profile != null && profile.hasRpName()) ? profile.getRpName() : sender.getName();
         String rpSurname = (profile != null && profile.getRpSurname() != null) ? profile.getRpSurname() : "";
@@ -116,8 +169,7 @@ public class ChatModule implements Listener {
         String pathFormat = hasRp ? base + ".format" : base + ".anonymous";
 
         String formatRaw = plugin.getConfig().getString(pathFormat,
-                plugin.getConfig().getString(base + ".format",
-                        "&7%rp_name% &8» &f%message%"));
+                plugin.getConfig().getString(base + ".format", "&7%rp_name% &8» &f%message%"));
 
         String legacy = replaceAllStatic(formatRaw, sender.getName(), rpName, rpSurname, rpFullName, message);
         if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
@@ -140,20 +192,17 @@ public class ChatModule implements Listener {
         }
     }
 
-    private void handleModeChat(AsyncPlayerChatEvent event, Player sender, String message) {
+    private void handleModeChat(AsyncPlayerChatEvent event, Player sender, String message, ServerMode mode) {
         event.setCancelled(true);
 
         String rankSymbol = getRankSymbol(sender);
         String vipSuffix = getVipSuffix(sender);
 
-        ServerMode mode = plugin.getServerModeManager().getCurrent();
         String formatRaw = plugin.getConfig().getString(
                 "server-mode.modes." + mode.name() + ".chat-format",
                 "%rank%&f%player%%vip% &8» &7%message%");
 
-        if (formatRaw == null || formatRaw.equalsIgnoreCase("null") || formatRaw.isEmpty()) {
-            return;
-        }
+        if (formatRaw == null || formatRaw.equalsIgnoreCase("null") || formatRaw.isEmpty()) return;
 
         String legacy = formatRaw
                 .replace("%rank%", rankSymbol.isEmpty() ? "" : rankSymbol + " ")
@@ -170,6 +219,116 @@ public class ChatModule implements Listener {
         for (Player p : Bukkit.getOnlinePlayers()) {
             p.spigot().sendMessage(component);
         }
+    }
+
+    private String buildRoleplayChatPrefix(Player sender, RPProfile profile) {
+        StringBuilder prefix = new StringBuilder();
+
+        String aziendaDisplay = getAziendaDisplay(profile);
+        if (!aziendaDisplay.isEmpty()) prefix.append(aziendaDisplay).append(" ");
+
+        String ruoloDisplay = getAziendaRuoloDisplay(profile);
+        if (!ruoloDisplay.isEmpty()) prefix.append(ruoloDisplay).append(" ");
+
+        String staffRank = getStaffRank(sender);
+        if (!staffRank.isEmpty()) {
+            String staffSymbol = getStaffSymbol(staffRank);
+            if (!staffSymbol.isEmpty()) prefix.append(staffSymbol).append(" ");
+        }
+
+        boolean highStaff = isHighStaff(staffRank);
+        if (!highStaff) {
+            String vipSym = getVipSymbolForChat(sender);
+            if (!vipSym.isEmpty()) prefix.append("&f").append(vipSym).append(" ");
+        }
+
+        return prefix.toString();
+    }
+
+    private String resolveDisplayName(Player sender, RPProfile profile) {
+        String staffRank = getStaffRank(sender);
+        boolean highStaff = isHighStaff(staffRank);
+
+        if (highStaff) {
+            if (profile.hasRpName()) return profile.getRpFullName();
+            return sender.getName();
+        }
+
+        if (profile.hasRpName()) return profile.getRpFullName();
+        return sender.getName();
+    }
+
+    private String resolveNameColor(Player sender) {
+        String staffRank = getStaffRank(sender);
+        if (isHighStaff(staffRank)) {
+            return plugin.getConfig().getString("chat-rules.high-staff-name-color", "&f");
+        }
+        return plugin.getConfig().getString("chat-rules.default-name-color", "&7");
+    }
+
+    private String resolveMsgColor(Player sender) {
+        String staffRank = getStaffRank(sender);
+        if (isHighStaff(staffRank)) {
+            return plugin.getConfig().getString("chat-rules.high-staff-msg-color", "&f");
+        }
+        return plugin.getConfig().getString("chat-rules.default-msg-color", "&7");
+    }
+
+    private String getAziendaDisplay(RPProfile profile) {
+        if (!profile.hasAzienda()) return "";
+        String az = profile.getAzienda().toLowerCase();
+        ConfigurationSection ranks = plugin.getConfig().getConfigurationSection("stafflist.ranks");
+        if (ranks == null) return "";
+        String symbol = ranks.getString(az + ".symbol", "");
+        if (!symbol.isEmpty()) return symbol;
+        String color = ranks.getString(az + ".color", "&f");
+        return color + profile.getAzienda();
+    }
+
+    private String getAziendaRuoloDisplay(RPProfile profile) {
+        if (!profile.hasAzienda()) return "";
+        String ruolo = profile.getAziendaRuolo();
+        if (ruolo == null || ruolo.isEmpty()) return "";
+        String az = profile.getAzienda().toLowerCase();
+        String color = plugin.getConfig().getString("stafflist.ranks." + az + ".color", "&f");
+        return color + "[" + ruolo + "]";
+    }
+
+    private String getStaffRank(Player player) {
+        ConfigurationSection ranks = plugin.getConfig().getConfigurationSection("stafflist.ranks");
+        if (ranks == null) return "";
+        for (String order : plugin.getConfig().getStringList("stafflist.order")) {
+            String perm = ranks.getString(order + ".permission", "");
+            if (!perm.isEmpty() && player.hasPermission(perm)) return order;
+        }
+        return "";
+    }
+
+    private String getStaffSymbol(String rank) {
+        if (rank.isEmpty()) return "";
+        return plugin.getConfig().getString("stafflist.ranks." + rank + ".symbol", "");
+    }
+
+    private boolean isHighStaff(String rank) {
+        if (rank == null || rank.isEmpty()) return false;
+        List<String> highRanks = plugin.getConfig().getStringList("chat-rules.high-staff-ranks");
+        return highRanks.contains(rank.toLowerCase());
+    }
+
+    private String getVipSymbolForChat(Player player) {
+        ConfigurationSection vips = plugin.getConfig().getConfigurationSection("vip-symbols");
+        if (vips == null) return "";
+        for (String order : plugin.getConfig().getStringList("vip-symbols.order")) {
+            ConfigurationSection v = vips.getConfigurationSection(order);
+            if (v == null) continue;
+            String perm = v.getString("permission", "");
+            String symbol = v.getString("symbol", "");
+            if (perm.isEmpty() || symbol == null || symbol.isEmpty()) continue;
+            boolean hasExplicit = player.getEffectivePermissions().stream()
+                    .anyMatch(pai -> pai.getPermission().equalsIgnoreCase(perm) && pai.getValue());
+            if (hasExplicit) return symbol;
+        }
+        return "";
     }
 
     private String getRankSymbol(Player player) {
@@ -218,34 +377,20 @@ public class ChatModule implements Listener {
         if (modeChat) {
             ServerMode mode = plugin.getServerModeManager() != null
                     ? plugin.getServerModeManager().getCurrent() : ServerMode.OFF;
-            hoverLines = plugin.getConfig().getStringList(
-                    "server-mode.modes." + mode.name() + ".hover-lines");
+            hoverLines = plugin.getConfig().getStringList("server-mode.modes." + mode.name() + ".hover-lines");
             if (hoverLines.isEmpty()) {
-                hoverLines = List.of(
-                        "&7Nome: &f" + cf,
-                        "",
-                        "&#FCD05Cᴄʟɪᴄᴄᴀ ᴘᴇʀ ᴄᴏᴘɪᴀʀᴇ ɪʟ ɴᴏᴍᴇ"
-                );
+                hoverLines = List.of("&7Nome: &f" + cf, "", "&#FCD05Cclick per copiare");
             }
         } else if (profile.hasRpName()) {
             hoverLines = plugin.getConfig().getStringList("chat.hover.lines");
             if (hoverLines.isEmpty()) {
-                hoverLines = List.of(
-                        "&7Nome: &f" + rpName,
-                        "&7Cognome: &f" + rpSurname,
-                        "&7Codice Fiscale: &f" + cf,
-                        "",
-                        "&#FCD05Cᴄʟɪᴄᴄᴀ ᴘᴇʀ ᴄᴏᴘɪᴀʀᴇ ɪʟ ɴᴏᴍᴇ"
-                );
+                hoverLines = List.of("&7Nome: &f" + rpName, "&7Cognome: &f" + rpSurname,
+                        "&7CF: &f" + cf, "", "&#FCD05Cclick per copiare");
             }
         } else {
             hoverLines = plugin.getConfig().getStringList("chat.hover.lines-no-rp");
             if (hoverLines.isEmpty()) {
-                hoverLines = List.of(
-                        "&7Nome: &f" + cf,
-                        "",
-                        "&#FCD05Cᴄʟɪᴄᴄᴀ ᴘᴇʀ ᴄᴏᴘɪᴀʀᴇ ɪʟ ɴᴏᴍᴇ"
-                );
+                hoverLines = List.of("&7Nome: &f" + cf, "", "&#FCD05Cclick per copiare");
             }
         }
 

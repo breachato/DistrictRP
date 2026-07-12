@@ -4,71 +4,25 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f8484a99-3ebb-4cf7-8822-eb79d36ef2c3" name="Changes" comment=",">
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/staff/AutoStaffModeListener.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/staff/proxychat/ProxyChatBridge.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/staff/proxychat/ProxyChatCommand.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/staff/proxychat/ProxyChatSymbolListener.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/database/DataStore.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/database/DatabaseConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/database/DatabaseManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/database/DatabaseTable.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/database/MariaDBDataStore.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/database/MigrationCommand.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/database/ProfileRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/database/Repository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/database/StorageType.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/database/YamlDataStore.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/database/repository/AppuntamentoRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/database/repository/ChatSymRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/database/repository/LogsRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/database/repository/PlaytimeRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/database/repository/ServerModeRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/database/repository/StaffModeRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/database/repository/TicketRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/database/repository/VanishRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/database/repository/WarpRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/database/tables/AppuntamentiTable.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/database/tables/ChatSymTable.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/database/tables/HomesTable.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/database/tables/LogsTable.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/database/tables/PlaytimeTable.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/database/tables/ProfilesTable.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/database/tables/ServerModeTable.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/database/tables/StaffModeTable.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/database/tables/TicketCommentsTable.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/database/tables/TicketsTable.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/database/tables/VanishTable.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/database/tables/WarpsTable.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/functions/installer/AutoInstaller.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/velocity/DistrictRPVelocity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/velocity/VelocityChatBridge.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/velocity/VelocityChatCommands.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/velocity/VelocityConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/velocity-config.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/velocity-plugin.json" afterDir="false" />
+    <list default="true" id="f8484a99-3ebb-4cf7-8822-eb79d36ef2c3" name="Changes" comment="Database Support + Proxy Support + Bug Fixes">
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/functions/camera/CameraManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/functions/hologram/LogoutHologramManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/functions/loading/LoadingScreenManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/functions/profile/ProfileScoreboard.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules/DistrictRP.main.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/DistrictRP.main.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/DistrictRP.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/DistrictRP.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/appuntamenti/AppuntamentoManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/appuntamenti/AppuntamentoManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/chat/ChatSymManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/chat/ChatSymManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/logs/LogsAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/logs/LogsAPI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/playtime/PlaytimeCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/playtime/PlaytimeCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/playtime/PlaytimeTracker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/playtime/PlaytimeTracker.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/profile/RPProfileManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/profile/RPProfileManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/supporto/SupportoCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/supporto/SupportoCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/supporto/SupportoListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/supporto/SupportoListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/ticket/TicketManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/ticket/TicketManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/warp/WarpManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/warp/WarpManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/staff/StaffModeManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/staff/StaffModeManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/core/DistrictRPDispatcher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/core/DistrictRPDispatcher.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/functions/VanishManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/functions/VanishManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/functions/servermode/ServerModeManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/functions/servermode/ServerModeManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/chat/ChatModule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/chat/ChatModule.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/profile/ProfileCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/profile/ProfileCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/staff/StaffModeGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/staff/StaffModeGUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/staff/StaffModeItems.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/staff/StaffModeItems.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/staff/StaffModeListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/staff/StaffModeListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/functions/WorldManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/functions/WorldManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/config.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/config.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/messages.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/messages.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/plugin.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/velocity-config.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/velocity-config.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -468,7 +422,15 @@
       <option name="project" value="LOCAL" />
       <updated>1783765602918</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="Database Support + Proxy Support + Bug Fixes">
+      <option name="closed" value="true" />
+      <created>1783783106685</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1783783106685</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -479,6 +441,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="," />
-    <option name="LAST_COMMIT_MESSAGE" value="," />
+    <MESSAGE value="Database Support + Proxy Support + Bug Fixes" />
+    <option name="LAST_COMMIT_MESSAGE" value="Database Support + Proxy Support + Bug Fixes" />
   </component>
 </project>

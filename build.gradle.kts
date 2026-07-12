@@ -18,6 +18,7 @@ repositories {
     maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
     maven("https://maven.enginehub.org/repo/")
     maven("https://repo.papermc.io/repository/velocity-releases/")
+
 }
 
 dependencies {
@@ -25,6 +26,7 @@ dependencies {
     compileOnly("net.luckperms:api:5.4")
     compileOnly("org.jetbrains:annotations:24.1.0")
     compileOnly("me.clip:placeholderapi:2.11.6")
+    compileOnly("com.comphenix.protocol:ProtocolLib:5.3.0")
 
     compileOnly("com.sk89q.worldguard:worldguard-bukkit:7.0.9")
     compileOnly("com.sk89q.worldedit:worldedit-bukkit:7.2.15")
@@ -75,6 +77,10 @@ tasks.withType<ShadowJar>().configureEach {
     exclude("META-INF/*.RSA")
     exclude("module-info.class")
     exclude("META-INF/versions/**/module-info.class")
+
+    dependencies {
+        exclude(dependency("com.velocitypowered:velocity-api:.*"))
+    }
 
     mergeServiceFiles()
 }
