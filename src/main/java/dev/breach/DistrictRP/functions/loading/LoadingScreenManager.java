@@ -5,8 +5,8 @@ import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.EnumWrappers;
-import com.comphenix.protocol.wrappers.GameProfile;
 import com.comphenix.protocol.wrappers.PlayerInfoData;
+import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import com.comphenix.protocol.wrappers.WrappedGameProfile;
 import com.comphenix.protocol.wrappers.WrappedSignedProperty;
 import dev.breach.DistrictRP.DistrictRP;
@@ -15,9 +15,9 @@ import dev.breach.DistrictRP.commands.roleplay.profile.RPProfileManager;
 import dev.breach.DistrictRP.functions.MessageUtils;
 import dev.breach.DistrictRP.functions.camera.CameraManager;
 import dev.breach.DistrictRP.functions.servermode.ServerMode;
-import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -26,8 +26,8 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -119,7 +119,7 @@ public class LoadingScreenManager implements Listener {
         RPProfile profile = pm != null ? pm.get(p.getUniqueId()) : null;
 
         String title = MessageUtils.color(plugin.getConfig().getString(
-                "loading.title", "&#FCD05C&lᴅɪᴛʀᴄᴛʀᴘ"));
+                "loading.title", "&#FCD05C&lDISTRICTRP"));
         String subtitle;
 
         if (profile != null && profile.hasRpName()) {
@@ -128,13 +128,13 @@ public class LoadingScreenManager implements Listener {
             String azienda = profile.getAzienda() != null ? profile.getAzienda() : "";
 
             switch (step % 4) {
-                case 0 -> subtitle = MessageUtils.color("&7ɴᴏᴍᴇ: &f" + name);
-                case 1 -> subtitle = MessageUtils.color("&7ʟᴠᴏʀᴏ: &f" + job);
-                case 2 -> subtitle = MessageUtils.color("&7ᴀᴢᴇɴᴅ: &f" + (azienda.isEmpty() ? "-" : azienda));
-                default -> subtitle = MessageUtils.color("&7ᴄᴀʀᴄᴀᴍɴᴛᴏ... &f" + ((step * 100 / totalSteps)) + "%");
+                case 0 -> subtitle = MessageUtils.color("&7Nome: &f" + name);
+                case 1 -> subtitle = MessageUtils.color("&7Lavoro: &f" + job);
+                case 2 -> subtitle = MessageUtils.color("&7Azienda: &f" + (azienda.isEmpty() ? "-" : azienda));
+                default -> subtitle = MessageUtils.color("&7Caricamento... &f" + ((step * 100 / totalSteps)) + "%");
             }
         } else {
-            subtitle = MessageUtils.color("&7ᴄᴀʀᴄᴀᴍɴᴛᴏ... &f" + ((step * 100 / totalSteps)) + "%");
+            subtitle = MessageUtils.color("&7Caricamento... &f" + ((step * 100 / totalSteps)) + "%");
         }
 
         p.sendTitle(title, subtitle, 5, 35, 5);
@@ -153,9 +153,9 @@ public class LoadingScreenManager implements Listener {
         }
 
         String welcome = MessageUtils.color(plugin.getConfig().getString(
-                "loading.welcome-title", "&#FCD05C&lʙᴇɴᴠᴇɴᴜᴛᴏ"));
+                "loading.welcome-title", "&#FCD05C&lBENVENUTO"));
         String welcomeSub = MessageUtils.color(plugin.getConfig().getString(
-                "loading.welcome-subtitle", "&7ʙᴏɴ ɢɪᴏᴄᴏ"));
+                "loading.welcome-subtitle", "&7buon gioco"));
         p.sendTitle(welcome, welcomeSub, 10, 40, 10);
     }
 
@@ -166,65 +166,88 @@ public class LoadingScreenManager implements Listener {
             fakePlayerUuids.put(p.getUniqueId(), fakeUuid);
 
             WrappedGameProfile wrappedProfile = new WrappedGameProfile(fakeUuid, p.getName());
-
-            for (var entry : p.getPlayerProfile().getProperties().entrySet()) {
-                for (var prop : entry.getValue()) {
-                    wrappedProfile.getProperties().put(
-                            entry.getKey(),
-                            new WrappedSignedProperty(prop.getName(), prop.getValue(), prop.getSignature())
-                    );
-                }
-            }
+            copyPlayerTextures(p, wrappedProfile);
 
             PacketContainer addPlayer = protocolManager.createPacket(PacketType.Play.Server.PLAYER_INFO);
-            addPlayer.getPlayerInfoAction().write(0, EnumWrappers.PlayerInfoAction.ADD_PLAYER);
+            addPlayer.getPlayerInfoActions().write(0, EnumSet.of(EnumWrappers.PlayerInfoAction.ADD_PLAYER));
 
             List<PlayerInfoData> dataList = new ArrayList<>();
             dataList.add(new PlayerInfoData(
-                    wrappedProfile.getHandle(),
+                    wrappedProfile,
                     0,
                     EnumWrappers.NativeGameMode.SURVIVAL,
-                    com.comphenix.protocol.wrappers.WrappedChatComponent.fromText(p.getName())
+                    WrappedChatComponent.fromText(p.getName())
             ));
-            addPlayer.getPlayerInfoDataLists().write(0, dataList);
+            addPlayer.getPlayerInfoDataLists().write(1, dataList);
             protocolManager.sendServerPacket(p, addPlayer);
 
-            PacketContainer spawnEntity = protocolManager.createPacket(PacketType.Play.Server.NAMED_ENTITY_SPAWN);
-            spawnEntity.getIntegers().write(0, p.getEntityId() + 10000);
+            int fakeEntityId = p.getEntityId() + 10000;
+            fakeEntityIds.put(p.getUniqueId(), fakeEntityId);
+
+            PacketContainer spawnEntity = protocolManager.createPacket(PacketType.Play.Server.SPAWN_ENTITY);
+            spawnEntity.getIntegers().write(0, fakeEntityId);
             spawnEntity.getUUIDs().write(0, fakeUuid);
+            spawnEntity.getEntityTypeModifier().write(0, org.bukkit.entity.EntityType.PLAYER);
             spawnEntity.getDoubles()
                     .write(0, p.getLocation().getX())
                     .write(1, p.getLocation().getY())
                     .write(2, p.getLocation().getZ());
             spawnEntity.getBytes()
-                    .write(0, (byte) ((int) (p.getLocation().getYaw() * 256.0F / 360.0F)))
-                    .write(1, (byte) ((int) (p.getLocation().getPitch() * 256.0F / 360.0F)));
+                    .write(0, (byte) ((int) (p.getLocation().getPitch() * 256.0F / 360.0F)))
+                    .write(1, (byte) ((int) (p.getLocation().getYaw() * 256.0F / 360.0F)));
             protocolManager.sendServerPacket(p, spawnEntity);
 
-            fakeEntityIds.put(p.getUniqueId(), p.getEntityId() + 10000);
-
-            sendEquipment(p, fakeUuid);
+            sendEquipment(p, fakeEntityId);
 
         } catch (Throwable t) {
             plugin.getLogger().warning("[LoadingScreen] Errore spawn NPC: " + t.getMessage());
         }
     }
 
-    private void sendEquipment(Player p, UUID fakeUuid) {
+    private void copyPlayerTextures(Player source, WrappedGameProfile targetProfile) {
+        try {
+            com.destroystokyo.paper.profile.PlayerProfile paperProfile = source.getPlayerProfile();
+            for (com.destroystokyo.paper.profile.ProfileProperty prop : paperProfile.getProperties()) {
+                if ("textures".equalsIgnoreCase(prop.getName())) {
+                    targetProfile.getProperties().put(
+                            "textures",
+                            new WrappedSignedProperty("textures", prop.getValue(), prop.getSignature())
+                    );
+                    break;
+                }
+            }
+        } catch (Throwable t) {
+            plugin.getLogger().fine("[LoadingScreen] Skin copy failed: " + t.getMessage());
+        }
+    }
+
+    private void sendEquipment(Player p, int fakeEntityId) {
         try {
             PacketContainer equipment = protocolManager.createPacket(PacketType.Play.Server.ENTITY_EQUIPMENT);
-            equipment.getIntegers().write(0, p.getEntityId() + 10000);
+            equipment.getIntegers().write(0, fakeEntityId);
 
-            List<com.comphenix.protocol.wrappers.Pair<EnumWrappers.ItemSlot, org.bukkit.inventory.ItemStack>> slots = new ArrayList<>();
+            List<com.comphenix.protocol.wrappers.Pair<EnumWrappers.ItemSlot, ItemStack>> slots = new ArrayList<>();
             ItemStack[] armor = p.getInventory().getArmorContents();
-            if (armor[0] != null) slots.add(new com.comphenix.protocol.wrappers.Pair<>(EnumWrappers.ItemSlot.FEET, armor[0]));
-            if (armor[1] != null) slots.add(new com.comphenix.protocol.wrappers.Pair<>(EnumWrappers.ItemSlot.LEGS, armor[1]));
-            if (armor[2] != null) slots.add(new com.comphenix.protocol.wrappers.Pair<>(EnumWrappers.ItemSlot.CHEST, armor[2]));
-            if (armor[3] != null) slots.add(new com.comphenix.protocol.wrappers.Pair<>(EnumWrappers.ItemSlot.HEAD, armor[3]));
+            if (armor[0] != null && armor[0].getType() != Material.AIR)
+                slots.add(new com.comphenix.protocol.wrappers.Pair<>(EnumWrappers.ItemSlot.FEET, armor[0]));
+            if (armor[1] != null && armor[1].getType() != Material.AIR)
+                slots.add(new com.comphenix.protocol.wrappers.Pair<>(EnumWrappers.ItemSlot.LEGS, armor[1]));
+            if (armor[2] != null && armor[2].getType() != Material.AIR)
+                slots.add(new com.comphenix.protocol.wrappers.Pair<>(EnumWrappers.ItemSlot.CHEST, armor[2]));
+            if (armor[3] != null && armor[3].getType() != Material.AIR)
+                slots.add(new com.comphenix.protocol.wrappers.Pair<>(EnumWrappers.ItemSlot.HEAD, armor[3]));
+
             ItemStack mainHand = p.getInventory().getItemInMainHand();
-            if (mainHand != null && mainHand.getType() != org.bukkit.Material.AIR) {
+            if (mainHand.getType() != Material.AIR) {
                 slots.add(new com.comphenix.protocol.wrappers.Pair<>(EnumWrappers.ItemSlot.MAINHAND, mainHand));
             }
+
+            ItemStack offHand = p.getInventory().getItemInOffHand();
+            if (offHand.getType() != Material.AIR) {
+                slots.add(new com.comphenix.protocol.wrappers.Pair<>(EnumWrappers.ItemSlot.OFFHAND, offHand));
+            }
+
+            if (slots.isEmpty()) return;
 
             equipment.getSlotStackPairLists().write(0, slots);
             protocolManager.sendServerPacket(p, equipment);
@@ -244,16 +267,8 @@ public class LoadingScreenManager implements Listener {
             removeEntity.getIntLists().write(0, List.of(entityId));
             protocolManager.sendServerPacket(p, removeEntity);
 
-            PacketContainer removePlayer = protocolManager.createPacket(PacketType.Play.Server.PLAYER_INFO);
-            removePlayer.getPlayerInfoAction().write(0, EnumWrappers.PlayerInfoAction.REMOVE_PLAYER);
-            List<PlayerInfoData> removeList = new ArrayList<>();
-            removeList.add(new PlayerInfoData(
-                    new WrappedGameProfile(fakeUuid, p.getName()).getHandle(),
-                    0,
-                    EnumWrappers.NativeGameMode.SURVIVAL,
-                    null
-            ));
-            removePlayer.getPlayerInfoDataLists().write(0, removeList);
+            PacketContainer removePlayer = protocolManager.createPacket(PacketType.Play.Server.PLAYER_INFO_REMOVE);
+            removePlayer.getUUIDLists().write(0, List.of(fakeUuid));
             protocolManager.sendServerPacket(p, removePlayer);
         } catch (Throwable t) {
             plugin.getLogger().warning("[LoadingScreen] Errore cleanup NPC: " + t.getMessage());

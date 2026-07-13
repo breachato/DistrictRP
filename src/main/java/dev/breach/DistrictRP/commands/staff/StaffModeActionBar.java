@@ -48,7 +48,7 @@ public class StaffModeActionBar {
         String tps = String.format("%.0f", Math.min(20.0, getTps()));
 
         String headerTemplate = plugin.getConfig().getString("staffmode.actionbar.header",
-                "&aᴠᴀɴɪꜱʜᴇᴅ %vanish_state% &fᴛᴘꜱ: &a%tps%");
+                "&aVANISHED %vanish_state% &fTPS: &a%tps%");
         String header = MessageUtils.color(headerTemplate
                 .replace("%vanish_state%", vanishState)
                 .replace("%tps%", tps));
@@ -79,7 +79,7 @@ public class StaffModeActionBar {
         } else {
             path = switch (tool) {
                 case TP_RANDOM -> "staffmode.actionbar.subline-tp-random";
-                case INVISIBILITY -> "staffmode.actionbar.subline-invisibility";
+                case VANISH -> "staffmode.actionbar.subline-vanish";
                 case PLAYER_LIST -> "staffmode.actionbar.subline-player-list";
                 case STAFF_LIST -> "staffmode.actionbar.subline-staff-list";
                 case EXIT -> "staffmode.actionbar.subline-exit";

@@ -102,17 +102,23 @@ public class StaffPanelManager {
 
     private void seedDefaults(ConfigurationSection sec) {
         List<Map<?, ?>> defaults = sec.getMapList("departments.defaults");
-        if (defaults == null || defaults.isEmpty()) return;
+        if (defaults.isEmpty()) return;
+
         for (Map<?, ?> raw : defaults) {
             String id = String.valueOf(raw.get("id"));
             String name = String.valueOf(raw.get("name"));
-            String color = String.valueOf(raw.getOrDefault("color", "#c9a84c"));
+
+            Object colorObj = raw.get("color");
+            String color = colorObj != null ? String.valueOf(colorObj) : "#c9a84c";
+
             int order = raw.get("order") instanceof Number n ? n.intValue() : 0;
+
             List<String> cols = new ArrayList<>();
             Object c = raw.get("columns");
             if (c instanceof List<?> l) {
                 for (Object o : l) cols.add(String.valueOf(o));
             }
+
             departments.createIfMissing(id, name, color, order).thenAccept(created -> {
                 for (int i = 0; i < cols.size(); i++) {
                     columns.add(id, cols.get(i), i);
