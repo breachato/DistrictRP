@@ -1,7 +1,8 @@
 package dev.breach.DistrictRP.commands.roleplay.profile;
 
 import dev.breach.DistrictRP.DistrictRP;
-import dev.breach.DistrictRP.database.repository.ProfileRepository;
+import dev.breach.DistrictRP.database.tables.ProfilesTable;
+import dev.breach.DistrictRP.database.tables.ProfilesTable.ProfileRow;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 public class RPProfileManager {
 
@@ -21,7 +23,7 @@ public class RPProfileManager {
     private FileConfiguration config;
     private final Map<UUID, RPProfile> cache = new HashMap<>();
 
-    private ProfileRepository repo;
+    private ProfilesTable table;
     private boolean useDb;
 
     public RPProfileManager(DistrictRP plugin) {
@@ -35,8 +37,9 @@ public class RPProfileManager {
         }
         this.config = YamlConfiguration.loadConfiguration(file);
 
-        this.repo = new ProfileRepository(plugin);
-        this.useDb = repo.isAvailable();
+        var dbm = plugin.getDatabaseManager();
+        this.table = (dbm != null && dbm.isMariaDb()) ? dbm.getTable("profiles", ProfilesTable.class) : null;
+        this.useDb = (table != null);
 
         if (useDb) {
             plugin.getLogger().info("[Profiles] Storage: MariaDB (con cache locale)");
@@ -105,7 +108,7 @@ public class RPProfileManager {
         if (cached != null) return cached;
 
         if (useDb) {
-            RPProfile fromDb = repo.loadProfile(uuid).join();
+            RPProfile fromDb = loadProfile(uuid).join();
             if (fromDb != null) {
                 cache.put(uuid, fromDb);
                 return fromDb;
@@ -124,7 +127,7 @@ public class RPProfileManager {
         RPProfile p = cache.get(uuid);
         if (p == null) return;
         if (useDb) {
-            repo.saveProfile(p);
+            saveProfile(p);
         } else {
             saveAllYaml();
         }
@@ -133,13 +136,13 @@ public class RPProfileManager {
     public void reset(UUID uuid) {
         RPProfile fresh = new RPProfile(uuid, getDefaultJob());
         cache.put(uuid, fresh);
-        if (useDb) repo.saveProfile(fresh);
+        if (useDb) saveProfile(fresh);
         else saveAllYaml();
     }
 
     public void saveAll() {
         if (useDb) {
-            for (RPProfile p : cache.values()) repo.saveProfile(p);
+            for (RPProfile p : cache.values()) saveProfile(p);
         } else {
             saveAllYaml();
         }
@@ -189,7 +192,99 @@ public class RPProfileManager {
     }
 
     public boolean isUsingDatabase() { return useDb; }
-    public ProfileRepository getRepository() { return repo; }
+
+    public CompletableFuture<RPProfile> loadProfile(UUID uuid) {
+        if (table == null) return CompletableFuture.completedFuture(null);
+        return table.get(uuid).thenApply(row -> row == null ? null : toProfile(row));
+    }
+
+    public CompletableFuture<Boolean> saveProfile(RPProfile profile) {
+        if (table == null) return CompletableFuture.completedFuture(false);
+        return table.upsert(toRow(profile));
+    }
+
+    public CompletableFuture<Boolean> deleteProfile(UUID uuid) {
+        if (table == null) return CompletableFuture.completedFuture(false);
+        return table.delete(uuid);
+    }
+
+    private RPProfile toProfile(ProfileRow r) {
+        RPProfile p = new RPProfile(r.uuid, r.job != null ? r.job : "DISOCCUPATO");
+        p.setRpName(r.rpName);
+        p.setRpSurname(r.rpSurname);
+        p.setJob(r.job);
+        p.setIcAge(r.icAge);
+        p.setIcGender(r.icGender);
+        p.setIcBirthday(r.icBirthday);
+        p.setIcNationality(r.icNationality);
+        p.setIcBio(r.icBio);
+        p.setMoney(r.money);
+        p.setBank(r.bank);
+        p.setDebt(r.debt);
+        p.setAzienda(r.azienda);
+        p.setAziendaRuolo(r.aziendaRuolo);
+        p.setAziendaSalary(r.aziendaSalary);
+        p.setPhone(r.phone);
+        p.setDiscordId(r.discordId);
+        p.setTelegramId(r.telegramId);
+        p.setLastKnownAddress(r.address);
+        p.setVehicle(r.vehicle);
+        p.setVehiclePlate(r.vehiclePlate);
+        p.setFedina(r.fedina);
+        p.setMulte(r.multe);
+        p.setLastCrimeTimestamp(r.lastCrime);
+        if (r.licensesCsv != null && !r.licensesCsv.isEmpty()) {
+            for (String lic : r.licensesCsv.split(",")) if (!lic.isEmpty()) p.addLicense(lic);
+        }
+        if (r.permessiCsv != null && !r.permessiCsv.isEmpty()) {
+            for (String per : r.permessiCsv.split(",")) if (!per.isEmpty()) p.addPermesso(per);
+        }
+        p.setFirstJoin(r.firstJoin);
+        p.setLastJoin(r.lastJoin);
+        p.setLastQuit(r.lastQuit);
+        p.setReputation(r.reputation);
+        p.setDeaths(r.deaths);
+        p.setKills(r.kills);
+        return p;
+    }
+
+    private ProfileRow toRow(RPProfile p) {
+        ProfileRow r = new ProfileRow();
+        r.uuid = p.getUuid();
+        r.rpName = p.getRpName();
+        r.rpSurname = p.getRpSurname();
+        r.job = p.getJob();
+        r.icAge = p.getIcAge();
+        r.icGender = p.getIcGender();
+        r.icBirthday = p.getIcBirthday();
+        r.icNationality = p.getIcNationality();
+        r.icBio = p.getIcBio();
+        r.money = p.getMoney();
+        r.bank = p.getBank();
+        r.debt = p.getDebt();
+        r.azienda = p.getAzienda();
+        r.aziendaRuolo = p.getAziendaRuolo();
+        r.aziendaSalary = p.getAziendaSalary();
+        r.phone = p.getPhone();
+        r.discordId = p.getDiscordId();
+        r.telegramId = p.getTelegramId();
+        r.address = p.getLastKnownAddress();
+        r.vehicle = p.getVehicle();
+        r.vehiclePlate = p.getVehiclePlate();
+        r.fedina = p.getFedina();
+        r.multe = p.getMulte();
+        r.lastCrime = p.getLastCrimeTimestamp();
+        r.licensesCsv = String.join(",", p.getLicenses());
+        r.permessiCsv = String.join(",", p.getPermessi());
+        r.firstJoin = p.getFirstJoin();
+        r.lastJoin = p.getLastJoin();
+        r.lastQuit = p.getLastQuit();
+        r.reputation = p.getReputation();
+        r.deaths = p.getDeaths();
+        r.kills = p.getKills();
+        return r;
+    }
+
     public FileConfiguration getYamlConfig() { return config; }
     public File getYamlFile() { return file; }
 }

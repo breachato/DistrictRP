@@ -1,9 +1,13 @@
 package dev.breach.DistrictRP.commands.roleplay.appuntamenti;
 
 import dev.breach.DistrictRP.DistrictRP;
-import dev.breach.DistrictRP.database.repository.AppuntamentoRepository;
+import dev.breach.DistrictRP.database.tables.AppuntamentiTable;
+import dev.breach.DistrictRP.database.tables.AppuntamentiTable.Row;
 import dev.breach.DistrictRP.functions.MessageUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -14,7 +18,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-public class AppuntamentoManager {
+public class AppuntamentoManager implements CommandExecutor {
 
     private final DistrictRP plugin;
     private final File file;
@@ -22,7 +26,7 @@ public class AppuntamentoManager {
     private final Map<Integer, Appuntamento> appuntamenti = new LinkedHashMap<>();
     private int nextId = 1;
 
-    private AppuntamentoRepository repo;
+    private AppuntamentiTable table;
     private boolean useDb;
 
     public AppuntamentoManager(DistrictRP plugin) {
@@ -35,8 +39,9 @@ public class AppuntamentoManager {
         }
         this.config = YamlConfiguration.loadConfiguration(file);
 
-        this.repo = new AppuntamentoRepository(plugin);
-        this.useDb = repo.isAvailable();
+        var dbm = plugin.getDatabaseManager();
+        this.table = (dbm != null && dbm.isMariaDb()) ? dbm.getTable("appuntamenti", AppuntamentiTable.class) : null;
+        this.useDb = (table != null);
 
         if (useDb) {
             plugin.getLogger().info("[Appuntamenti] Storage: MariaDB (con cache locale)");
@@ -45,6 +50,16 @@ public class AppuntamentoManager {
             plugin.getLogger().info("[Appuntamenti] Storage: YAML");
             loadYaml();
         }
+    }
+
+    @Override
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        if (!(sender instanceof Player player)) {
+            MessageUtils.sendMsg(sender, "general.only-player");
+            return true;
+        }
+        AppuntamentoGUI.startFlow(plugin, this, player);
+        return true;
     }
 
     private void loadYaml() {
@@ -68,7 +83,7 @@ public class AppuntamentoManager {
     }
 
     private void loadFromDb() {
-        repo.fetchAll().thenAccept(list -> {
+        fetchAllDb().thenAccept(list -> {
             appuntamenti.clear();
             int maxId = 0;
             for (Appuntamento a : list) {
@@ -108,7 +123,7 @@ public class AppuntamentoManager {
 
     public Appuntamento create(UUID player, String playerName, String reparto, String giorno, String orario) {
         if (useDb) {
-            Integer newId = repo.book(player, playerName, reparto, giorno, orario).join();
+            Integer newId = bookDb(player, playerName, reparto, giorno, orario).join();
             if (newId == null || newId < 0) {
                 plugin.getLogger().warning("[Appuntamenti] Book fallito (slot occupato o errore DB)");
                 return null;
@@ -137,7 +152,7 @@ public class AppuntamentoManager {
         }
         if (useDb) {
             try {
-                return repo.isSlotTaken(reparto, giorno, orario).join();
+                return isSlotTakenDb(reparto, giorno, orario).join();
             } catch (Exception ignored) {}
         }
         return false;
@@ -146,7 +161,7 @@ public class AppuntamentoManager {
     public boolean cancel(int id) {
         Appuntamento a = appuntamenti.remove(id);
         if (a == null) return false;
-        if (useDb) repo.cancel(id);
+        if (useDb) cancelDb(id);
         else saveAll();
         return true;
     }
@@ -246,5 +261,60 @@ public class AppuntamentoManager {
     }
 
     public boolean isUsingDatabase() { return useDb; }
-    public AppuntamentoRepository getRepository() { return repo; }
+
+    // --- accesso DB (ex AppuntamentoRepository) ---
+
+    public java.util.concurrent.CompletableFuture<Integer> bookDb(UUID uuid, String name, String reparto, String giorno, String orario) {
+        if (table == null) return java.util.concurrent.CompletableFuture.completedFuture(-1);
+        return table.book(uuid, name, reparto, giorno, orario);
+    }
+
+    public java.util.concurrent.CompletableFuture<Boolean> cancelDb(int id) {
+        if (table == null) return java.util.concurrent.CompletableFuture.completedFuture(false);
+        return table.cancel(id);
+    }
+
+    public java.util.concurrent.CompletableFuture<List<Appuntamento>> fetchAllDb() {
+        if (table == null) return java.util.concurrent.CompletableFuture.completedFuture(new ArrayList<>());
+        return java.util.concurrent.CompletableFuture.supplyAsync(() -> {
+            List<Appuntamento> out = new ArrayList<>();
+            try (var c = plugin.getDatabaseManager().getDataStore().getConnection();
+                 var ps = c.prepareStatement("SELECT * FROM " + table.getTableName() + " ORDER BY id ASC")) {
+                try (var rs = ps.executeQuery()) {
+                    while (rs.next()) {
+                        Row r = new Row();
+                        r.id = rs.getInt("id");
+                        r.playerUuid = UUID.fromString(rs.getString("player_uuid"));
+                        r.playerName = rs.getString("player_name");
+                        r.reparto = rs.getString("reparto");
+                        r.giorno = rs.getString("giorno");
+                        r.orario = rs.getString("orario");
+                        r.createdAt = rs.getLong("created_at");
+                        out.add(new Appuntamento(r.id, r.playerUuid, r.playerName, r.reparto, r.giorno, r.orario, r.createdAt));
+                    }
+                }
+            } catch (Exception e) {
+                plugin.getLogger().warning("[Appuntamenti] loadAll: " + e.getMessage());
+            }
+            return out;
+        });
+    }
+
+    public java.util.concurrent.CompletableFuture<Boolean> isSlotTakenDb(String reparto, String giorno, String orario) {
+        if (table == null) return java.util.concurrent.CompletableFuture.completedFuture(false);
+        return java.util.concurrent.CompletableFuture.supplyAsync(() -> {
+            String sql = "SELECT COUNT(*) FROM " + table.getTableName() +
+                    " WHERE reparto=? AND giorno=? AND orario=?";
+            try (var c = plugin.getDatabaseManager().getDataStore().getConnection();
+                 var ps = c.prepareStatement(sql)) {
+                ps.setString(1, reparto);
+                ps.setString(2, giorno);
+                ps.setString(3, orario);
+                try (var rs = ps.executeQuery()) {
+                    if (rs.next()) return rs.getInt(1) > 0;
+                }
+            } catch (Exception ignored) {}
+            return false;
+        });
+    }
 }

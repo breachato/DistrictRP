@@ -7,9 +7,7 @@ import dev.breach.DistrictRP.commands.staff.proxychat.ProxyChatCommand;
 import dev.breach.DistrictRP.commands.staff.proxychat.ProxyChatSymbolListener;
 import dev.breach.DistrictRP.commands.utils.*;
 import dev.breach.DistrictRP.core.*;
-import dev.breach.DistrictRP.framework.ModuleManager;
 import dev.breach.DistrictRP.functions.*;
-import dev.breach.DistrictRP.functions.servermode.ServerModeListener;
 import dev.breach.DistrictRP.functions.servermode.ServerModeManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -52,7 +50,6 @@ public class DistrictRP extends JavaPlugin {
     private ServerModeManager serverModeManager;
     private CoreProtectHook coreProtectHook;
     private WorldGuardHook worldGuardHook;
-    private ModuleManager moduleManager;
     private dev.breach.DistrictRP.staffpanel.StaffPanelManager staffPanelManager;
     private dev.breach.DistrictRP.database.DatabaseManager databaseManager;
 
@@ -156,15 +153,8 @@ public class DistrictRP extends JavaPlugin {
                     new dev.breach.DistrictRP.database.tables.ServerModeTable(this, ds));
             databaseManager.registerTable("chatsym",
                     new dev.breach.DistrictRP.database.tables.ChatSymTable(this, ds));
-            databaseManager.registerTable("logs",
-                    new dev.breach.DistrictRP.database.tables.LogsTable(this, ds));
-            databaseManager.registerTable("homes",
-                    new dev.breach.DistrictRP.database.tables.HomesTable(this, ds));
             getLogger().info("[Database] Registrate " + databaseManager.getAllTables().size() + " tabelle.");
         }
-
-        getLogger().info("[INIT] ModuleManager...");
-        this.moduleManager = safeInit("ModuleManager", () -> new ModuleManager(this));
 
         getLogger().info("[INIT] WorldManager...");
         this.worldManager = safeInit("WorldManager", () -> new WorldManager(this));
@@ -201,8 +191,7 @@ public class DistrictRP extends JavaPlugin {
         getLogger().info("[LISTENER] Registrazione listener...");
         safeRegisterListener("GlobalListener", () -> new GlobalListener(this));
         safeRegisterListener("StaffModeListener", () -> new StaffModeListener(this, staffModeManager, staffModeGUI));
-        safeRegisterListener("ServerModeListener", () -> new ServerModeListener(this, serverModeManager));
-        safeRegisterListener("AutoStaffModeListener", () -> new AutoStaffModeListener(this));
+        safeRegisterListener("ServerModeManager", () -> serverModeManager);
         safeRegisterListener("ProxyChatSymbolListener", () -> new ProxyChatSymbolListener(this));
 
         if (staffModeManager != null) {
@@ -296,10 +285,6 @@ public class DistrictRP extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        if (moduleManager != null) {
-            try { moduleManager.disableAll(); }
-            catch (Throwable t) { getLogger().warning("Errore disable ModuleManager: " + t.getMessage()); }
-        }
         if (roleplayModule != null) {
             try { roleplayModule.disable(); }
             catch (Throwable t) { getLogger().warning("Errore disable RoleplayModule: " + t.getMessage()); }
@@ -375,16 +360,17 @@ public class DistrictRP extends JavaPlugin {
     private void registerCommands() {
         safeRegister("districtrp", new DistrictRPDispatcher(this));
 
-        safeRegister("vanish", new VanishCommand(this));
+        StaffCommands staff = new StaffCommands(this);
+        safeRegister("vanish", staff.vanish());
+        safeRegister("fly", staff.fly());
+        safeRegister("god", staff.god());
         safeRegister("staffmode", new StaffModeCommand(this));
-        safeRegister("fly", new FlyCommand(this));
-        safeRegister("god", new GodCommand(this));
-        safeRegister("speed", new SpeedCommand(this));
-        safeRegister("invsee", new InvseeCommand(this));
-        safeRegister("enderchest", new EnderchestCommand(this));
-        safeRegister("clear", new ClearCommand(this));
-        safeRegister("tpall", new TpAllCommand(this));
-        safeRegister("tphere", new TpHereCommand(this));
+        safeRegister("speed", staff.speed());
+        safeRegister("invsee", staff.invsee());
+        safeRegister("enderchest", staff.enderchest());
+        safeRegister("clear", staff.clear());
+        safeRegister("tpall", staff.tpall());
+        safeRegister("tphere", staff.tphere());
         safeRegister("scale", new ScaleCommand(this));
 
         GamemodeCommands gmCmds = new GamemodeCommands(this);
@@ -396,12 +382,11 @@ public class DistrictRP extends JavaPlugin {
         SpawnCommands spawnCmds = new SpawnCommands(this);
         safeRegister("spawn", spawnCmds.spawn());
         safeRegister("setspawn", spawnCmds.setSpawn());
+        safeRegister("back", spawnCmds.back());
 
         MsgCommand msgCmd = new MsgCommand(this);
         safeRegister("msg", msgCmd);
         safeRegister("reply", msgCmd.reply());
-
-        safeRegister("back", new BackCommand(this));
         safeRegister("clearchat", new ClearChatCommand(this));
         safeRegister("build", new BuildCommand(this));
         safeRegister("mondo", new MondoCommand(this));
@@ -454,7 +439,6 @@ public class DistrictRP extends JavaPlugin {
     public WorldDownloader getWorldDownloader() { return worldDownloader; }
     public CoreProtectHook getCoreProtectHook() { return coreProtectHook; }
     public WorldGuardHook getWorldGuardHook() { return worldGuardHook; }
-    public ModuleManager getModuleManager() { return moduleManager; }
     public dev.breach.DistrictRP.database.DatabaseManager getDatabaseManager() { return databaseManager; }
     public RoleplayModule getRoleplay() { return roleplayModule; }
     public dev.breach.DistrictRP.staffpanel.StaffPanelManager getStaffPanelManager() { return staffPanelManager; }

@@ -1,7 +1,7 @@
 package dev.breach.DistrictRP.functions.servermode;
 
 import dev.breach.DistrictRP.DistrictRP;
-import dev.breach.DistrictRP.database.repository.ServerModeRepository;
+import dev.breach.DistrictRP.database.tables.ServerModeTable;
 import dev.breach.DistrictRP.functions.MessageUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -9,30 +9,37 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.CompletableFuture;
 
-public class ServerModeManager {
+public class ServerModeManager implements Listener {
 
     private final DistrictRP plugin;
     private ServerMode currentMode = ServerMode.OFF;
 
-    private ServerModeRepository repo;
+    private ServerModeTable table;
     private boolean useDb;
 
     public ServerModeManager(DistrictRP plugin) {
         this.plugin = plugin;
-        this.repo = new ServerModeRepository(plugin);
-        this.useDb = repo.isAvailable();
+        var dbm = plugin.getDatabaseManager();
+        this.table = (dbm != null && dbm.isMariaDb()) ? dbm.getTable("server_mode", ServerModeTable.class) : null;
+        this.useDb = (table != null);
         loadFromConfig();
     }
 
     public void loadFromConfig() {
         if (useDb) {
             try {
-                String fromDb = repo.getMode(getServerId()).join();
+                String fromDb = getMode(getServerId()).join();
                 if (fromDb != null && !fromDb.isEmpty()) {
                     this.currentMode = ServerMode.fromString(fromDb);
                     plugin.getLogger().info("[ServerMode] Modalità caricata dal DB: " + currentMode.name());
@@ -70,7 +77,7 @@ public class ServerModeManager {
         this.currentMode = mode;
 
         if (useDb) {
-            repo.setMode(getServerId(), mode.name(), by);
+            setMode(getServerId(), mode.name(), by);
         } else {
             plugin.getConfig().set("server-mode.current", mode.name());
             plugin.saveConfig();
@@ -209,5 +216,33 @@ public class ServerModeManager {
     }
 
     public boolean isUsingDatabase() { return useDb; }
-    public ServerModeRepository getRepository() { return repo; }
+
+    public CompletableFuture<Boolean> setMode(String serverId, String mode, String by) {
+        if (table == null) return CompletableFuture.completedFuture(false);
+        return table.set(serverId, mode, by);
+    }
+
+    public CompletableFuture<String> getMode(String serverId) {
+        if (table == null) return CompletableFuture.completedFuture("OFF");
+        return table.get(serverId);
+    }
+
+    // --- listener: applica il mode ai join e blocca i comandi non consentiti ---
+
+    @EventHandler
+    public void onJoin(PlayerJoinEvent event) {
+        plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
+            if (event.getPlayer().isOnline()) handleJoin(event.getPlayer());
+        }, 10L);
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    public void onCmd(PlayerCommandPreprocessEvent event) {
+        if (canBypass(event.getPlayer())) return;
+        if (isCommandDisabled(event.getMessage())) {
+            event.setCancelled(true);
+            MessageUtils.sendMsg(event.getPlayer(), "servermode.command-disabled",
+                    "mode", getCurrentDisplay());
+        }
+    }
 }

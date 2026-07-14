@@ -33,7 +33,7 @@ public class DistrictTabManager implements TabCompleter {
             "vanish", "staffmode",
             "ticket", "supporto", "appuntamento",
             "stuck", "playtime", "stafflist",
-            "emoji", "chatsym", "logs",
+            "emoji", "chatsym",
             "protection",
             "azione", "bisbiglio", "urlo"
     );
@@ -47,7 +47,6 @@ public class DistrictTabManager implements TabCompleter {
     );
 
     private static final List<String> CHATSYM_SUBS = Arrays.asList("aggiungi", "rimuovi");
-    private static final List<String> LOGS_SUBS = Arrays.asList("chat","comandi","morti","bank","police","crime","hit","job","smanetta","borghese","blitz");
     private static final List<String> PROTECTION_SUBS = Arrays.asList("toggle", "whitelist", "interactions", "info");
     private static final List<String> PROTECTION_TOGGLE = Arrays.asList("build", "interact");
     private static final List<String> PROTECTION_WL = Arrays.asList("add", "remove", "list");
@@ -91,7 +90,6 @@ public class DistrictTabManager implements TabCompleter {
             case "ticket":
             case "aiuto":      return handleTicket(sender, args);
             case "chatsym":    return handleChatSym(sender, args);
-            case "logs":       return handleLogs(sender, args);
             case "protection":
             case "prot":       return handleProtection(sender, args);
             case "wipe":       return handleWipe(sender, args);
@@ -135,7 +133,6 @@ public class DistrictTabManager implements TabCompleter {
             if (sub.equals("mondo")) return handleMondo(sender, shiftArgs(args));
             if (sub.equals("ticket")) return handleTicket(sender, shiftArgs(args));
             if (sub.equals("chatsym")) return handleChatSym(sender, shiftArgs(args));
-            if (sub.equals("logs")) return handleLogs(sender, shiftArgs(args));
             if (sub.equals("protection")) return handleProtection(sender, shiftArgs(args));
             if (sub.equals("spawn") || sub.equals("setspawn")) {
                 if (args.length == 2) return filterWorlds(args[1]);
@@ -164,20 +161,6 @@ public class DistrictTabManager implements TabCompleter {
                 return filter(new ArrayList<>(plugin.getRoleplay().getChatSymManager().getSymbols().keySet()), args[1]);
             }
         }
-        return empty();
-    }
-
-    private List<String> handleLogs(CommandSender sender, String[] args) {
-        if (args.length == 1) {
-            if (plugin.getRoleplay() != null && plugin.getRoleplay().getLogsAPI() != null) {
-                List<String> mods = new ArrayList<>();
-                plugin.getRoleplay().getLogsAPI().getAll().forEach(m -> mods.add(m.getId()));
-                if (!mods.isEmpty()) return filter(mods, args[0]);
-            }
-            return filter(LOGS_SUBS, args[0]);
-        }
-        if (args.length == 2) return filterPlayers(args[1]);
-        if (args.length == 3) return filter(Arrays.asList("1","2","3","4","5"), args[2]);
         return empty();
     }
 

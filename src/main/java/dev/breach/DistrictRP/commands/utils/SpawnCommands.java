@@ -48,6 +48,23 @@ public class SpawnCommands {
         };
     }
 
+    public CommandExecutor back() {
+        return (sender, cmd, label, args) -> {
+            if (!(sender instanceof Player p)) {
+                MessageUtils.send(sender, "&cSolo i giocatori.");
+                return true;
+            }
+            Location loc = plugin.back.get(p.getUniqueId());
+            if (loc == null) {
+                MessageUtils.sendPrefixed(p, "&cNessuna posizione salvata.");
+                return true;
+            }
+            p.teleport(loc);
+            MessageUtils.sendPrefixed(p, "&fTornato alla posizione precedente.");
+            return true;
+        };
+    }
+
     public CommandExecutor setSpawn() {
         return (sender, cmd, label, args) -> {
             String perm = plugin.getConfig().getString("spawn.set-permission", "DistrictRP.setspawn");

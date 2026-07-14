@@ -7,13 +7,52 @@
     <list default="true" id="f8484a99-3ebb-4cf7-8822-eb79d36ef2c3" name="Changes" comment="Staff Panel Integration">
       <change beforePath="$PROJECT_DIR$/.idea/modules/DistrictRP.main.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/DistrictRP.main.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/staff/StaffModeActionBar.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/staff/StaffModeActionBar.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/functions/loading/LoadingScreenManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/functions/loading/LoadingScreenManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/staffpanel/StaffPanelManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/staffpanel/StaffPanelManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/plugin.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/velocity-plugin.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/DistrictRP.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/DistrictRP.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/RoleplayModule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/RoleplayModule.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/bots/BotManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/bots/BotManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/bots/RecapScheduler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/chat/AzioneCommand.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/chat/BisbiglioCommand.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/chat/ChatFlags.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/chat/ChatSymCommand.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/chat/ChatSymListener.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/chat/ChatSymManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/chat/ChatSymManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/chat/UrloCommand.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/emoji/EmojiGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/emoji/EmojiGUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/roleplay/emoji/EmojiListener.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/staff/ClearCommand.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/staff/EnderchestCommand.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/staff/FlyCommand.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/staff/GodCommand.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/staff/InvseeCommand.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/staff/SpeedCommand.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/staff/StaffModeActionBar.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/staff/TpAllCommand.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/staff/TpHereCommand.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/staff/VanishCommand.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/utils/BackCommand.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/utils/SpawnCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/commands/utils/SpawnCommands.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/database/ProfileRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/database/ProfileRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/database/repository/AppuntamentoRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/database/repository/AppuntamentoRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/database/repository/ChatSymRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/database/repository/ChatSymRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/database/repository/LogsRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/database/repository/LogsRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/database/repository/PlaytimeRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/database/repository/PlaytimeRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/database/repository/ServerModeRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/database/repository/ServerModeRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/database/repository/StaffModeRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/database/repository/StaffModeRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/database/repository/TicketRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/database/repository/TicketRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/database/repository/VanishRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/database/repository/VanishRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/database/repository/WarpRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/database/repository/WarpRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/database/tables/HomesTable.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/framework/DistrictAPI.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/framework/DistrictModule.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/framework/ModuleContext.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/framework/ModuleManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/framework/ModuleMessages.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/framework/ModuleState.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/functions/ColorUtil.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/functions/LobbyModeManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/functions/servermode/ServerModeListener.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/functions/servermode/ServerModeManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/breach/DistrictRP/functions/servermode/ServerModeManager.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -90,12 +129,10 @@
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/breachato/DistrictRP.git&quot;,
-    &quot;accountId&quot;: &quot;15d14a22-37cb-4ef1-9dc0-e9881ebe26c7&quot;
+    &quot;accountId&quot;: &quot;0cc61e01-577e-404a-9efb-86d4c66b184d&quot;
   }
 }</component>
-  <component name="HighlightingSettingsPerFile">
-    <setting file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.spigotmc/spigot-api/1.20.1-R0.1-SNAPSHOT/db707b55ae958245adecc7f15b611e1a571e7fe4/spigot-api-1.20.1-R0.1-SNAPSHOT-sources.jar!/org/bukkit/configuration/file/YamlConfiguration.java" root0="FORCE_HIGHLIGHTING" />
-  </component>
+  <component name="GradleScriptDefinitionsStorage" workingDir="$PROJECT_DIR$" gradleHome="C:\Users\feder\.gradle\wrapper\dists\gradle-7.6.4-bin\eq47ircvekz8t0m2yd28ebfsh\gradle-7.6.4" javaHome="C:\Users\feder\.jdks\corretto-17.0.19" gradleVersion="7.6.4" />
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
   </component>
@@ -164,11 +201,8 @@
       </ExternalSystemSettings>
       <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
       <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <ExternalSystemDebugDisabled>false</ExternalSystemDebugDisabled>
       <DebugAllEnabled>false</DebugAllEnabled>
       <RunAsTest>false</RunAsTest>
-      <GradleProfilingDisabled>false</GradleProfilingDisabled>
-      <GradleCoverageDisabled>false</GradleCoverageDisabled>
       <method v="2" />
     </configuration>
     <configuration name="DistrictRP [clean]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
@@ -189,11 +223,8 @@
       </ExternalSystemSettings>
       <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
       <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <ExternalSystemDebugDisabled>false</ExternalSystemDebugDisabled>
       <DebugAllEnabled>false</DebugAllEnabled>
       <RunAsTest>false</RunAsTest>
-      <GradleProfilingDisabled>false</GradleProfilingDisabled>
-      <GradleCoverageDisabled>false</GradleCoverageDisabled>
       <method v="2" />
     </configuration>
     <configuration name="DistrictRP [shadowJar]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
@@ -214,11 +245,8 @@
       </ExternalSystemSettings>
       <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
       <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <ExternalSystemDebugDisabled>false</ExternalSystemDebugDisabled>
       <DebugAllEnabled>false</DebugAllEnabled>
       <RunAsTest>false</RunAsTest>
-      <GradleProfilingDisabled>false</GradleProfilingDisabled>
-      <GradleCoverageDisabled>false</GradleCoverageDisabled>
       <method v="2" />
     </configuration>
     <configuration name="FluentCore [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
@@ -239,11 +267,8 @@
       </ExternalSystemSettings>
       <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
       <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <ExternalSystemDebugDisabled>false</ExternalSystemDebugDisabled>
       <DebugAllEnabled>false</DebugAllEnabled>
       <RunAsTest>false</RunAsTest>
-      <GradleProfilingDisabled>false</GradleProfilingDisabled>
-      <GradleCoverageDisabled>false</GradleCoverageDisabled>
       <method v="2" />
     </configuration>
     <configuration name="Run" type="GradleRunConfiguration" factoryName="Gradle">
@@ -264,11 +289,8 @@
       </ExternalSystemSettings>
       <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
       <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <ExternalSystemDebugDisabled>false</ExternalSystemDebugDisabled>
       <DebugAllEnabled>false</DebugAllEnabled>
       <RunAsTest>false</RunAsTest>
-      <GradleProfilingDisabled>false</GradleProfilingDisabled>
-      <GradleCoverageDisabled>false</GradleCoverageDisabled>
       <method v="2" />
     </configuration>
     <configuration default="true" type="JetRunConfigurationType">
@@ -293,8 +315,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-30f59d01ecdd-37e91769500f-intellij.indexing.shared.core-IU-261.24374.151" />
-        <option value="bundled-js-predefined-d6986cc7102b-31caf2ab9e3c-JavaScript-IU-261.24374.151" />
+        <option value="bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.27397.103" />
       </set>
     </attachedChunks>
   </component>

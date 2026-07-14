@@ -1,25 +1,40 @@
 package dev.breach.DistrictRP.commands.roleplay.chat;
 
 import dev.breach.DistrictRP.DistrictRP;
-import dev.breach.DistrictRP.database.repository.ChatSymRepository;
+import dev.breach.DistrictRP.database.tables.ChatSymTable;
+import dev.breach.DistrictRP.functions.MessageUtils;
+import org.bukkit.Bukkit;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 
-public class ChatSymManager {
+public class ChatSymManager implements Listener, CommandExecutor, TabCompleter {
 
     private final DistrictRP plugin;
     private final File file;
     private FileConfiguration config;
     private final Map<String, String> symbols = new LinkedHashMap<>();
 
-    private ChatSymRepository repo;
+    private ChatSymTable table;
     private boolean useDb;
 
     public ChatSymManager(DistrictRP plugin) {
@@ -32,8 +47,9 @@ public class ChatSymManager {
         }
         this.config = YamlConfiguration.loadConfiguration(file);
 
-        this.repo = new ChatSymRepository(plugin);
-        this.useDb = repo.isAvailable();
+        var dbm = plugin.getDatabaseManager();
+        this.table = (dbm != null && dbm.isMariaDb()) ? dbm.getTable("chatsym", ChatSymTable.class) : null;
+        this.useDb = (table != null);
 
         if (useDb) {
             plugin.getLogger().info("[ChatSym] Storage: MariaDB");
@@ -61,13 +77,13 @@ public class ChatSymManager {
     }
 
     private void loadFromDb() {
-        repo.fetchAll().thenAccept(map -> {
+        fetchAll().thenAccept(map -> {
             symbols.clear();
             symbols.putAll(map);
             if (symbols.isEmpty()) {
                 applyDefaults();
                 for (Map.Entry<String, String> e : symbols.entrySet()) {
-                    repo.upsert(e.getKey(), e.getValue());
+                    upsert(e.getKey(), e.getValue());
                 }
             }
             plugin.getLogger().info("[ChatSym] Caricati " + symbols.size() + " simboli dal DB.");
@@ -104,7 +120,7 @@ public class ChatSymManager {
         if (symbol == null || symbol.isEmpty()) return false;
         if (symbols.containsKey(symbol)) return false;
         symbols.put(symbol, command);
-        if (useDb) repo.upsert(symbol, command);
+        if (useDb) upsert(symbol, command);
         else save();
         return true;
     }
@@ -112,7 +128,7 @@ public class ChatSymManager {
     public boolean remove(String symbol) {
         if (!symbols.containsKey(symbol)) return false;
         symbols.remove(symbol);
-        if (useDb) repo.delete(symbol);
+        if (useDb) delete(symbol);
         else save();
         return true;
     }
@@ -120,7 +136,7 @@ public class ChatSymManager {
     public void save() {
         if (useDb) {
             for (Map.Entry<String, String> e : symbols.entrySet()) {
-                repo.upsert(e.getKey(), e.getValue());
+                upsert(e.getKey(), e.getValue());
             }
             return;
         }
@@ -143,5 +159,104 @@ public class ChatSymManager {
     }
 
     public boolean isUsingDatabase() { return useDb; }
-    public ChatSymRepository getRepository() { return repo; }
+
+    public CompletableFuture<Boolean> upsert(String symbol, String command) {
+        if (table == null) return CompletableFuture.completedFuture(false);
+        return table.upsert(symbol, command);
+    }
+
+    public CompletableFuture<Boolean> delete(String symbol) {
+        if (table == null) return CompletableFuture.completedFuture(false);
+        return table.delete(symbol);
+    }
+
+    public CompletableFuture<Map<String, String>> fetchAll() {
+        if (table == null) return CompletableFuture.completedFuture(new java.util.HashMap<>());
+        return table.all();
+    }
+
+    // --- listener: intercetta i prefissi-simbolo e li converte in comandi ---
+
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
+    public void onChat(AsyncPlayerChatEvent event) {
+        Player player = event.getPlayer();
+        String perm = plugin.getConfig().getString("chatsym.permission", "DistrictRP.staffchatsym");
+        if (!player.hasPermission(perm)) return;
+
+        String message = event.getMessage();
+        if (message == null || message.isEmpty()) return;
+
+        List<Map.Entry<String, String>> sorted = new ArrayList<>(symbols.entrySet());
+        sorted.sort(Comparator.comparingInt((Map.Entry<String, String> e) -> e.getKey().length()).reversed());
+
+        for (Map.Entry<String, String> entry : sorted) {
+            String symbol = entry.getKey();
+            if (message.startsWith(symbol)) {
+                String rest = message.substring(symbol.length()).trim();
+                String fullCommand = entry.getValue() + (rest.isEmpty() ? "" : " " + rest);
+                event.setCancelled(true);
+                Bukkit.getScheduler().runTask(plugin, () -> {
+                    if (!Bukkit.dispatchCommand(player, fullCommand)) {
+                        plugin.getLogger().warning("[ChatSym] Comando /" + fullCommand + " non eseguito (unknown/errore).");
+                    }
+                });
+                return;
+            }
+        }
+    }
+
+    // --- comando /chatsym ---
+
+    @Override
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command,
+                             @NotNull String label, @NotNull String[] args) {
+        String perm = plugin.getConfig().getString("chatsym.permission", "DistrictRP.staffchatsym");
+        if (!sender.hasPermission(perm)) {
+            MessageUtils.sendMsg(sender, "general.no-permission");
+            return true;
+        }
+        if (args.length == 0) {
+            MessageUtils.sendList(sender, "chatsym.help");
+            return true;
+        }
+        switch (args[0].toLowerCase()) {
+            case "aggiungi" -> {
+                if (args.length < 3) {
+                    MessageUtils.sendList(sender, "chatsym.help");
+                    return true;
+                }
+                String name = args[1].startsWith("/") ? args[1].substring(1) : args[1];
+                String symbol = args[2];
+                if (!add(symbol, name)) {
+                    MessageUtils.sendMsg(sender, "chatsym.already-exists");
+                    return true;
+                }
+                MessageUtils.sendMsg(sender, "chatsym.added", "symbol", symbol, "command", name);
+            }
+            case "rimuovi" -> {
+                if (args.length < 2) {
+                    MessageUtils.sendList(sender, "chatsym.help");
+                    return true;
+                }
+                String symbol = args[1];
+                if (!remove(symbol)) {
+                    MessageUtils.sendMsg(sender, "chatsym.not-found");
+                    return true;
+                }
+                MessageUtils.sendMsg(sender, "chatsym.removed", "symbol", symbol);
+            }
+            default -> MessageUtils.sendList(sender, "chatsym.help");
+        }
+        return true;
+    }
+
+    @Override
+    public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command,
+                                      @NotNull String alias, @NotNull String[] args) {
+        if (args.length == 1) return Arrays.asList("aggiungi", "rimuovi");
+        if (args.length == 2 && args[0].equalsIgnoreCase("rimuovi")) {
+            return new ArrayList<>(symbols.keySet());
+        }
+        return new ArrayList<>();
+    }
 }

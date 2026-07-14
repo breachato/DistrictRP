@@ -6,18 +6,24 @@ import dev.breach.DistrictRP.functions.servermode.ServerModeManager;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 
 public class PlotListener implements Listener {
+
+    private static final List<String> BLOCKED = Arrays.asList("plot", "p", "ps", "plotsquared");
 
     private final DistrictRP plugin;
     private final PlotSquaredHook hook;
@@ -30,6 +36,29 @@ public class PlotListener implements Listener {
         this.plugin = plugin;
         this.hook = hook;
         this.serverMode = serverMode;
+    }
+
+    // --- ex PlotBlockerListener: reindirizza /plot,/p,/ps,/plotsquared a /plots ---
+
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
+    public void onCommandBlock(PlayerCommandPreprocessEvent event) {
+        if (!plugin.getConfig().getBoolean("plot.block-ps-commands", true)) return;
+        String bypassPerm = plugin.getConfig().getString(
+                "plot.bypass-block-permission", "DistrictRP.plot.psbypass");
+        if (event.getPlayer().hasPermission(bypassPerm)) return;
+
+        String msg = event.getMessage();
+        if (!msg.startsWith("/")) return;
+        String cmd = msg.substring(1);
+        int spaceIdx = cmd.indexOf(' ');
+        String cmdName = (spaceIdx >= 0 ? cmd.substring(0, spaceIdx) : cmd).toLowerCase(Locale.ROOT);
+        int colonIdx = cmdName.indexOf(':');
+        if (colonIdx >= 0) cmdName = cmdName.substring(colonIdx + 1);
+        if (!BLOCKED.contains(cmdName)) return;
+
+        event.setCancelled(true);
+        String args = spaceIdx >= 0 ? cmd.substring(spaceIdx) : "";
+        event.getPlayer().performCommand(("/plots" + args).substring(1));
     }
 
     @EventHandler

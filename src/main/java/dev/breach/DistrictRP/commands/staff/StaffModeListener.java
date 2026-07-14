@@ -2,6 +2,7 @@ package dev.breach.DistrictRP.commands.staff;
 
 import dev.breach.DistrictRP.DistrictRP;
 import dev.breach.DistrictRP.functions.MessageUtils;
+import dev.breach.DistrictRP.functions.servermode.ServerMode;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -16,6 +17,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerSwapHandItemsEvent;
 import org.bukkit.inventory.ItemStack;
@@ -50,7 +52,7 @@ public class StaffModeListener implements Listener {
         ItemStack held = event.getItem();
         if (held == null) return;
 
-        StaffModeItems.Tool tool = StaffModeItems.getTool(plugin, held);
+        StaffModeManager.Tool tool = StaffModeManager.getTool(plugin, held);
         if (tool == null) return;
 
         event.setCancelled(true);
@@ -62,7 +64,7 @@ public class StaffModeListener implements Listener {
             case VANISH -> {
                 if (plugin.getVanishManager() != null) plugin.getVanishManager().toggle(p);
             }
-            case SCALE_SMALL, SCALE_NORMAL -> applyScale(p, StaffModeItems.getScaleValue(plugin, held));
+            case SCALE_SMALL, SCALE_NORMAL -> applyScale(p, StaffModeManager.getScaleValue(plugin, held));
             case PLAYER_LIST -> gui.openPlayerList(p);
             case STAFF_LIST -> gui.openStaffList(p);
             case EXIT -> manager.exit(p);
@@ -97,7 +99,7 @@ public class StaffModeListener implements Listener {
     @EventHandler(priority = EventPriority.HIGH)
     public void onDrop(PlayerDropItemEvent event) {
         if (!manager.isInStaffMode(event.getPlayer())) return;
-        if (StaffModeItems.isStaffModeItem(plugin, event.getItemDrop().getItemStack())) {
+        if (StaffModeManager.isStaffModeItem(plugin, event.getItemDrop().getItemStack())) {
             event.setCancelled(true);
             return;
         }
@@ -111,8 +113,8 @@ public class StaffModeListener implements Listener {
         if (!(event.getWhoClicked() instanceof Player p)) return;
         if (!manager.isInStaffMode(p)) return;
 
-        if (StaffModeItems.isStaffModeItem(plugin, event.getCurrentItem())
-                || StaffModeItems.isStaffModeItem(plugin, event.getCursor())) {
+        if (StaffModeManager.isStaffModeItem(plugin, event.getCurrentItem())
+                || StaffModeManager.isStaffModeItem(plugin, event.getCursor())) {
             event.setCancelled(true);
             return;
         }
@@ -130,7 +132,7 @@ public class StaffModeListener implements Listener {
     public void onInvDrag(InventoryDragEvent event) {
         if (!(event.getWhoClicked() instanceof Player p)) return;
         if (!manager.isInStaffMode(p)) return;
-        if (StaffModeItems.isStaffModeItem(plugin, event.getOldCursor())) {
+        if (StaffModeManager.isStaffModeItem(plugin, event.getOldCursor())) {
             event.setCancelled(true);
             return;
         }
@@ -142,8 +144,8 @@ public class StaffModeListener implements Listener {
     @EventHandler(priority = EventPriority.HIGH)
     public void onSwapHand(PlayerSwapHandItemsEvent event) {
         if (!manager.isInStaffMode(event.getPlayer())) return;
-        if (StaffModeItems.isStaffModeItem(plugin, event.getMainHandItem())
-                || StaffModeItems.isStaffModeItem(plugin, event.getOffHandItem())) {
+        if (StaffModeManager.isStaffModeItem(plugin, event.getMainHandItem())
+                || StaffModeManager.isStaffModeItem(plugin, event.getOffHandItem())) {
             event.setCancelled(true);
         }
     }
@@ -176,5 +178,27 @@ public class StaffModeListener implements Listener {
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
         if (manager.isInStaffMode(event.getPlayer())) manager.exit(event.getPlayer());
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onJoin(PlayerJoinEvent event) {
+        if (!plugin.getConfig().getBoolean("staffmode.auto-staffmode-enabled", true)) return;
+        Player p = event.getPlayer();
+
+        String perm = plugin.getConfig().getString(
+                "staffmode.auto-staffmode-permission", "DistrictRP.autostaffmode");
+        if (!p.hasPermission(perm)) return;
+
+        if (plugin.getServerModeManager() == null) return;
+        if (plugin.getServerModeManager().getCurrent() != ServerMode.ROLEPLAY) return;
+
+        long delay = plugin.getConfig().getLong("staffmode.auto-staffmode-delay-ticks", 20L);
+        Bukkit.getScheduler().runTaskLater(plugin, () -> {
+            if (!p.isOnline()) return;
+            if (plugin.getStaffModeManager() == null) return;
+            if (plugin.getStaffModeManager().isInStaffMode(p)) return;
+            plugin.getStaffModeManager().enter(p);
+            MessageUtils.sendMsg(p, "staffmode.auto-entered");
+        }, delay);
     }
 }

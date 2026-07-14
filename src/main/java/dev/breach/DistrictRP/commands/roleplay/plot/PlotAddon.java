@@ -11,7 +11,6 @@ public class PlotAddon {
 
     private PlotSquaredHook hook;
     private PlotListener listener;
-    private PlotBlockerListener blocker;
 
     public PlotAddon(DistrictRP plugin, ServerModeManager serverMode) {
         this.plugin = plugin;
@@ -21,16 +20,15 @@ public class PlotAddon {
     public void enable() {
         hook = new PlotSquaredHook(plugin);
 
-        blocker = new PlotBlockerListener(plugin);
-        Bukkit.getPluginManager().registerEvents(blocker, plugin);
+        // registrato sempre: gestisce il blocco/redirect comandi (attivo anche senza
+        // PlotSquared) e l'auto-gamemode (che internamente no-op se l'hook manca).
+        listener = new PlotListener(plugin, hook, serverMode);
+        Bukkit.getPluginManager().registerEvents(listener, plugin);
 
         if (!hook.isAvailable()) {
             plugin.getLogger().info("[PlotAddon] PlotSquared non presente, addon parzialmente disabilitato.");
             return;
         }
-
-        listener = new PlotListener(plugin, hook, serverMode);
-        Bukkit.getPluginManager().registerEvents(listener, plugin);
 
         PlotCommand cmd = new PlotCommand(plugin, hook);
         if (plugin.getCommand("plots") != null) {

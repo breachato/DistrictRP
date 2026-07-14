@@ -1,8 +1,16 @@
 package dev.breach.DistrictRP.commands.roleplay.playtime;
 
 import dev.breach.DistrictRP.DistrictRP;
-import dev.breach.DistrictRP.database.repository.PlaytimeRepository;
+import dev.breach.DistrictRP.commands.roleplay.profile.RPProfile;
+import dev.breach.DistrictRP.commands.roleplay.profile.RPProfileManager;
+import dev.breach.DistrictRP.database.tables.PlaytimeTable;
+import dev.breach.DistrictRP.database.tables.PlaytimeTable.PlaytimeRow;
+import dev.breach.DistrictRP.functions.MessageUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -12,14 +20,16 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scheduler.BukkitTask;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
-public class PlaytimeTracker implements Listener {
+public class PlaytimeTracker implements Listener, CommandExecutor {
 
     private final DistrictRP plugin;
     private final File file;
@@ -28,7 +38,7 @@ public class PlaytimeTracker implements Listener {
     private BukkitTask tickTask;
     private BukkitTask saveTask;
 
-    private PlaytimeRepository repo;
+    private PlaytimeTable table;
     private boolean useDb;
 
     public PlaytimeTracker(DistrictRP plugin) {
@@ -41,8 +51,9 @@ public class PlaytimeTracker implements Listener {
         }
         this.config = YamlConfiguration.loadConfiguration(file);
 
-        this.repo = new PlaytimeRepository(plugin);
-        this.useDb = repo.isAvailable();
+        var dbm = plugin.getDatabaseManager();
+        this.table = (dbm != null && dbm.isMariaDb()) ? dbm.getTable("playtime", PlaytimeTable.class) : null;
+        this.useDb = (table != null);
 
         if (useDb) {
             plugin.getLogger().info("[Playtime] Storage: MariaDB (con cache locale)");
@@ -75,7 +86,7 @@ public class PlaytimeTracker implements Listener {
     public void saveAll() {
         if (useDb) {
             for (Map.Entry<UUID, PlaytimeData> e : cache.entrySet()) {
-                repo.save(e.getKey(), e.getValue());
+                save(e.getKey(), e.getValue());
             }
         } else {
             saveAllYaml();
@@ -130,7 +141,7 @@ public class PlaytimeTracker implements Listener {
         if (cached != null) return cached;
 
         if (useDb) {
-            PlaytimeData fromDb = repo.load(uuid).join();
+            PlaytimeData fromDb = load(uuid).join();
             if (fromDb != null) {
                 cache.put(uuid, fromDb);
                 return fromDb;
@@ -153,7 +164,7 @@ public class PlaytimeTracker implements Listener {
         d.setWeeklyReset(now);
         d.setMonthlyReset(now);
         cache.put(uuid, d);
-        if (useDb) repo.save(uuid, d);
+        if (useDb) save(uuid, d);
         else saveAllYaml();
     }
 
@@ -177,6 +188,43 @@ public class PlaytimeTracker implements Listener {
     public String formatWeekly(UUID uuid) { return format(get(uuid).getWeeklySeconds()); }
     public String formatMonthly(UUID uuid) { return format(get(uuid).getMonthlySeconds()); }
 
+    @Override
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command,
+                             @NotNull String label, @NotNull String[] args) {
+        RPProfileManager profileManager = plugin.getRoleplay().getProfileManager();
+        OfflinePlayer target;
+        if (args.length == 0) {
+            if (!(sender instanceof Player p)) {
+                MessageUtils.sendMsg(sender, "general.only-player");
+                return true;
+            }
+            target = p;
+        } else {
+            target = Bukkit.getOfflinePlayer(args[0]);
+            if (target.getName() == null) {
+                MessageUtils.sendMsg(sender, "general.player-not-found");
+                return true;
+            }
+        }
+
+        RPProfile profile = profileManager.get(target.getUniqueId());
+        String displayName = profile.hasRpName() ? profile.getRpName() : target.getName();
+        String status = target.isOnline()
+                ? MessageUtils.get("playtime.online")
+                : MessageUtils.get("playtime.offline");
+
+        sender.sendMessage(MessageUtils.get("playtime.header", "player", displayName));
+        for (String line : MessageUtils.getList("playtime.lines",
+                "total", formatTotal(target.getUniqueId()),
+                "daily", formatDaily(target.getUniqueId()),
+                "weekly", formatWeekly(target.getUniqueId()),
+                "monthly", formatMonthly(target.getUniqueId()),
+                "status", status)) {
+            sender.sendMessage(line);
+        }
+        return true;
+    }
+
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         get(event.getPlayer().getUniqueId());
@@ -188,5 +236,39 @@ public class PlaytimeTracker implements Listener {
     }
 
     public boolean isUsingDatabase() { return useDb; }
-    public PlaytimeRepository getRepository() { return repo; }
+
+    public CompletableFuture<PlaytimeData> load(UUID uuid) {
+        if (table == null) return CompletableFuture.completedFuture(null);
+        return table.get(uuid).thenApply(row -> row == null ? null : toData(row));
+    }
+
+    public CompletableFuture<Boolean> save(UUID uuid, PlaytimeData data) {
+        if (table == null) return CompletableFuture.completedFuture(false);
+        return table.upsert(toRow(uuid, data));
+    }
+
+    private PlaytimeData toData(PlaytimeRow r) {
+        PlaytimeData d = new PlaytimeData();
+        d.setTotalSeconds(r.total);
+        d.setDailySeconds(r.daily);
+        d.setWeeklySeconds(r.weekly);
+        d.setMonthlySeconds(r.monthly);
+        d.setDailyReset(r.lastResetDaily);
+        d.setWeeklyReset(r.lastResetWeekly);
+        d.setMonthlyReset(r.lastResetMonthly);
+        return d;
+    }
+
+    private PlaytimeRow toRow(UUID uuid, PlaytimeData d) {
+        PlaytimeRow r = new PlaytimeRow();
+        r.uuid = uuid;
+        r.total = d.getTotalSeconds();
+        r.daily = d.getDailySeconds();
+        r.weekly = d.getWeeklySeconds();
+        r.monthly = d.getMonthlySeconds();
+        r.lastResetDaily = d.getDailyReset();
+        r.lastResetWeekly = d.getWeeklyReset();
+        r.lastResetMonthly = d.getMonthlyReset();
+        return r;
+    }
 }

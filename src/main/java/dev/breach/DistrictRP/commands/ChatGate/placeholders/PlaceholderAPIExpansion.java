@@ -1,9 +1,8 @@
 package dev.breach.DistrictRP.commands.ChatGate.placeholders;
 
-import dev.breach.DistrictRP.commands.ChatGate.managers.ChatManager;
-import dev.breach.DistrictRP.commands.ChatGate.managers.ColorManager;
-import dev.breach.DistrictRP.commands.ChatGate.managers.MessageManager;
-import dev.breach.DistrictRP.commands.ChatGate.models.CustomChat;
+import dev.breach.DistrictRP.commands.ChatGate.ChatGate;
+import dev.breach.DistrictRP.commands.ChatGate.ChatGate.CustomChat;
+import dev.breach.DistrictRP.functions.MessageUtils;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -19,11 +18,10 @@ public class PlaceholderAPIExpansion extends PlaceholderExpansion {
     @Override
     public String onPlaceholderRequest(Player player, String identifier) {
         if (player == null) return "";
-
         if (identifier.equalsIgnoreCase("chat_displayname")) {
-            CustomChat chat = ChatManager.getInstance().getToggledChat(player);
-            if (chat == null) return MessageManager.getMessage("none-chat-placeholder");
-            return ColorManager.color(chat.displayName());
+            CustomChat chat = ChatGate.getInstance().getToggledChat(player);
+            if (chat == null) return ChatGate.getInstance().message("none-chat-placeholder");
+            return MessageUtils.color(chat.displayName());
         }
         return null;
     }

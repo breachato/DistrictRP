@@ -12,13 +12,6 @@ import dev.breach.DistrictRP.commands.roleplay.ticket.TicketComment;
 import dev.breach.DistrictRP.commands.roleplay.ticket.TicketManager;
 import dev.breach.DistrictRP.commands.roleplay.warp.Warp;
 import dev.breach.DistrictRP.commands.roleplay.warp.WarpManager;
-import dev.breach.DistrictRP.database.repository.AppuntamentoRepository;
-import dev.breach.DistrictRP.database.repository.ChatSymRepository;
-import dev.breach.DistrictRP.database.repository.PlaytimeRepository;
-import dev.breach.DistrictRP.database.repository.ProfileRepository;
-import dev.breach.DistrictRP.database.repository.TicketRepository;
-import dev.breach.DistrictRP.database.repository.VanishRepository;
-import dev.breach.DistrictRP.database.repository.WarpRepository;
 import dev.breach.DistrictRP.functions.MessageUtils;
 import dev.breach.DistrictRP.functions.VanishManager;
 import org.bukkit.Bukkit;
@@ -93,8 +86,7 @@ public class MigrationCommand {
     private void migrateProfiles(CommandSender sender) {
         RPProfileManager mgr = plugin.getRoleplay() != null ? plugin.getRoleplay().getProfileManager() : null;
         if (mgr == null) { mgrUnavailable(sender, "ProfileManager"); return; }
-        ProfileRepository repo = mgr.getRepository();
-        if (repo == null || !repo.isAvailable()) { repoUnavailable(sender, "ProfileRepository"); return; }
+        if (!mgr.isUsingDatabase()) { repoUnavailable(sender, "ProfileRepository"); return; }
 
         int total = mgr.getAll().size();
         if (total == 0) { none(sender, "profili"); return; }
@@ -105,7 +97,7 @@ public class MigrationCommand {
         AtomicInteger fail = new AtomicInteger(0);
 
         for (RPProfile p : mgr.getAll().values()) {
-            repo.saveProfile(p).thenAccept(success -> {
+            mgr.saveProfile(p).thenAccept(success -> {
                 if (Boolean.TRUE.equals(success)) ok.incrementAndGet();
                 else fail.incrementAndGet();
                 if (ok.get() + fail.get() == total) done(sender, "profili", ok.get(), total, fail.get());
@@ -116,8 +108,7 @@ public class MigrationCommand {
     private void migrateWarps(CommandSender sender) {
         WarpManager mgr = plugin.getRoleplay() != null ? plugin.getRoleplay().getWarpManager() : null;
         if (mgr == null) { mgrUnavailable(sender, "WarpManager"); return; }
-        WarpRepository repo = mgr.getRepository();
-        if (repo == null || !repo.isAvailable()) { repoUnavailable(sender, "WarpRepository"); return; }
+        if (!mgr.isUsingDatabase()) { repoUnavailable(sender, "WarpRepository"); return; }
 
         ConfigurationSection sec = plugin.getConfig().getConfigurationSection("warp.data");
         if (sec == null || sec.getKeys(false).isEmpty()) { none(sender, "warp"); return; }
@@ -139,7 +130,7 @@ public class MigrationCommand {
                     (float) w.getDouble("pitch", 0.0),
                     w.getString("permission", "")
             );
-            repo.saveWarp(warp).thenAccept(success -> {
+            mgr.saveWarp(warp).thenAccept(success -> {
                 if (Boolean.TRUE.equals(success)) ok.incrementAndGet();
                 else fail.incrementAndGet();
                 if (ok.get() + fail.get() == total) done(sender, "warp", ok.get(), total, fail.get());
@@ -150,8 +141,7 @@ public class MigrationCommand {
     private void migratePlaytime(CommandSender sender) {
         PlaytimeTracker tracker = plugin.getRoleplay() != null ? plugin.getRoleplay().getPlaytimeTracker() : null;
         if (tracker == null) { mgrUnavailable(sender, "PlaytimeTracker"); return; }
-        PlaytimeRepository repo = tracker.getRepository();
-        if (repo == null || !repo.isAvailable()) { repoUnavailable(sender, "PlaytimeRepository"); return; }
+        if (!tracker.isUsingDatabase()) { repoUnavailable(sender, "PlaytimeRepository"); return; }
 
         File file = new File(new File(plugin.getDataFolder(), "roleplay"), "playtime.yml");
         if (!file.exists()) { fileMissing(sender, "playtime.yml"); return; }
@@ -179,7 +169,7 @@ public class MigrationCommand {
                 d.setWeeklyReset(yaml.getLong(base + "weekly-reset", System.currentTimeMillis()));
                 d.setMonthlyReset(yaml.getLong(base + "monthly-reset", System.currentTimeMillis()));
 
-                repo.save(uuid, d).thenAccept(success -> {
+                tracker.save(uuid, d).thenAccept(success -> {
                     if (Boolean.TRUE.equals(success)) ok.incrementAndGet();
                     else fail.incrementAndGet();
                     if (ok.get() + fail.get() == total) done(sender, "playtime", ok.get(), total, fail.get());
@@ -193,8 +183,7 @@ public class MigrationCommand {
     private void migrateTickets(CommandSender sender) {
         TicketManager mgr = plugin.getRoleplay() != null ? plugin.getRoleplay().getTicketManager() : null;
         if (mgr == null) { mgrUnavailable(sender, "TicketManager"); return; }
-        TicketRepository repo = mgr.getRepository();
-        if (repo == null || !repo.isAvailable()) { repoUnavailable(sender, "TicketRepository"); return; }
+        if (!mgr.isUsingDatabase()) { repoUnavailable(sender, "TicketRepository"); return; }
 
         File file = new File(new File(plugin.getDataFolder(), "roleplay"), "tickets.yml");
         if (!file.exists()) { fileMissing(sender, "tickets.yml"); return; }
@@ -239,21 +228,21 @@ public class MigrationCommand {
                 }
 
                 Ticket toMigrate = t;
-                repo.createTicket(toMigrate, serverOrigin).thenAccept(newId -> {
+                mgr.createTicket(toMigrate, serverOrigin).thenAccept(newId -> {
                     if (newId == null || newId < 0) {
                         fail.incrementAndGet();
                     } else {
                         if (toMigrate.isClaimed()) {
-                            repo.claimTicket(newId, toMigrate.getClaimedBy(), toMigrate.getClaimedByName());
+                            mgr.claimTicket(newId, toMigrate.getClaimedBy(), toMigrate.getClaimedByName());
                         }
                         if (!toMigrate.isOpen()) {
-                            repo.closeTicket(newId,
+                            mgr.closeTicket(newId,
                                     toMigrate.getClosedBy() != null ? toMigrate.getClosedBy() : new UUID(0L, 0L),
                                     toMigrate.getClosedByName(),
                                     toMigrate.getCloseReason());
                         }
                         for (TicketComment c : toMigrate.getComments()) {
-                            repo.addComment(newId, c);
+                            mgr.addComment(newId, c);
                         }
                         ok.incrementAndGet();
                     }
@@ -268,8 +257,7 @@ public class MigrationCommand {
     private void migrateAppuntamenti(CommandSender sender) {
         AppuntamentoManager mgr = plugin.getRoleplay() != null ? plugin.getRoleplay().getAppuntamentoManager() : null;
         if (mgr == null) { mgrUnavailable(sender, "AppuntamentoManager"); return; }
-        AppuntamentoRepository repo = mgr.getRepository();
-        if (repo == null || !repo.isAvailable()) { repoUnavailable(sender, "AppuntamentoRepository"); return; }
+        if (!mgr.isUsingDatabase()) { repoUnavailable(sender, "AppuntamentoRepository"); return; }
 
         File file = new File(new File(plugin.getDataFolder(), "roleplay"), "appuntamenti.yml");
         if (!file.exists()) { fileMissing(sender, "appuntamenti.yml"); return; }
@@ -293,7 +281,7 @@ public class MigrationCommand {
                 String giorno = yaml.getString(base + "giorno", "");
                 String orario = yaml.getString(base + "orario", "");
 
-                repo.book(player, name, reparto, giorno, orario).thenAccept(newId -> {
+                mgr.bookDb(player, name, reparto, giorno, orario).thenAccept(newId -> {
                     if (newId != null && newId >= 0) ok.incrementAndGet();
                     else fail.incrementAndGet();
                     if (ok.get() + fail.get() == total) done(sender, "appuntamenti", ok.get(), total, fail.get());
@@ -307,8 +295,7 @@ public class MigrationCommand {
     private void migrateVanish(CommandSender sender) {
         VanishManager mgr = plugin.getVanishManager();
         if (mgr == null) { mgrUnavailable(sender, "VanishManager"); return; }
-        VanishRepository repo = mgr.getRepository();
-        if (repo == null || !repo.isAvailable()) { repoUnavailable(sender, "VanishRepository"); return; }
+        if (!mgr.isUsingDatabase()) { repoUnavailable(sender, "VanishRepository"); return; }
 
         java.util.Set<String> vanishedRaw = plugin.getDataManager().getAllVanished();
         if (vanishedRaw == null || vanishedRaw.isEmpty()) { none(sender, "vanish"); return; }
@@ -322,7 +309,7 @@ public class MigrationCommand {
         for (String s : vanishedRaw) {
             try {
                 UUID uuid = UUID.fromString(s);
-                repo.setVanished(uuid, true).thenAccept(success -> {
+                mgr.setVanished(uuid, true).thenAccept(success -> {
                     if (Boolean.TRUE.equals(success)) ok.incrementAndGet();
                     else fail.incrementAndGet();
                     if (ok.get() + fail.get() == total) done(sender, "vanish", ok.get(), total, fail.get());
@@ -336,8 +323,7 @@ public class MigrationCommand {
     private void migrateChatSym(CommandSender sender) {
         ChatSymManager mgr = plugin.getRoleplay() != null ? plugin.getRoleplay().getChatSymManager() : null;
         if (mgr == null) { mgrUnavailable(sender, "ChatSymManager"); return; }
-        ChatSymRepository repo = mgr.getRepository();
-        if (repo == null || !repo.isAvailable()) { repoUnavailable(sender, "ChatSymRepository"); return; }
+        if (!mgr.isUsingDatabase()) { repoUnavailable(sender, "ChatSymRepository"); return; }
 
         Map<String, String> syms = mgr.getSymbols();
         if (syms == null || syms.isEmpty()) { none(sender, "chatsym"); return; }
@@ -349,7 +335,7 @@ public class MigrationCommand {
         AtomicInteger fail = new AtomicInteger(0);
 
         for (Map.Entry<String, String> e : syms.entrySet()) {
-            repo.upsert(e.getKey(), e.getValue()).thenAccept(success -> {
+            mgr.upsert(e.getKey(), e.getValue()).thenAccept(success -> {
                 if (Boolean.TRUE.equals(success)) ok.incrementAndGet();
                 else fail.incrementAndGet();
                 if (ok.get() + fail.get() == total) done(sender, "chatsym", ok.get(), total, fail.get());

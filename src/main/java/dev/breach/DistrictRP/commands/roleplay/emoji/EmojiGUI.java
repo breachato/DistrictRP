@@ -4,10 +4,15 @@ import dev.breach.DistrictRP.DistrictRP;
 import dev.breach.DistrictRP.functions.MessageUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -18,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class EmojiGUI implements Listener {
+public class EmojiGUI implements Listener, CommandExecutor {
 
     private final DistrictRP plugin;
     private final EmojiManager manager;
@@ -32,6 +37,23 @@ public class EmojiGUI implements Listener {
         this.manager = manager;
         this.emojiKey = new NamespacedKey(plugin, "emoji_name");
         this.navKey = new NamespacedKey(plugin, "emoji_nav");
+    }
+
+    @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
+    public void onChat(AsyncPlayerChatEvent event) {
+        boolean access = event.getPlayer().hasPermission(manager.getPermission());
+        String replaced = manager.replaceAll(event.getMessage(), access);
+        if (!replaced.equals(event.getMessage())) event.setMessage(replaced);
+    }
+
+    @Override
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        if (!(sender instanceof Player p)) {
+            MessageUtils.sendMsg(sender, "general.only-player");
+            return true;
+        }
+        open(p, 0);
+        return true;
     }
 
     public void open(Player player, int page) {

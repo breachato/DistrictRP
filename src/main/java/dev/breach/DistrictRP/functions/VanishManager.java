@@ -1,7 +1,7 @@
 package dev.breach.DistrictRP.functions;
 
 import dev.breach.DistrictRP.DistrictRP;
-import dev.breach.DistrictRP.database.repository.VanishRepository;
+import dev.breach.DistrictRP.database.tables.VanishTable;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -12,8 +12,10 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitTask;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 public class VanishManager {
 
@@ -24,14 +26,15 @@ public class VanishManager {
     private final Set<UUID> vanished = new HashSet<>();
     private BukkitTask equipmentHideTask;
 
-    private VanishRepository repo;
+    private VanishTable table;
     private boolean useDb;
 
     public VanishManager(DistrictRP plugin) {
         this.plugin = plugin;
 
-        this.repo = new VanishRepository(plugin);
-        this.useDb = repo.isAvailable();
+        var dbm = plugin.getDatabaseManager();
+        this.table = (dbm != null && dbm.isMariaDb()) ? dbm.getTable("vanish", VanishTable.class) : null;
+        this.useDb = (table != null);
 
         if (useDb) {
             plugin.getLogger().info("[Vanish] Storage: MariaDB (con cache locale)");
@@ -47,7 +50,7 @@ public class VanishManager {
     }
 
     private void loadFromDb() {
-        repo.loadAllVanished().thenAccept(list -> {
+        loadAllVanished().thenAccept(list -> {
             vanished.clear();
             vanished.addAll(list);
             plugin.getLogger().info("[Vanish] Caricati " + vanished.size() + " vanish dal database.");
@@ -115,7 +118,7 @@ public class VanishManager {
 
     public void enable(Player p) {
         vanished.add(p.getUniqueId());
-        if (useDb) repo.setVanished(p.getUniqueId(), true);
+        if (useDb) setVanished(p.getUniqueId(), true);
         else plugin.getDataManager().setVanished(p.getUniqueId(), true);
         applyVanish(p);
         refreshTabSuffix(p);
@@ -127,7 +130,7 @@ public class VanishManager {
 
     public void disable(Player p) {
         vanished.remove(p.getUniqueId());
-        if (useDb) repo.setVanished(p.getUniqueId(), false);
+        if (useDb) setVanished(p.getUniqueId(), false);
         else plugin.getDataManager().setVanished(p.getUniqueId(), false);
         removeVanish(p);
         refreshTabSuffix(p);
@@ -196,7 +199,16 @@ public class VanishManager {
     public Set<UUID> getVanished() { return new HashSet<>(vanished); }
 
     public boolean isUsingDatabase() { return useDb; }
-    public VanishRepository getRepository() { return repo; }
+
+    public CompletableFuture<Boolean> setVanished(UUID uuid, boolean v) {
+        if (table == null) return CompletableFuture.completedFuture(false);
+        return table.set(uuid, v);
+    }
+
+    public CompletableFuture<List<UUID>> loadAllVanished() {
+        if (table == null) return CompletableFuture.completedFuture(new java.util.ArrayList<>());
+        return table.allVanished();
+    }
 
     public void shutdown() {
         if (equipmentHideTask != null) equipmentHideTask.cancel();
